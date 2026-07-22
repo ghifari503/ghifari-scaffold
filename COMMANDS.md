@@ -1082,6 +1082,23 @@ Do not scan the whole repository unless an allowed reason is documented.
 
 For scaffold maintenance, contributors must create a branch and Pull Request. Only `@odonplay` may update `main`; see `docs/REPOSITORY_GOVERNANCE.md`.
 
+### Codex Model Route
+
+```text
+Route this new Codex session by task complexity, accuracy floor, risk, and token efficiency.
+Use scripts/codex-route.ps1 in dry-run mode first.
+Record only Git-safe routing evidence in the target project's artifacts/shared/AI_ROUTING_LOG.md.
+Do not launch or change implementation gates.
+```
+
+Windows example:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\codex-route.ps1 --dry-run "Perbaiki bug login yang terisolasi"
+```
+
+Add `--launch` only after model availability is confirmed and the normal scaffold gates permit the requested work.
+
 ```text
 Review the current scaffold state.
 Read artifacts/operations/WORKFLOW_STATE.md, artifacts/operations/CURRENT_PHASE.md, artifacts/operations/CURRENT_TASK.md, guardrails/development/PRE_CODING_POLICY.md, and artifacts/operations/PRE_CODING_GATE.md.

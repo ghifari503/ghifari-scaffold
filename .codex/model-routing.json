@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "profiles": {
+    "fast": {
+      "model": "gpt-5.6-terra",
+      "reasoningEffort": "low",
+      "tokenBand": "low",
+      "costBand": "low"
+    },
+    "standard": {
+      "model": "gpt-5.6",
+      "reasoningEffort": "medium",
+      "tokenBand": "medium",
+      "costBand": "medium"
+    },
+    "deep": {
+      "model": "gpt-5.6",
+      "reasoningEffort": "high",
+      "tokenBand": "high",
+      "costBand": "high"
+    }
+  },
+  "fallback": {
+    "strategy": "report_only",
+    "reason": "Do not automatically rerun a failed task with another model because the failure may be unrelated to model availability."
+  }
+}

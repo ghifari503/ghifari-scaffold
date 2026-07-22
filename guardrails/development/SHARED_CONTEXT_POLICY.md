@@ -18,6 +18,7 @@ Every target repository managed through `development/[project-folder]` must main
 - `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`
 - `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
 - `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
+- `development/[project-folder]/artifacts/shared/AI_ROUTING_LOG.md` when Codex model routing is used
 - `development/[project-folder]/artifacts/shared/handoffs/[feature]-[slice]-handoff.md` for feature or slice handoffs
 
 Recommended when useful:
@@ -80,6 +81,8 @@ Do not store:
 - model guesses that are not supported by repo evidence, artifacts, or founder instruction
 
 Store concise verified summaries with source links instead.
+
+`AI_ROUTING_LOG.md` may record only a task hash, routing class, model/profile, reasoning effort, relative token/cost band, status, and concise non-sensitive reasons. It must not store raw task text, prompts, secrets, or unverified actual token/cost data.
 
 ## Authority Order
 

@@ -145,6 +145,12 @@ Use this scaffold when:
 - `development/_project-template/artifacts/shared/` provides the default shared-context structure for each new or attached target project.
 - After cloning the scaffold, run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
 - Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.
+
+## Codex Model Routing
+- For a new Codex CLI session, use `scripts/codex-route.ps1 --dry-run "[task]"` first. The router selects `fast`, `standard`, or `deep` using complexity, risk, required accuracy, and relative token/cost bands.
+- Use `--launch` only to start a new Codex session after confirming the selected model is available. The router cannot replace the model of an active chat.
+- Each developer may override unavailable model IDs in `~/.codex/model-routing.local.json` or `CODEX_ROUTING_CONFIG`; this local file is intentionally ignored by Git.
+- See `guardrails/system/MODEL_ROUTING_POLICY.md` for escalation, fallback, and Git-safe Token & Cost Monitor rules.
 - Keep documentation, guardrails, templates, runtime skills, memory, and operational Markdown artifacts version controlled when this scaffold is initialized as a Git repository.
 
 ## Recommended Default Command

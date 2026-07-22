@@ -60,3 +60,6 @@ Desktop.ini
 *.swp
 *.swo
 *~
+
+# Per-developer Codex model availability overrides
+/.codex/model-routing.local.json

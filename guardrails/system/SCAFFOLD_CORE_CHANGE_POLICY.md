@@ -19,6 +19,8 @@ The following paths define protected scaffold behavior:
 - `scripts/`
 - `.github/`
 - `.githooks/`
+- `.codex/model-routing.json`
+- `guardrails/system/MODEL_ROUTING_POLICY.md`
 
 ## Allowed Team Extensions
 

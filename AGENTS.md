@@ -125,6 +125,12 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Do not weaken, bypass, or silently replace core workflow gates through a team-specific change.
    - Require founder or CODEOWNERS approval before merging a protected core change.
    - Contributors other than `@odonplay` must use pull requests; server-side enforcement is defined in `docs/REPOSITORY_GOVERNANCE.md`.
+19. Codex Model Routing And Token Governance Gate:
+   - For a new Codex CLI session started through this scaffold, use `scripts/codex-route.ps1` or `scripts/codex-route.sh` to classify the task and select the routing profile before launching Codex.
+   - Enforce `guardrails/system/MODEL_ROUTING_POLICY.md`; model selection must balance accuracy floor, risk, token efficiency, and cost band.
+   - Use dry-run first when model availability is unknown. Developer-local model overrides are allowed only in ignored local configuration and must not alter scaffold policy.
+   - Router records concise Git-safe decision evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available. It must not record raw prompts, secrets, or invented actual-cost figures.
+   - Router selection and subagent delegation never bypass task classification, plan approval, skill lookup, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or founder approval.
 
 ## Global Rules
 1. Read these files before significant work:

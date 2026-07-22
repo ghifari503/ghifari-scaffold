@@ -266,3 +266,7 @@ User Request
 Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit dan push source project serta shared context dilakukan dari folder project; repo scaffold mengabaikan seluruh folder target dan memblokir commit/push root secara default.
 
 Update `main` pada repository scaffold hanya dilakukan oleh `@odonplay`. Contributor lain membuat branch dan Pull Request; aktifkan GitHub Ruleset pada `docs/REPOSITORY_GOVERNANCE.md` agar aturan ini enforced di server.
+
+## 16. Routing Model Codex
+
+Sebelum memulai sesi Codex CLI baru, jalankan router dalam dry-run untuk memilih profile `fast`, `standard`, atau `deep` berdasarkan kompleksitas, risiko, akurasi yang dibutuhkan, serta efisiensi token/biaya. Router tidak mengubah model chat yang sedang aktif dan tidak membuka gate coding. Keputusan ringkas tersimpan pada `artifacts/shared/AI_ROUTING_LOG.md` milik project bila tersedia.
