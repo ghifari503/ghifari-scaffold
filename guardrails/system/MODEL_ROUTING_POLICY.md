@@ -24,12 +24,15 @@ Classify from verified scope and task wording using:
 
 The shared baseline is `.codex/model-routing.json`. A developer may override model identifiers in `CODEX_ROUTING_CONFIG` or `~/.codex/model-routing.local.json` when account availability differs.
 
-| Level | Profile | Intended work | Accuracy floor |
+| Level | Profile | Model / effort | Intended work | Accuracy floor |
 |---|---|---|---|
-| simple | fast | targeted read-only scan, typo, isolated documentation | targeted evidence |
-| medium | standard | approved isolated bugfix, small feature, focused tests | targeted validation |
-| complex | deep | refactor, multi-module change, performance, database, integration | implementation plus independent review |
-| critical | deep | security, auth, migration, concurrency, production impact | independent review and founder-controlled gates |
+| simple | fast | Luna / low | targeted read-only scan, typo, uniform transformation, isolated documentation, existing-pattern unit test | targeted evidence |
+| medium | standard | Terra / medium | approved isolated bugfix, CRUD or focused feature, normal integration and focused tests | targeted validation |
+| complex | deep | Sol / high | architecture, hard debugging, cross-module refactor, performance, database, or integration risk | implementation plus independent review |
+| critical | critical | Sol / xhigh | security, auth, destructive or critical migration, concurrency, payment, privacy, production incident | independent review and founder-controlled gates |
+| legacy | legacy | GPT-5.5 / configured effort | explicit legacy reproduction or benchmark only | legacy reproducibility or benchmark |
+
+`gpt-5.6-terra` is the normal development default. Do not use the `gpt-5.6` alias as the default because its resolved target may not have Terra's cost profile. GPT-5.5 is never a generic fallback; use `--legacy-5-5` only for an explicit legacy/benchmark need.
 
 ## Token And Cost Monitor
 
@@ -38,12 +41,16 @@ The shared baseline is `.codex/model-routing.json`. A developer may override mod
 - Raw task text, secrets, credentials, raw logs, and unverified cost values are prohibited.
 - `actual_usage` is `unavailable_from_codex_cli` unless a runtime supplies authoritative usage data.
 - The log is capped to recent entries; it is continuity evidence, not an analytics warehouse.
+- The bands are relative routing guidance. API list prices or subscription quota must not be recorded as actual Codex usage unless an authoritative runtime source supplies them.
 
 ## Escalation And Fallback
 
-- Start at the lowest profile that meets the classification floor.
-- Escalate only after a documented signal: security/data risk, scope expansion, low-confidence evidence, failed targeted validation, or independent review findings.
-- Never rerun automatically with a different model after a generic Codex failure. Report the failure and use the configured local override or founder decision.
+- Start at the lowest profile that meets the classification floor: Luna for clear low-risk work, Terra for normal development, Sol for hard or high-risk work.
+- After one documented failed targeted attempt on `fast`, use `--escalate-from fast --escalation-evidence [artifact-path]` to select Terra.
+- After one or two documented failed Terra attempts, or when architecture risk becomes evident, use `--escalate-from standard --escalation-evidence [artifact-path]` to select Sol.
+- Use `critical` directly for security, production, destructive migration, payment, privacy, or concurrency risk. Use Sol parallel/subagent work only when the subproblems are independent and runtime support is available; this does not replace workflow gates.
+- `ultra` is a runtime capability choice for an explicitly approved, independent multi-agent decomposition. The router does not enable it automatically and must report unavailable runtime support rather than silently changing the route.
+- Never rerun automatically with a different model or fall back to GPT-5.5 after a generic Codex failure. Report the failure and use the configured local override or founder decision.
 - If a configured model is unavailable, update the developer-local override and rerun dry-run before launching.
 
 ## Gate Preservation

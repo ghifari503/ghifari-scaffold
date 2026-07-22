@@ -269,4 +269,4 @@ Update `main` pada repository scaffold hanya dilakukan oleh `@odonplay`. Contrib
 
 ## 16. Routing Model Codex
 
-Sebelum memulai sesi Codex CLI baru, jalankan router dalam dry-run untuk memilih profile `fast`, `standard`, atau `deep` berdasarkan kompleksitas, risiko, akurasi yang dibutuhkan, serta efisiensi token/biaya. Router tidak mengubah model chat yang sedang aktif dan tidak membuka gate coding. Keputusan ringkas tersimpan pada `artifacts/shared/AI_ROUTING_LOG.md` milik project bila tersedia.
+Sebelum memulai sesi Codex CLI baru, jalankan router dalam dry-run. Pilihannya adalah Luna/`fast` untuk pekerjaan jelas berisiko rendah, Terra/`standard` sebagai default development harian, Sol/`deep` untuk pekerjaan sulit, dan Sol/`critical` untuk risiko kritis. GPT-5.5 hanya untuk reproduksi legacy atau benchmark yang diminta secara eksplisit, bukan fallback. Router tidak mengubah model chat yang sedang aktif dan tidak membuka gate coding. Keputusan ringkas tersimpan pada `artifacts/shared/AI_ROUTING_LOG.md` milik project bila tersedia.

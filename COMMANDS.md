@@ -1097,7 +1097,15 @@ Windows example:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\codex-route.ps1 --dry-run "Perbaiki bug login yang terisolasi"
 ```
 
+Documented escalation example:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\codex-route.ps1 --dry-run --escalate-from standard --escalation-evidence artifacts\test\login-bug-log.md "Investigate repeated login failure"
+```
+
 Add `--launch` only after model availability is confirmed and the normal scaffold gates permit the requested work.
+
+Profiles: Luna/`fast` for clear low-risk work, Terra/`standard` for daily development, Sol/`deep` for complex work, and Sol/`critical` for critical risk. GPT-5.5 requires explicit `--legacy-5-5`; it is never a fallback. A documented escalation uses `--escalate-from fast|standard --escalation-evidence [artifact-path]`.
 
 ```text
 Review the current scaffold state.

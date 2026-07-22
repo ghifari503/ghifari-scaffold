@@ -15,20 +15,34 @@ function fail(message) {
 }
 
 function parseArgs(argv) {
-  const options = { launch: false, record: true, projectRoot: null, taskParts: [] };
+  const options = {
+    launch: false,
+    record: true,
+    projectRoot: null,
+    legacy: false,
+    escalateFrom: null,
+    escalationEvidence: null,
+    taskParts: []
+  };
   for (let index = 0; index < argv.length; index += 1) {
     const value = argv[index];
     if (value === "--launch") options.launch = true;
     else if (value === "--dry-run") options.launch = false;
     else if (value === "--no-record") options.record = false;
     else if (value === "--project-root") options.projectRoot = argv[++index];
+    else if (value === "--legacy-5-5") options.legacy = true;
+    else if (value === "--escalate-from") options.escalateFrom = argv[++index];
+    else if (value === "--escalation-evidence") options.escalationEvidence = argv[++index];
     else if (value === "--help" || value === "-h") {
-      process.stdout.write("Usage: codex-route [--dry-run|--launch] [--no-record] [--project-root PATH] TASK\n");
+      process.stdout.write("Usage: codex-route [--dry-run|--launch] [--no-record] [--project-root PATH] [--legacy-5-5] [--escalate-from fast|standard --escalation-evidence PATH] TASK\n");
       process.exit(0);
     } else options.taskParts.push(value);
   }
   const task = options.taskParts.join(" ").trim();
   if (!task) fail("A task description is required.");
+  if (options.escalateFrom && !["fast", "standard"].includes(options.escalateFrom)) fail("Escalation is allowed only from fast or standard.");
+  if (options.escalateFrom && !options.escalationEvidence) fail("--escalation-evidence is required when escalating.");
+  if (options.legacy && options.escalateFrom) fail("Legacy routing cannot be combined with escalation.");
   return { ...options, task };
 }
 
@@ -59,7 +73,7 @@ function countMatches(text, patterns, reasons, score) {
   }
 }
 
-function classify(task) {
+function classify(task, legacyRequested = false) {
   const text = task.toLowerCase();
   const reasons = [];
   const score = { value: 0 };
@@ -108,9 +122,36 @@ function classify(task) {
     simple: { profile: "fast", agent: "task_explorer", accuracyFloor: "targeted evidence" },
     medium: { profile: "standard", agent: "bugfix_worker", accuracyFloor: "targeted validation" },
     complex: { profile: "deep", agent: "deep_reviewer", accuracyFloor: "implementation plus independent review" },
-    critical: { profile: "deep", agent: "deep_reviewer", accuracyFloor: "independent review and founder-controlled gates" }
+    critical: { profile: "critical", agent: "critical_reviewer", accuracyFloor: "independent review and founder-controlled gates" }
   };
+  if (legacyRequested) {
+    return {
+      level: "legacy",
+      score: score.value,
+      reasons: [...new Set([...reasons, "explicit GPT-5.5 legacy or benchmark request"])],
+      wordCount,
+      componentCount,
+      profile: "legacy",
+      agent: "bugfix_worker",
+      accuracyFloor: "legacy reproducibility or benchmark"
+    };
+  }
   return { level, score: score.value, reasons: [...new Set(reasons)], wordCount, componentCount, ...routing[level] };
+}
+
+function applyEscalation(classification, options) {
+  if (!options.escalateFrom) return classification;
+  const profile = options.escalateFrom === "fast" ? "standard" : "deep";
+  const agent = options.escalateFrom === "fast" ? "bugfix_worker" : "deep_reviewer";
+  const accuracyFloor = options.escalateFrom === "fast" ? "targeted validation" : "implementation plus independent review";
+  return {
+    ...classification,
+    profile,
+    agent,
+    accuracyFloor,
+    reasons: [...new Set([...classification.reasons, `documented escalation from ${options.escalateFrom}`])],
+    escalation: { from: options.escalateFrom, evidence: options.escalationEvidence }
+  };
 }
 
 function findProjectRoot(explicitRoot) {
@@ -140,7 +181,7 @@ function appendRecord(projectRoot, record) {
 
 const options = parseArgs(process.argv.slice(2));
 const { config, overridePath } = loadConfig();
-const classification = classify(options.task);
+const classification = applyEscalation(classify(options.task, options.legacy), options);
 const profile = config.profiles[classification.profile];
 if (!profile?.model || !profile?.reasoningEffort) fail(`Profile ${classification.profile} is incomplete.`);
 
@@ -158,6 +199,8 @@ const decision = {
   costBand: profile.costBand,
   accuracyFloor: classification.accuracyFloor,
   reasons: classification.reasons,
+  escalation: classification.escalation ?? null,
+  routeMode: options.legacy ? "explicit_legacy" : options.escalateFrom ? "documented_escalation" : "automatic_classification",
   fallback: config.fallback,
   localOverride: overridePath,
   projectRoot,

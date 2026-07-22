@@ -82,7 +82,7 @@ Do not store:
 
 Store concise verified summaries with source links instead.
 
-`AI_ROUTING_LOG.md` may record only a task hash, routing class, model/profile, reasoning effort, relative token/cost band, status, and concise non-sensitive reasons. It must not store raw task text, prompts, secrets, or unverified actual token/cost data.
+`AI_ROUTING_LOG.md` may record only a task hash, routing class, model/profile, reasoning effort, relative token/cost band, status, and concise non-sensitive reasons. It must not store raw task text, prompts, secrets, escalation-evidence contents, or unverified actual token/cost data. A `legacy` profile entry means an explicit GPT-5.5 reproduction or benchmark request, never automatic fallback.
 
 ## Authority Order
 

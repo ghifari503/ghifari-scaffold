@@ -32,9 +32,12 @@ jobs:
           node --check scripts/codex-route.mjs
           bash -n scripts/codex-route.sh
           node -e "JSON.parse(require('fs').readFileSync('.codex/model-routing.json', 'utf8'))"
-          node scripts/codex-route.mjs --dry-run --no-record "Fix typo" | grep -q '"profile": "fast"'
-          node scripts/codex-route.mjs --dry-run --no-record "Fix isolated bug and add unit test" | grep -q '"profile": "standard"'
-          node scripts/codex-route.mjs --dry-run --no-record "Audit security migration and race condition" | grep -q '"profile": "deep"'
+          node scripts/codex-route.mjs --dry-run --no-record "Fix typo" | grep -q '"model": "gpt-5.6-luna"'
+          node scripts/codex-route.mjs --dry-run --no-record "Fix isolated bug and add unit test" | grep -q '"model": "gpt-5.6-terra"'
+          node scripts/codex-route.mjs --dry-run --no-record "Review cross-module architecture refactor" | grep -q '"profile": "deep"'
+          node scripts/codex-route.mjs --dry-run --no-record "Audit security migration and race condition" | grep -q '"profile": "critical"'
+          node scripts/codex-route.mjs --dry-run --no-record --legacy-5-5 "Reproduce legacy baseline" | grep -q '"model": "gpt-5.5"'
+          node scripts/codex-route.mjs --dry-run --no-record --escalate-from fast --escalation-evidence artifacts/test/bug-log.md "Fix typo" | grep -q '"profile": "standard"'
       - name: Validate runtime skills and catalog
         shell: pwsh
         run: |

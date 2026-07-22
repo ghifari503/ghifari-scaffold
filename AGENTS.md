@@ -128,6 +128,7 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
 19. Codex Model Routing And Token Governance Gate:
    - For a new Codex CLI session started through this scaffold, use `scripts/codex-route.ps1` or `scripts/codex-route.sh` to classify the task and select the routing profile before launching Codex.
    - Enforce `guardrails/system/MODEL_ROUTING_POLICY.md`; model selection must balance accuracy floor, risk, token efficiency, and cost band.
+   - Use Luna/`fast` for clear low-risk work, Terra/`standard` as the normal development default, Sol/`deep` for complex work, and Sol/`critical` for critical risk. GPT-5.5 is allowed only through explicit legacy/benchmark routing and is never an automatic fallback.
    - Use dry-run first when model availability is unknown. Developer-local model overrides are allowed only in ignored local configuration and must not alter scaffold policy.
    - Router records concise Git-safe decision evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available. It must not record raw prompts, secrets, or invented actual-cost figures.
    - Router selection and subagent delegation never bypass task classification, plan approval, skill lookup, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or founder approval.

@@ -1,27 +1,39 @@
 {
-  "version": 1,
+  "version": 2,
   "profiles": {
     "fast": {
-      "model": "gpt-5.6-terra",
+      "model": "gpt-5.6-luna",
       "reasoningEffort": "low",
-      "tokenBand": "low",
-      "costBand": "low"
+      "tokenBand": "lowest",
+      "costBand": "lowest"
     },
     "standard": {
-      "model": "gpt-5.6",
+      "model": "gpt-5.6-terra",
       "reasoningEffort": "medium",
       "tokenBand": "medium",
-      "costBand": "medium"
+      "costBand": "balanced"
     },
     "deep": {
-      "model": "gpt-5.6",
+      "model": "gpt-5.6-sol",
       "reasoningEffort": "high",
       "tokenBand": "high",
       "costBand": "high"
+    },
+    "critical": {
+      "model": "gpt-5.6-sol",
+      "reasoningEffort": "xhigh",
+      "tokenBand": "very_high",
+      "costBand": "very_high"
+    },
+    "legacy": {
+      "model": "gpt-5.5",
+      "reasoningEffort": "medium",
+      "tokenBand": "legacy_reference",
+      "costBand": "legacy_reference"
     }
   },
   "fallback": {
     "strategy": "report_only",
-    "reason": "Do not automatically rerun a failed task with another model because the failure may be unrelated to model availability."
+    "reason": "Do not automatically rerun a failed task or fall back to GPT-5.5 because the failure may be unrelated to model availability."
   }
 }

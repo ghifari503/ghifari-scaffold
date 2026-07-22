@@ -147,8 +147,9 @@ Use this scaffold when:
 - Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.
 
 ## Codex Model Routing
-- For a new Codex CLI session, use `scripts/codex-route.ps1 --dry-run "[task]"` first. The router selects `fast`, `standard`, or `deep` using complexity, risk, required accuracy, and relative token/cost bands.
+- For a new Codex CLI session, use `scripts/codex-route.ps1 --dry-run "[task]"` first. The router selects Luna/`fast`, Terra/`standard`, Sol/`deep`, or Sol/`critical` from complexity, risk, required accuracy, and relative token/cost bands. Terra is the daily-development default.
 - Use `--launch` only to start a new Codex session after confirming the selected model is available. The router cannot replace the model of an active chat.
+- Use `--legacy-5-5` only for explicit legacy reproduction or benchmarking. It is not an automatic fallback.
 - Each developer may override unavailable model IDs in `~/.codex/model-routing.local.json` or `CODEX_ROUTING_CONFIG`; this local file is intentionally ignored by Git.
 - See `guardrails/system/MODEL_ROUTING_POLICY.md` for escalation, fallback, and Git-safe Token & Cost Monitor rules.
 - Keep documentation, guardrails, templates, runtime skills, memory, and operational Markdown artifacts version controlled when this scaffold is initialized as a Git repository.
