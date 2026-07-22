@@ -1,0 +1,28 @@
+name: Validate Scaffold
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate shell scripts
+        run: |
+          bash -n scripts/check-skills.sh
+          bash -n scripts/sync-skills.sh
+      - name: Validate runtime skills and catalog
+        shell: pwsh
+        run: |
+          ./scripts/check-skills.ps1 -Silent
+          git diff --exit-code -- guardrails/system/SKILL_CATALOG.md
+      - name: Check scaffold whitespace
+        # Imported skill references intentionally preserve upstream Markdown hard breaks.
+        run: git diff --check $(git hash-object -t tree /dev/null) HEAD -- . ':(exclude).codex/**' ':(exclude).claude/**'

@@ -1,0 +1,67 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Target project source stays local to its own repository. Shared continuity is
+# intentionally not ignored so its Git-safe context can be reviewed and committed.
+/development/*
+!/development/README.md
+!/development/_project-template/
+!/development/_project-template/**
+!/development/*/
+/development/*/*
+!/development/*/artifacts/
+!/development/*/artifacts/shared/
+!/development/*/artifacts/shared/**
+
+# Dependencies and package-manager runtime files
+node_modules/
+vendor/
+.pnpm-store/
+.npm/
+.yarn/
+
+# Build, coverage, and test runtime output
+dist/
+build/
+coverage/
+test-results/
+playwright-report/
+.playwright/
+.playwright-cli/
+/artifacts/qa/playwright/
+
+# Local databases, caches, and temporary files
+*.sqlite
+*.sqlite3
+*.db
+*.tmp
+*.temp
+*.cache
+__pycache__/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Logs and crash output
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+*~

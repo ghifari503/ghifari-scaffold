@@ -1,0 +1,13 @@
+# Protected scaffold workflow requires maintainer review.
+* @odonplay
+
+/AGENTS.md @odonplay
+/COMMANDS.md @odonplay
+/SCAFFOLD_WORKFLOW.md @odonplay
+/guardrails/ @odonplay
+/workflows/ @odonplay
+/templates/ @odonplay
+/.codex/ @odonplay
+/.claude/ @odonplay
+/scripts/ @odonplay
+/.github/ @odonplay
