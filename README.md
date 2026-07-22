@@ -143,7 +143,7 @@ Use this scaffold when:
 - `.gitignore` keeps secrets, local dependencies, build output, raw Playwright artifacts, caches, logs, and editor files out of the scaffold repository.
 - The scaffold repository ignores all target project files under `development/[project-folder]/`, including `artifacts/shared/`. The target project's own Git repository tracks its source and shared continuity together.
 - `development/_project-template/artifacts/shared/` provides the default shared-context structure for each new or attached target project.
-- After cloning the scaffold, run `scripts/enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
+- After cloning the scaffold, run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
 - Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.
 - Keep documentation, guardrails, templates, runtime skills, memory, and operational Markdown artifacts version controlled when this scaffold is initialized as a Git repository.
 

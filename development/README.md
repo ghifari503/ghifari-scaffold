@@ -7,7 +7,7 @@ Each target project must be a separate Git repository. Clone its repository here
 After cloning this scaffold, activate root scaffold protection once:
 
 ```powershell
-.\scripts\enable-scaffold-git-protection.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1
 ```
 
 The protection blocks accidental commit or push from the scaffold root. It does not affect commits from a nested target project repository.

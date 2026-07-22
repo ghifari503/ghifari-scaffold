@@ -23,7 +23,7 @@ With this configuration, contributors can create branches and pull requests, but
 After cloning the scaffold, run:
 
 ```powershell
-.\scripts\enable-scaffold-git-protection.ps1
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1
 ```
 
 This enables local hooks that reject commit and push from the scaffold root. Project work must be committed from its own repository under `development/[project-folder]/`.
