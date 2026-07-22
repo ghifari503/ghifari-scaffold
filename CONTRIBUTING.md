@@ -12,13 +12,16 @@ Teams may extend this scaffold for Odonplay work while preserving its protected 
 
 ## Required Process
 
-1. Create a focused branch from `main`.
-2. Keep one logical change per pull request.
-3. Read relevant guardrails, context, and templates before editing.
-4. Update documentation and artifacts required by the change scope.
-5. Run `scripts/check-skills.ps1` on Windows or `scripts/check-skills.sh` on Unix when skills change.
-6. Complete the pull request checklist and address CI findings.
-7. Obtain required CODEOWNERS review for protected workflow changes.
+1. Do not push directly to `main`. Only `@odonplay` may update `main` after required review and CI checks.
+2. Create a focused branch from `main`.
+3. Keep one logical change per pull request.
+4. Read relevant guardrails, context, and templates before editing.
+5. Update documentation and artifacts required by the change scope.
+6. Run `scripts/check-skills.ps1` on Windows or `scripts/check-skills.sh` on Unix when skills change.
+7. Complete the pull request checklist and address CI findings.
+8. Obtain required CODEOWNERS review for protected workflow changes. Only `@odonplay` merges or pushes the approved result to `main`.
+
+Repository administrators must apply the server-side branch rules in `docs/REPOSITORY_GOVERNANCE.md`; `CODEOWNERS` alone does not block direct pushes.
 
 ## Protected Workflow Rule
 

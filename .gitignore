@@ -8,17 +8,12 @@
 *.p12
 *.pfx
 
-# Target project source stays local to its own repository. Shared continuity is
-# intentionally not ignored so its Git-safe context can be reviewed and committed.
+# Every target project is its own nested Git repository. The scaffold repository
+# must never stage, commit, or push target project files, including shared context.
 /development/*
 !/development/README.md
 !/development/_project-template/
 !/development/_project-template/**
-!/development/*/
-/development/*/*
-!/development/*/artifacts/
-!/development/*/artifacts/shared/
-!/development/*/artifacts/shared/**
 
 # Dependencies and package-manager runtime files
 node_modules/

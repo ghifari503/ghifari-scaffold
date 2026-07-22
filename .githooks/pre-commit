@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if [ "${ALLOW_SCAFFOLD_COMMIT:-}" = "1" ]; then
+  exit 0
+fi
+
+echo "Blocked: do not commit from the scaffold root during project work." >&2
+echo "Commit from development/[project-folder], which must be its own Git repository." >&2
+echo "For an intentional scaffold maintenance commit, set ALLOW_SCAFFOLD_COMMIT=1." >&2
+exit 1

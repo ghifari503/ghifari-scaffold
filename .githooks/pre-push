@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if [ "${ALLOW_SCAFFOLD_PUSH:-}" = "1" ]; then
+  exit 0
+fi
+
+echo "Blocked: do not push from the scaffold root during project work." >&2
+echo "Push from development/[project-folder], which must be its own Git repository." >&2
+echo "For an intentional scaffold maintenance push, set ALLOW_SCAFFOLD_PUSH=1." >&2
+exit 1

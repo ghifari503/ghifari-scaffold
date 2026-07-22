@@ -18,6 +18,15 @@ jobs:
         run: |
           bash -n scripts/check-skills.sh
           bash -n scripts/sync-skills.sh
+          bash -n scripts/enable-scaffold-git-protection.sh
+          bash -n .githooks/pre-commit
+          bash -n .githooks/pre-push
+      - name: Validate target project Git isolation
+        run: |
+          git check-ignore -q development/example-project/src/app.ts
+          git check-ignore -q development/example-project/artifacts/shared/PROJECT_STATE.md
+          test -f .githooks/pre-commit
+          test -f .githooks/pre-push
       - name: Validate runtime skills and catalog
         shell: pwsh
         run: |

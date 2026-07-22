@@ -35,7 +35,7 @@ The committed default baseline is available at:
 
 - `development/_project-template/artifacts/shared/`
 
-During first intake or greenfield setup, copy this baseline into `development/[project-folder]/artifacts/shared/` before continuing work. `.gitignore` must not ignore the target `artifacts/shared/` path.
+During first intake or greenfield setup, copy this baseline into `development/[project-folder]/artifacts/shared/` before continuing work. The target project must be a separate Git repository that tracks this path. The scaffold root `.gitignore` must ignore the entire target project folder, including shared context.
 
 ## Mandatory Read Before Continuing Target Repo Work
 

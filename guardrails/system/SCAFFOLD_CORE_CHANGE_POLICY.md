@@ -18,6 +18,7 @@ The following paths define protected scaffold behavior:
 - `.claude/`
 - `scripts/`
 - `.github/`
+- `.githooks/`
 
 ## Allowed Team Extensions
 
@@ -42,4 +43,4 @@ Do not remove or weaken plan approval, skill lookup, dev-doc discovery, requirem
 
 ## Enforcement
 
-`CODEOWNERS`, pull request review, and CI support this policy. The founder remains the final decision maker when a proposed core change has product, architecture, security, QA, or release impact.
+`CODEOWNERS`, pull request review, CI, and the GitHub Ruleset in `docs/REPOSITORY_GOVERNANCE.md` support this policy. Only `@odonplay` may merge or directly update `main`; all other contributors use pull requests. The founder remains the final decision maker when a proposed core change has product, architecture, security, QA, or release impact.

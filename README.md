@@ -45,6 +45,7 @@ Use this scaffold when:
 - Frontend behavior should still be validated before backend contract expansion when UI is part of the scope.
 - For existing-project onboarding, clone or attach the target repository into `development/[project-folder]`; that folder becomes the active workspace for the cloned project.
 - Target repositories and new project folders live under `development/[project-folder]`.
+- Each target project is a separate Git repository. Commit and push project source plus `artifacts/shared/` from inside that project folder, never from the scaffold root.
 - Existing Flutter projects are supported through intake and Flutter-specific guardrails; do not bootstrap a new Flutter app before the target repo is audited.
 
 ## Recommended First Run
@@ -140,8 +141,10 @@ Use this scaffold when:
 
 ## Git Hygiene
 - `.gitignore` keeps secrets, local dependencies, build output, raw Playwright artifacts, caches, logs, and editor files out of the scaffold repository.
-- Target project source under `development/` stays ignored by the scaffold repository, while `development/[project-folder]/artifacts/shared/` remains available for Git-safe continuity evidence.
+- The scaffold repository ignores all target project files under `development/[project-folder]/`, including `artifacts/shared/`. The target project's own Git repository tracks its source and shared continuity together.
 - `development/_project-template/artifacts/shared/` provides the default shared-context structure for each new or attached target project.
+- After cloning the scaffold, run `scripts/enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
+- Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.
 - Keep documentation, guardrails, templates, runtime skills, memory, and operational Markdown artifacts version controlled when this scaffold is initialized as a Git repository.
 
 ## Recommended Default Command

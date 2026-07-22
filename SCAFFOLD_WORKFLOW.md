@@ -262,3 +262,7 @@ User Request
 - `templates/`: format artifact dan evidence
 - `artifacts/operations/`: state, task, gate, dan session log
 - `development/[project-folder]/artifacts/shared/`: continuity yang dibawa Git bersama project
+
+Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit dan push source project serta shared context dilakukan dari folder project; repo scaffold mengabaikan seluruh folder target dan memblokir commit/push root secara default.
+
+Update `main` pada repository scaffold hanya dilakukan oleh `@odonplay`. Contributor lain membuat branch dan Pull Request; aktifkan GitHub Ruleset pada `docs/REPOSITORY_GOVERNANCE.md` agar aturan ini enforced di server.

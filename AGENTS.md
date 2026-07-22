@@ -101,6 +101,8 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Full repo scans are allowed only for first `I1`, unknown route/stack, stale or contradicted baseline, high-risk/cross-module/security/migration/release work, documented targeted-scan failure, or explicit founder approval.
 12. Shared Target Repository Context Gate:
    - For any target repository under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
+   - The target project must be a separate Git repository; do not commit or push target files from the scaffold root repository.
+   - Before target project setup or work, verify the target repository is initialized or cloned and verify scaffold-root Git protection is active through `scripts/enable-scaffold-git-protection.ps1` when the runtime can run it.
    - Shared developer continuity belongs inside the target repo at `development/[project-folder]/artifacts/shared/` so it can be committed with that project.
    - Before continuing target repo work, read target shared context: `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant `handoffs/`.
    - If target shared context is missing during first intake, create the baseline before handoff or implementation.
@@ -119,9 +121,10 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Create `dev-doc/[feature-name]/requirement-conflicts/[conflict-id].md` when relevant sources conflict, important ambiguity exists, or current behavior conflicts with approved change.
    - Keep coding blocked while an active conflict affects scope, acceptance criteria, API/data behavior, security, user flow, or allowed write paths without a valid resolution.
 18. Scaffold Core Governance Gate:
-   - Before changing protected scaffold paths, enforce `guardrails/system/SCAFFOLD_CORE_CHANGE_POLICY.md`.
+   - Before changing protected scaffold paths, enforce `guardrails/system/SCAFFOLD_CORE_CHANGE_POLICY.md`, including `.githooks/`.
    - Do not weaken, bypass, or silently replace core workflow gates through a team-specific change.
    - Require founder or CODEOWNERS approval before merging a protected core change.
+   - Contributors other than `@odonplay` must use pull requests; server-side enforcement is defined in `docs/REPOSITORY_GOVERNANCE.md`.
 
 ## Global Rules
 1. Read these files before significant work:
@@ -189,6 +192,7 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Read shared target context before source scanning or continuing work.
    - Write shared target context after meaningful work.
    - Use `development/[project-folder]/artifacts/shared/`, not scaffold-local `artifacts/`, for Git-carried developer-to-developer context.
+   - Commit and push this context from the target project's Git repository; the scaffold root `.gitignore` must ignore all target project files.
 20. When first intake has no usable project documentation, do not claim a source-derived baseline is complete until `CODE_DERIVED_BASELINE_POLICY.md` requirements, target `PROJECT_STATE.md`, shared-context updates, and relevant verified memory synchronization are complete.
 21. For existing-project implementation, do not open the pre-coding gate until a completed readiness baseline records dependency, environment, database, migration/seed, local run, build, lint/typecheck, test, CI/formatter discovery, and known pre-existing failures or their scoped-development status.
 

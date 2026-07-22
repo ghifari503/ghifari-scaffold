@@ -1080,6 +1080,8 @@ Do not scan the whole repository unless an allowed reason is documented.
 
 ## Suggested First Commands
 
+For scaffold maintenance, contributors must create a branch and Pull Request. Only `@odonplay` may update `main`; see `docs/REPOSITORY_GOVERNANCE.md`.
+
 ```text
 Review the current scaffold state.
 Read artifacts/operations/WORKFLOW_STATE.md, artifacts/operations/CURRENT_PHASE.md, artifacts/operations/CURRENT_TASK.md, guardrails/development/PRE_CODING_POLICY.md, and artifacts/operations/PRE_CODING_GATE.md.
