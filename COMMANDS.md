@@ -52,9 +52,10 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - Before any coding, refactor, test creation, scaffold/code generation, dependency work, migration, or build step, the runtime must search for relevant skills or agents first.
 - Codex/GPT must prefer `.codex/skills/` and inspect `.codex/agents/` when an agent role is needed; `.claude/` is fallback reference only when no Codex equivalent exists.
 - Claude must prefer `.claude/skills/` and inspect `.claude/agents/` when an agent role is needed; `.codex/` is fallback reference only when no Claude equivalent exists.
+- Antigravity must prefer `.agents/skills/` and its `.agents/rules/` entrypoints, then follow `AGENTS.md` and `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md`.
 - Gemini must follow `AGENTS.md`, use available runtime-compatible skill references, and preserve the same gate and artifact evidence shape.
 - If no relevant local skill or agent exists for the coding work, use `find-skills` to discover candidates and validate source reputation, usage, license, and capability fit.
-- Auto-download only sources listed in `guardrails/system/SKILL_CHECK_POLICY.md`. Install the complete skill folder into both `.codex/skills/` and `.claude/skills/`, then run `cek skill` before use.
+- Auto-download only sources listed in `guardrails/system/SKILL_CHECK_POLICY.md`. Install the complete skill folder into `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`, then run `cek skill` before use.
 - For a candidate outside the allowlist, present the source and wait for founder approval before downloading.
 - If no suitable external skill exists, run the `skill-creator` flow first to create or propose the missing skill before coding proceeds.
 - Skill lookup, acquisition, or skill creation does not open implementation permission. The pre-coding gate, allowed write paths, impact scan, plan approval, and founder approval still control execution.
@@ -215,7 +216,7 @@ Expected behavior:
 - When no local match exists, use `find-skills` to search external candidates.
 - Validate source reputation, usage, license, skill contents, and capability fit before any download.
 - Auto-acquire only allowlisted publishers from `guardrails/system/SKILL_CHECK_POLICY.md`; otherwise wait for founder approval.
-- Install approved skills as complete, normalized folders in both `.codex/skills/` and `.claude/skills/`, then run `cek skill` to verify runtime synchronization and refresh the catalog.
+- Install approved skills as complete, normalized folders in `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`, then run `cek skill` to verify runtime synchronization and refresh the catalog.
 - If no suitable skill is available, invoke `skill-creator` before coding proceeds.
 
 ## AI Contributor Lifecycle Commands
@@ -602,7 +603,7 @@ cek skill
 Expected behavior:
 - Read `guardrails/system/SKILL_CHECK_POLICY.md`.
 - Run `scripts/check-skills.ps1` on Windows or `scripts/check-skills.sh` on Unix shells.
-- Mirror missing skill folders between `.codex/skills/` and `.claude/skills/`.
+- Mirror missing skill folders across `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`.
 - Refresh `guardrails/system/SKILL_CATALOG.md`.
 - Report shared skills, copied folders, normalized prefixes, and any remaining parity failure.
 - Do not edit product code.

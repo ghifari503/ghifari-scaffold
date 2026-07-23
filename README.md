@@ -28,6 +28,7 @@ Use this scaffold when:
 - `artifacts/memory/FEATURE_REGISTRY.toml`: structured feature/module status, dependency, impacted-system, risk, test, and release registry
 - `.claude/skills/`: Claude-compatible workflow skills
 - `.codex/skills/`: Codex-preferred workflow skills
+- `.agents/rules/` and `.agents/skills/`: Antigravity workspace rule entrypoints and synchronized skills
 - Missing local skills: use `find-skills`, validate the candidate, then install approved skills into both runtime folders and run `cek skill`
 - `.claude/agents/` and `.codex/agents/`: specialized agents
 - `templates/`: artifact templates
@@ -132,6 +133,7 @@ Use this scaffold when:
 ## Compatibility Notes
 - Codex/GPT, Claude, and Gemini flow: read `AGENTS.md` first.
 - `CLAUDE.md` and `GEMINI.md` are compatibility pointers only.
+- Antigravity setup and its Gemini model-routing limits are documented in `docs/ANTIGRAVITY_SETUP.md` and `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md`.
 - For strict same process/output across Codex/GPT, Claude, and Gemini, enforce `guardrails/system/RUNTIME_PARITY_CONTRACT.md`.
 - Keep both `.claude/` and `.codex/` paths unless you intentionally migrate and update the references.
 - Run `cek skill` after adding or renaming runtime skills so prefixes and catalog stay synchronized.

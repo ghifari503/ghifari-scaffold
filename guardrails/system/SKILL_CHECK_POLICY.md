@@ -11,16 +11,17 @@ Keep runtime skill folders and the shared skill catalog consistent across:
 
 - `.codex/skills/`
 - `.claude/skills/`
+- `.agents/skills/` (Antigravity runtime mirror)
 - `guardrails/system/SKILL_CATALOG.md`
 
 ## Required Behavior
 
 When the founder runs `cek skill`, the runtime must:
 
-1. Scan `.codex/skills/` and `.claude/skills/`.
+1. Scan `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`.
 2. Detect skill folders that were added without the required `category__skill-name` prefix.
 3. Rename those folders using the category heuristic from `scripts/sync-skills.ps1` or `scripts/sync-skills.sh`.
-4. Mirror missing skill folders so `.codex/skills/` and `.claude/skills/` end with the same skill list.
+4. Mirror missing skill folders so `.codex/skills/`, `.claude/skills/`, and `.agents/skills/` end with the same skill list and file content.
 5. Refresh `guardrails/system/SKILL_CATALOG.md`.
 6. Verify that both runtime lists now match exactly.
 7. Report:
@@ -69,7 +70,7 @@ Otherwise a concise chat report is enough.
 
 When a required coding skill is not available locally:
 
-1. Search `.codex/skills/`, `.claude/skills/`, and `SKILL_CATALOG.md` before searching externally.
+1. Search the runtime-appropriate mirror (`.codex/skills/`, `.claude/skills/`, or `.agents/skills/`) and `SKILL_CATALOG.md` before searching externally.
 2. Use `find-skills` to discover external candidates.
 3. Validate capability fit, publisher reputation, usage signal, license, and the files included by the candidate skill.
 4. An allowlisted publisher may be acquired without an additional founder approval. The default allowlist is:
@@ -81,8 +82,8 @@ When a required coding skill is not available locally:
    - `vuejs-ai`
    - `antfu`
 5. For a publisher outside this allowlist, show the candidate source and wait for explicit founder approval before download.
-6. Install every approved external skill as a complete, normalized folder in both `.codex/skills/` and `.claude/skills/`. Do not install it only in a global user folder or `.agents/skills/`.
+6. Install every approved external skill as a complete, normalized folder in `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`. Do not install it only in a global user folder or one runtime mirror.
 7. Run `cek skill` after installation. The catalog must be refreshed and both runtime folder lists must match before the new skill is used.
 8. If no suitable external skill exists, use the `skill-creator` flow before coding proceeds.
 
-`.agents/skills/` is not a scaffold skill root and must not be used as a runtime source of truth.
+`.agents/skills/` is the Antigravity runtime mirror. `.codex/skills/` remains the canonical synchronization source; none of the three runtime mirrors may drift.

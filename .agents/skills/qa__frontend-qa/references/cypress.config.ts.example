@@ -1,0 +1,28 @@
+import { defineConfig } from 'cypress';
+
+export default defineConfig({
+  e2e: {
+    baseUrl: process.env.CYPRESS_BASE_URL || 'http://localhost:3000',
+    specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
+    supportFile: 'cypress/support/e2e.ts',
+    video: true,
+    videosFolder: 'cypress/videos',
+    screenshotsFolder: 'cypress/screenshots',
+    videoCompression: 32,
+    defaultCommandTimeout: 10_000,
+    pageLoadTimeout: 30_000,
+    requestTimeout: 10_000,
+    viewportWidth: 1280,
+    viewportHeight: 720,
+    retries: {
+      runMode: 2,
+      openMode: 0,
+    },
+    setupNodeEvents(on, config) {
+      // Implement node event listeners here
+      // Learn more about handling events here:
+      // https://on.cypress.io/plugins-guide
+      return config;
+    },
+  },
+});

@@ -162,7 +162,7 @@ Memastikan agent menggunakan cara kerja yang sesuai sebelum mengubah code atau m
 Sebelum coding, refactor, test creation, dependency work, migration, generation, atau build:
 
 1. cari skill dan agent yang relevan
-2. gunakan `.codex/skills/` untuk Codex dan `.claude/skills/` untuk Claude
+2. gunakan `.codex/skills/` untuk Codex, `.claude/skills/` untuk Claude, dan `.agents/skills/` untuk Antigravity
 3. baca skill yang dipilih
 4. gunakan `find-skills` jika tidak ada skill lokal yang relevan
 5. validasi sumber, penggunaan, lisensi, dan isi kandidat; hanya publisher allowlist yang boleh diunduh otomatis

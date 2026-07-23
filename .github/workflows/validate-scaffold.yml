@@ -19,6 +19,7 @@ jobs:
           bash -n scripts/check-skills.sh
           bash -n scripts/sync-skills.sh
           bash -n scripts/enable-scaffold-git-protection.sh
+          bash -n scripts/check-antigravity-skills.sh
           bash -n .githooks/pre-commit
           bash -n .githooks/pre-push
       - name: Validate target project Git isolation
@@ -44,7 +45,8 @@ jobs:
         shell: pwsh
         run: |
           ./scripts/check-skills.ps1 -Silent
+          ./scripts/check-antigravity-skills.ps1 -Silent
           git diff --exit-code -- guardrails/system/SKILL_CATALOG.md
       - name: Check scaffold whitespace
         # Imported skill references intentionally preserve upstream Markdown hard breaks.
-        run: git diff --check $(git hash-object -t tree /dev/null) HEAD -- . ':(exclude).codex/**' ':(exclude).claude/**'
+        run: git diff --check $(git hash-object -t tree /dev/null) HEAD -- . ':(exclude).codex/**' ':(exclude).claude/**' ':(exclude).agents/**'

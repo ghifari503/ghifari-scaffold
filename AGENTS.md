@@ -4,7 +4,7 @@
 This repository is an AI operating scaffold for new, existing, and inherited software or software+IoT projects.
 The founder is the only human decision maker.
 
-This file is the single source of truth for Codex/GPT, Claude, and Gemini runtime instructions.
+This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and Google Antigravity runtime instructions.
 `CLAUDE.md` remains available only as a Claude compatibility pointer.
 `GEMINI.md` remains available only as a Gemini compatibility pointer.
 
@@ -17,8 +17,9 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
 - Project outputs, state, context, logs, and evidence live in `artifacts/`.
 - Persistent scaffold memory lives in `artifacts/memory/` and is governed by `guardrails/memory/`.
 - User-facing command lists live in root `COMMANDS.md`.
-- Skills may live in either `.codex/skills/` or `.claude/skills/`.
-- When both exist, prefer `.codex/skills/` for Codex runs.
+- Skills live in `.codex/skills/`, `.claude/skills/`, and `.agents/skills/` as synchronized runtime mirrors.
+- Prefer `.codex/skills/` for Codex, `.claude/skills/` for Claude, and `.agents/skills/` for Antigravity. Codex is the canonical mirror for synchronization.
+- Antigravity workspace rules live in `.agents/rules/`; they are entrypoints to this file and `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md`, not independent workflow sources.
 - Agent docs may live in either `.codex/agents/` or `.claude/agents/`.
 - Runtime skill parity and prefix normalization are governed by `guardrails/system/SKILL_CHECK_POLICY.md`.
 
@@ -26,6 +27,7 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
 - Codex/GPT may act as interviewer, analyst, documenter, architect assistant, builder assistant, QA assistant, and release assistant according to the active gate.
 - Claude may act as interviewer, analyst, documenter, architect assistant, builder assistant, QA assistant, and release assistant according to the active gate.
 - Gemini CLI should act primarily as an independent reviewer, cross-checker, and repo-wide consistency scanner.
+- Google Antigravity must follow this file and `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md`. It may use Gemini Flash as a bounded worker and Gemini Pro for analysis/architecture when those models are available, while Gemini remains the default independent-review runtime.
 - If a runtime lacks an equivalent local tool, report the limitation and preserve the same evidence shape, gate meaning, status labels, and artifact paths.
 - All runtimes may propose options and recommendations, but founder-only decisions remain with the founder.
 
@@ -79,9 +81,9 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Before any coding, refactor, test creation, scaffold/code generation, dependency work, migration, or build step, always search for relevant skills or agents first, even when the request is informal and not explicitly named as `B1/B2/B3`.
    - Codex/GPT must prefer `.codex/skills/` and inspect `.codex/agents/` when an agent role is needed; use `.claude/` only as a reference fallback when no Codex equivalent exists.
    - Claude must prefer `.claude/skills/` and inspect `.claude/agents/` when an agent role is needed; use `.codex/` only as a reference fallback when no Claude equivalent exists.
-   - Gemini must follow this `AGENTS.md` policy, use available runtime-compatible skill references, and preserve the same gate, artifact path, and evidence shape.
+   - Gemini CLI and Antigravity must follow this `AGENTS.md` policy, use `.agents/skills/` for Antigravity when available, and preserve the same gate, artifact path, and evidence shape.
    - If no relevant local skill or agent exists for the coding work, use `find-skills` to discover candidates, validate source reputation, usage, license, and requested capability, then follow `guardrails/system/SKILL_CHECK_POLICY.md` for acquisition.
-   - Auto-acquire only an allowlisted external skill. Install its complete skill folder into both `.codex/skills/` and `.claude/skills/`, run `cek skill`, and verify the catalog before use. For any source outside the allowlist, present the candidate and wait for founder approval before download.
+   - Auto-acquire only an allowlisted external skill. Install its complete skill folder into `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`, run `cek skill`, and verify all mirrors before use. For any source outside the allowlist, present the candidate and wait for founder approval before download.
    - If no suitable external skill exists, run the `skill-creator` flow first to create or propose the missing skill before coding proceeds.
    - Skill lookup or skill creation never opens the coding gate by itself; `I1`, `I2`, compact-plan approval for medium/major work, allowed write paths, and `PRE_CODING_GATE.md` must still allow the work.
    - For intake, audit, repo review, document edits, file reads, and lightweight clarifications outside official workflow steps, skill lookup is optional and only needed when clearly relevant.
@@ -134,6 +136,10 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Use dry-run first when model availability is unknown. Developer-local model overrides are allowed only in ignored local configuration and must not alter scaffold policy.
    - Router records concise Git-safe decision evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available. It must not record raw prompts, secrets, or invented actual-cost figures.
    - Router selection and subagent delegation never bypass task classification, plan approval, skill lookup, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or founder approval.
+20. Antigravity Runtime And Gemini Routing Gate:
+   - For Antigravity coding, refactor, test-creation, migration, dependency, or scaffold-generation work, enforce `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md` automatically. Do not ask the founder to select a Gemini model.
+   - The model active in an Antigravity turn is sticky. Use a native worker/subagent only when the installed runtime exposes the required selection capability; otherwise record `model_switch_unavailable` and never claim an in-place model switch.
+   - Antigravity must not call Codex routing scripts or inherit Codex child-worker behavior. It preserves the same workflow gates and writes the same Git-safe routing evidence shape.
 
 ## Global Rules
 1. Read these files before significant work:
