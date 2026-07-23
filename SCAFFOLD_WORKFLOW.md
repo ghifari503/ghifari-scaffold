@@ -226,6 +226,13 @@ Untuk pekerjaan medium atau high-risk bila runtime tersedia:
 
 Semua runtime tetap memakai gate, path artifact, status, dan evidence shape yang sama.
 
+### Routing Model Runtime
+
+- Codex memakai Luna/Terra/Sol melalui router sebelum sesi CLI baru atau worker ephemeral.
+- Claude Code VS Code memakai Sonnet sebagai supervisor dan dapat mendelegasikan subtask L0 ke Haiku atau L3 review ke Opus. Model sesi VS Code yang terlihat tidak diganti di tengah percakapan.
+- Fable hanya dipakai Claude setelah identitas model yang benar-benar tersedia diverifikasi pada konfigurasi lokal atau managed. `Auto` pada UI Claude Code adalah mode izin, bukan router model.
+- Antigravity mengikuti kebijakan Gemini di `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md`.
+
 ## 15. Governance Tim
 
 Tim dapat menambah project-specific docs, skill, agent, template, dan automation tanpa melemahkan flow scaffold. Perubahan terhadap `AGENTS.md`, `COMMANDS.md`, `guardrails/`, `workflows/`, `templates/`, runtime skills, scripts, atau CI wajib mengikuti `guardrails/system/SCAFFOLD_CORE_CHANGE_POLICY.md` dan mendapat review maintainer.

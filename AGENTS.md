@@ -140,6 +140,12 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - For Antigravity coding, refactor, test-creation, migration, dependency, or scaffold-generation work, enforce `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md` automatically. Do not ask the founder to select a Gemini model.
    - The model active in an Antigravity turn is sticky. Use a native worker/subagent only when the installed runtime exposes the required selection capability; otherwise record `model_switch_unavailable` and never claim an in-place model switch.
    - Antigravity must not call Codex routing scripts or inherit Codex child-worker behavior. It preserves the same workflow gates and writes the same Git-safe routing evidence shape.
+21. Claude Code VS Code Model Routing Gate:
+   - For Claude Code VS Code coding, refactor, test-creation, migration, dependency, or scaffold-generation work, enforce `guardrails/system/CLAUDE_VSCODE_MODEL_ROUTING_POLICY.md` automatically. The founder must not be asked to select a Claude model.
+   - Use `.claude/model-routing.json` and the native Claude agents `claude-routing-supervisor`, `claude-fast-worker`, and `claude-deep-reviewer` for bounded automatic delegation when runtime support is available.
+   - The visible VS Code main-session model is sticky. Do not claim an in-place model switch; `Auto` permission mode is not a model selector.
+   - L0 may use Haiku, L1-L2 use Sonnet, L3 may use Opus for bounded analysis/review, and L4 uses Fable only after its actual supported local model ID or alias is verified. When L4 selection is unavailable, record `model_switch_unavailable` and continue only if the active model meets the risk floor.
+   - Do not retry automatically, downgrade during implementation, hard-code account-specific model IDs, or bypass any workflow gate. Record concise Git-safe routing evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available.
 
 ## Global Rules
 1. Read these files before significant work:

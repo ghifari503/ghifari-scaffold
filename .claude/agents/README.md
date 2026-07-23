@@ -18,3 +18,6 @@ Guidelines:
 - `memory-curator`: scaffold memory capture, recall, synchronization, pruning, and TOML/Markdown ledger maintenance.
 - `qa-runner`: QA execution and evidence capture.
 - `release-checker`: release readiness verification.
+- `claude-routing-supervisor`: Sonnet-based classifier and bounded native-subagent router for Claude Code VS Code.
+- `claude-fast-worker`: Haiku worker for isolated L0 work.
+- `claude-deep-reviewer`: Opus reviewer for bounded L3 analysis or QA.

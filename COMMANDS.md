@@ -1110,6 +1110,19 @@ For normal agent work, do not ask the founder to select a model. The Terra routi
 
 Profiles: Luna/`fast` for clear low-risk work, Terra/`standard` for daily development, Sol/`deep` for complex work, and Sol/`critical` for critical risk. GPT-5.5 requires explicit `--legacy-5-5`; it is never a fallback. A documented escalation uses `--escalate-from fast|standard --escalation-evidence [artifact-path]`.
 
+### Claude Code VS Code Model Route
+
+```text
+For this Claude Code VS Code task, classify L0-L4 using the Claude VS Code routing policy.
+Do not ask me to select a model.
+Use a bounded native Haiku subagent only for L0, keep Sonnet for L1-L2, and use an Opus subagent only for bounded L3 analysis or independent review.
+For L4, verify a configured Fable-compatible model ID or alias first. If it is unavailable, record model_switch_unavailable truthfully.
+Do not claim that VS Code Auto permission mode changes the model or that the visible session model was switched in place.
+Do not bypass any scaffold gate.
+```
+
+Validate the repository configuration with `./scripts/check-claude-routing.ps1` on Windows or `./scripts/check-claude-routing.sh` on Unix-like shells. See `docs/CLAUDE_CODE_VSCODE_SETUP.md` for the extension boundary and setup.
+
 ```text
 Review the current scaffold state.
 Read artifacts/operations/WORKFLOW_STATE.md, artifacts/operations/CURRENT_PHASE.md, artifacts/operations/CURRENT_TASK.md, guardrails/development/PRE_CODING_POLICY.md, and artifacts/operations/PRE_CODING_GATE.md.

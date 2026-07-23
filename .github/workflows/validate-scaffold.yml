@@ -20,6 +20,7 @@ jobs:
           bash -n scripts/sync-skills.sh
           bash -n scripts/enable-scaffold-git-protection.sh
           bash -n scripts/check-antigravity-skills.sh
+          bash -n scripts/check-claude-routing.sh
           bash -n .githooks/pre-commit
           bash -n .githooks/pre-push
       - name: Validate target project Git isolation
@@ -47,6 +48,10 @@ jobs:
           ./scripts/check-skills.ps1 -Silent
           ./scripts/check-antigravity-skills.ps1 -Silent
           git diff --exit-code -- guardrails/system/SKILL_CATALOG.md
+      - name: Validate Claude Code VS Code routing
+        run: |
+          bash scripts/check-claude-routing.sh
+          node -e "JSON.parse(require('fs').readFileSync('.claude/model-routing.json', 'utf8'))"
       - name: Check scaffold whitespace
         # Imported skill references intentionally preserve upstream Markdown hard breaks.
         run: git diff --check $(git hash-object -t tree /dev/null) HEAD -- . ':(exclude).codex/**' ':(exclude).claude/**' ':(exclude).agents/**'

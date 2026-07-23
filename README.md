@@ -156,6 +156,10 @@ Use this scaffold when:
 - See `guardrails/system/MODEL_ROUTING_POLICY.md` for escalation, fallback, and Git-safe Token & Cost Monitor rules.
 - Keep documentation, guardrails, templates, runtime skills, memory, and operational Markdown artifacts version controlled when this scaffold is initialized as a Git repository.
 
+## Claude Code VS Code Routing
+- Claude Code in VS Code starts new project sessions on Sonnet and routes bounded subtasks automatically through native Haiku or Opus subagents when the policy permits. See `guardrails/system/CLAUDE_VSCODE_MODEL_ROUTING_POLICY.md` and `docs/CLAUDE_CODE_VSCODE_SETUP.md`.
+- The visible session model remains sticky. VS Code `Auto` is a permission mode, not a model router. Fable is used only when a developer-local or managed configuration verifies an actual supported model ID or alias.
+
 ## Recommended Default Command
 See `COMMANDS.md`.
 
