@@ -38,6 +38,8 @@ jobs:
           node scripts/codex-route.mjs --dry-run --no-record "Audit security migration and race condition" | grep -q '"profile": "critical"'
           node scripts/codex-route.mjs --dry-run --no-record --legacy-5-5 "Reproduce legacy baseline" | grep -q '"model": "gpt-5.5"'
           node scripts/codex-route.mjs --dry-run --no-record --escalate-from fast --escalation-evidence artifacts/test/bug-log.md "Fix typo" | grep -q '"profile": "standard"'
+          node scripts/codex-route.mjs --dry-run --no-record --auto-delegate "Fix typo" | grep -q '"action": "would_delegate"'
+          node scripts/codex-route.mjs --dry-run --no-record --auto-delegate "Fix isolated bug" | grep -q '"action": "orchestrator_continue"'
       - name: Validate runtime skills and catalog
         shell: pwsh
         run: |

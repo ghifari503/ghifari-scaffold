@@ -1105,6 +1105,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\codex-route.ps1 --
 
 Add `--launch` only after model availability is confirmed and the normal scaffold gates permit the requested work.
 
+For normal agent work, do not ask the founder to select a model. The Terra routing supervisor runs the route automatically. `--auto-delegate --launch` is reserved for the supervisor: Terra continues standard work and creates one ephemeral Luna/Sol worker only when required.
+
 Profiles: Luna/`fast` for clear low-risk work, Terra/`standard` for daily development, Sol/`deep` for complex work, and Sol/`critical` for critical risk. GPT-5.5 requires explicit `--legacy-5-5`; it is never a fallback. A documented escalation uses `--escalate-from fast|standard --escalation-evidence [artifact-path]`.
 
 ```text

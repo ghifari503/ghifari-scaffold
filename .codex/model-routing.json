@@ -35,5 +35,12 @@
   "fallback": {
     "strategy": "report_only",
     "reason": "Do not automatically rerun a failed task or fall back to GPT-5.5 because the failure may be unrelated to model availability."
+  },
+  "automation": {
+    "supervisorProfile": "standard",
+    "delegateProfiles": ["fast", "deep", "critical"],
+    "maxActiveWorkersPerWorkspace": 1,
+    "staleLockMinutes": 90,
+    "workerMode": "codex_exec_ephemeral"
   }
 }

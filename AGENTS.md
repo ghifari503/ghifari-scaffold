@@ -126,7 +126,9 @@ This file is the single source of truth for Codex/GPT, Claude, and Gemini runtim
    - Require founder or CODEOWNERS approval before merging a protected core change.
    - Contributors other than `@odonplay` must use pull requests; server-side enforcement is defined in `docs/REPOSITORY_GOVERNANCE.md`.
 19. Codex Model Routing And Token Governance Gate:
-   - For a new Codex CLI session started through this scaffold, use `scripts/codex-route.ps1` or `scripts/codex-route.sh` to classify the task and select the routing profile before launching Codex.
+   - For a new Codex coding, refactor, test-creation, migration, dependency, or scaffold-generation task, the active Codex Terra supervisor must run `scripts/codex-route.ps1` or `scripts/codex-route.sh` automatically. The founder must not be asked to select a model.
+   - When the route is `standard`, the Terra supervisor continues itself. When it is `fast`, `deep`, or `critical`, it must invoke `--auto-delegate --launch` to run one temporary Codex worker and wait for the result. This cannot change the editor model of the active supervisor.
+   - Automatic delegation is limited to one active worker per workspace, uses an ephemeral child session, and never auto-retries or auto-falls back to GPT-5.5. The worker must preserve every normal scaffold gate.
    - Enforce `guardrails/system/MODEL_ROUTING_POLICY.md`; model selection must balance accuracy floor, risk, token efficiency, and cost band.
    - Use Luna/`fast` for clear low-risk work, Terra/`standard` as the normal development default, Sol/`deep` for complex work, and Sol/`critical` for critical risk. GPT-5.5 is allowed only through explicit legacy/benchmark routing and is never an automatic fallback.
    - Use dry-run first when model availability is unknown. Developer-local model overrides are allowed only in ignored local configuration and must not alter scaffold policy.

@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import { homedir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 
 const scriptRoot = dirname(fileURLToPath(import.meta.url));
 const scaffoldRoot = resolve(scriptRoot, "..");
@@ -22,6 +22,7 @@ function parseArgs(argv) {
     legacy: false,
     escalateFrom: null,
     escalationEvidence: null,
+    autoDelegate: false,
     taskParts: []
   };
   for (let index = 0; index < argv.length; index += 1) {
@@ -33,8 +34,9 @@ function parseArgs(argv) {
     else if (value === "--legacy-5-5") options.legacy = true;
     else if (value === "--escalate-from") options.escalateFrom = argv[++index];
     else if (value === "--escalation-evidence") options.escalationEvidence = argv[++index];
+    else if (value === "--auto-delegate") options.autoDelegate = true;
     else if (value === "--help" || value === "-h") {
-      process.stdout.write("Usage: codex-route [--dry-run|--launch] [--no-record] [--project-root PATH] [--legacy-5-5] [--escalate-from fast|standard --escalation-evidence PATH] TASK\n");
+      process.stdout.write("Usage: codex-route [--dry-run|--launch] [--auto-delegate] [--no-record] [--project-root PATH] [--legacy-5-5] [--escalate-from fast|standard --escalation-evidence PATH] TASK\n");
       process.exit(0);
     } else options.taskParts.push(value);
   }
@@ -179,6 +181,58 @@ function appendRecord(projectRoot, record) {
   return logPath;
 }
 
+function delegationAction(config, profile, options) {
+  if (!options.autoDelegate) return "not_requested";
+  if (profile === config.automation?.supervisorProfile) return "orchestrator_continue";
+  if (!(config.automation?.delegateProfiles ?? []).includes(profile)) return "not_allowed_for_profile";
+  return options.launch ? "delegating" : "would_delegate";
+}
+
+function delegationLockPath(projectRoot) {
+  const workspaceKey = createHash("sha256").update(projectRoot ?? process.cwd()).digest("hex").slice(0, 16);
+  return join(tmpdir(), `codex-route-${workspaceKey}.lock`);
+}
+
+function acquireDelegationLock(projectRoot, config, decision) {
+  if ((config.automation?.maxActiveWorkersPerWorkspace ?? 1) !== 1) fail("Automatic delegation supports exactly one active worker per workspace.");
+  const lockPath = delegationLockPath(projectRoot);
+  const staleMs = (config.automation?.staleLockMinutes ?? 90) * 60 * 1000;
+  if (existsSync(lockPath)) {
+    try {
+      const existing = JSON.parse(readFileSync(lockPath, "utf8"));
+      if (Date.now() - Date.parse(existing.startedAt) > staleMs) unlinkSync(lockPath);
+    } catch {
+      fail(`Delegation lock cannot be verified: ${lockPath}`);
+    }
+  }
+  try {
+    writeFileSync(lockPath, JSON.stringify({ taskId: decision.taskId, startedAt: new Date().toISOString() }), { encoding: "utf8", flag: "wx" });
+    return lockPath;
+  } catch {
+    return null;
+  }
+}
+
+function runDelegatedWorker(decision, options, projectRoot) {
+  const workerPrompt = [
+    "You are an automatically delegated Codex worker.",
+    "Read and follow AGENTS.md and all active scaffold gates before acting.",
+    "Work only on the task below. Do not delegate again, widen scope, or start another Codex session.",
+    "Return concise evidence, validation status, and remaining risks to the supervising agent.",
+    "",
+    `Task: ${options.task}`
+  ].join("\n");
+  const workerArgs = [
+    "exec",
+    "--ephemeral",
+    "--model", decision.model,
+    "--config", `model_reasoning_effort=\"${decision.reasoningEffort}\"`,
+    "--cd", projectRoot ?? process.cwd(),
+    workerPrompt
+  ];
+  return spawnSync("codex", workerArgs, { stdio: "inherit" });
+}
+
 const options = parseArgs(process.argv.slice(2));
 const { config, overridePath } = loadConfig();
 const classification = applyEscalation(classify(options.task, options.legacy), options);
@@ -206,6 +260,11 @@ const decision = {
   projectRoot,
   actualUsage: "unavailable_from_codex_cli"
 };
+decision.delegation = {
+  mode: options.autoDelegate ? "automatic" : "manual",
+  action: delegationAction(config, decision.profile, options),
+  maxActiveWorkersPerWorkspace: config.automation?.maxActiveWorkersPerWorkspace ?? 1
+};
 
 if (options.record) {
   decision.recordPath = appendRecord(projectRoot, {
@@ -218,13 +277,46 @@ if (options.record) {
     effort: decision.reasoningEffort,
     tokenBand: decision.tokenBand,
     costBand: decision.costBand,
-    status: options.launch ? "launching" : "planned",
+    status: decision.delegation.action === "orchestrator_continue" ? "orchestrator_continue" : decision.delegation.action === "delegating" ? "delegating" : decision.delegation.action === "would_delegate" ? "would_delegate" : "planned",
     reasons: decision.reasons
   });
 }
 
 process.stdout.write(`${JSON.stringify(decision, null, 2)}\n`);
 if (!options.launch) process.exit(0);
+
+if (options.autoDelegate) {
+  if (decision.delegation.action === "orchestrator_continue") process.exit(0);
+  if (decision.delegation.action !== "delegating") fail(`Automatic delegation is not allowed for profile ${decision.profile}.`);
+  const lockPath = acquireDelegationLock(projectRoot, config, decision);
+  if (!lockPath) {
+    if (options.record) {
+      appendRecord(projectRoot, {
+        time: new Date().toISOString(), taskId, level: decision.level, profile: decision.profile, agent: decision.agent,
+        model: decision.model, effort: decision.reasoningEffort, tokenBand: decision.tokenBand, costBand: decision.costBand,
+        status: "delegation_blocked_active_worker", reasons: [...decision.reasons, "active worker lock present"]
+      });
+    }
+    fail("Automatic delegation blocked because another worker is active for this workspace.");
+  }
+  let result;
+  try {
+    result = runDelegatedWorker(decision, options, projectRoot);
+  } catch {
+    result = { status: 1, error: true };
+  } finally {
+    unlinkSync(lockPath);
+  }
+  if (options.record) {
+    appendRecord(projectRoot, {
+      time: new Date().toISOString(), taskId, level: decision.level, profile: decision.profile, agent: decision.agent,
+      model: decision.model, effort: decision.reasoningEffort, tokenBand: decision.tokenBand, costBand: decision.costBand,
+      status: result?.status === 0 ? "delegated_completed" : "delegated_failed_report_only",
+      reasons: result?.status === 0 ? decision.reasons : [...decision.reasons, result?.error ? "delegated worker could not start; no automatic rerun" : "delegated worker failed; no automatic rerun"]
+    });
+  }
+  process.exit(result?.status ?? 1);
+}
 
 const result = spawnSync("codex", ["--model", decision.model, "--config", `model_reasoning_effort=\"${decision.reasoningEffort}\"`, options.task], { stdio: "inherit" });
 if (options.record) {

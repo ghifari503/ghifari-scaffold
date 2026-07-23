@@ -8,7 +8,7 @@ Route a new Codex CLI session to the least expensive available profile that stil
 
 The router selects a model before a new Codex CLI session starts. It cannot change the model of an already active Codex chat or thread.
 
-Use `scripts/codex-route.ps1` on Windows or `scripts/codex-route.sh` on Unix. Dry-run is the default; `--launch` starts Codex with the selected model and reasoning effort.
+Use `scripts/codex-route.ps1` on Windows or `scripts/codex-route.sh` on Unix. Dry-run is the default; `--launch` starts Codex with the selected model and reasoning effort. `--auto-delegate --launch` is the agent-controlled route: Terra continues `standard` work itself and creates one ephemeral worker only for Luna or Sol profiles.
 
 ## Routing Inputs
 
@@ -52,6 +52,14 @@ The shared baseline is `.codex/model-routing.json`. A developer may override mod
 - `ultra` is a runtime capability choice for an explicitly approved, independent multi-agent decomposition. The router does not enable it automatically and must report unavailable runtime support rather than silently changing the route.
 - Never rerun automatically with a different model or fall back to GPT-5.5 after a generic Codex failure. Report the failure and use the configured local override or founder decision.
 - If a configured model is unavailable, update the developer-local override and rerun dry-run before launching.
+
+## Automatic Delegation
+
+- The active Terra supervisor performs routing without asking the founder to choose a model.
+- `standard` remains on the active Terra supervisor. `fast`, `deep`, and `critical` use `codex exec --ephemeral` with the selected profile.
+- A local per-workspace lock permits one delegated worker only. A stale lock is cleared after the configured limit; an active lock blocks delegation and is reported.
+- The child receives the scoped task and must read `AGENTS.md`; it may not delegate again. It returns evidence to the supervisor through command output and normal artifacts.
+- Automatic routing changes only the execution worker. It does not approve work, bypass user approval gates, or replace the model of the visible editor session.
 
 ## Gate Preservation
 

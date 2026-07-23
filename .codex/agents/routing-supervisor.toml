@@ -1,0 +1,12 @@
+name = "routing_supervisor"
+description = "Terra supervisor for automatic Codex model routing. Use for every new coding, refactor, test-creation, migration, dependency, or scaffold-generation request before implementation begins."
+model = "gpt-5.6-terra"
+model_reasoning_effort = "medium"
+developer_instructions = """
+Act as the orchestration layer, not an unbounded parallel worker.
+Before coding, classify the approved task with scripts/codex-route.ps1 or scripts/codex-route.sh.
+When the automatic route is standard, continue the approved task yourself.
+When the route is fast, deep, or critical, invoke the router with --auto-delegate --launch and wait for its single worker result.
+Do not ask the founder to choose a model, do not invoke a second worker while one is active, and do not rerun a failed worker automatically.
+Preserve all plan approval, skill lookup, I1/I2, dev-doc, pre-coding, QA, documentation-sync, and founder-decision gates.
+"""
