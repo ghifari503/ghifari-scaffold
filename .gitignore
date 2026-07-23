@@ -11,7 +11,6 @@
 # Every target project is its own nested Git repository. The scaffold repository
 # must never stage, commit, or push target project files, including shared context.
 /development/*
-!/development/README.md
 !/development/_project-template/
 !/development/_project-template/**
 

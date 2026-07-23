@@ -109,7 +109,7 @@ start
 ```
 
 Expected behavior:
-- Inspect `development/` with hidden entries included, excluding scaffold-owned `README.md` and `_project-template/`, before asking for a project target.
+- Inspect `development/` with hidden entries included, excluding only scaffold-owned `_project-template/`, before asking for a project target.
 - If it has zero target-project folders, select `greenfield_project`, report that a new-project discovery is required, and ask for project name, intended outcome, first feature candidate, constraints, and available references. Do not create a framework, install dependencies, or write product code.
 - If it has one or more target-project folders, treat the request as existing/inherited-project work, list detected project folders, and continue through the project picker and `I1 Existing Project Intake` route.
 - Follow `guardrails/development/GREENFIELD_PROJECT_POLICY.md` for the zero-entry route. `start` does not open a build gate.

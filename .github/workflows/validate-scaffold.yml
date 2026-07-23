@@ -27,8 +27,10 @@ jobs:
         run: |
           git check-ignore -q development/example-project/src/app.ts
           git check-ignore -q development/example-project/artifacts/shared/PROJECT_STATE.md
+          git check-ignore -q development/README.md
           test -f .githooks/pre-commit
           test -f .githooks/pre-push
+          test -f docs/DEVELOPMENT_WORKSPACE.md
           test -f artifacts/operations/AGENT_ACTIVITY_LOG.md
           test -f templates/agent_activity_log_template.md
           test -f guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md

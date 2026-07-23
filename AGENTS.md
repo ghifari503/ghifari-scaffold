@@ -216,8 +216,8 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 17. A `medium` or `major` activity is invalid if execution started before the compact plan and explicit founder approval were recorded in chat or the relevant operational artifact.
 18. Before creating or updating any artifact, evidence, log, QA output, release note, memory entry, planning document, or generated documentation, enforce `guardrails/development/ARTIFACT_STORAGE_POLICY.md`.
 19. For target repository work under `development/[project-folder]`, shared continuity updates are mandatory before `resume_safe`, `SUCCESS`, `ready to pr`, or handoff may be claimed.
-   - Read shared target context before source scanning or continuing work, using the token-efficient activity-log read rule.
-   - Write shared target context after meaningful work, including the required activity event.
+   - Read shared target context before source scanning or continuing work; also read the root activity-log snapshot and relevant entries under the separate activity-log gate.
+   - Write shared target context after meaningful work; append the required activity event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md` under the separate activity-log gate.
    - Use `development/[project-folder]/artifacts/shared/`, not scaffold-local `artifacts/`, for Git-carried developer-to-developer context.
    - Commit and push this context from the target project's Git repository; the scaffold root `.gitignore` must ignore all target project files.
 20. When first intake has no usable project documentation, do not claim a source-derived baseline is complete until `CODE_DERIVED_BASELINE_POLICY.md` requirements, target `PROJECT_STATE.md`, shared-context updates, and relevant verified memory synchronization are complete.
@@ -397,7 +397,7 @@ See `artifacts/context/STARTUP_MODE.md` for the current selection and `guardrail
 - `ai_marketing_engine`
 
 ## Greenfield Project Rules
-- When the founder sends `start` or `start work`, inspect `development/` with hidden entries included but exclude scaffold-owned `README.md` and `_project-template/`. Zero target-project folders means `greenfield_project`; one or more target-project folders means existing/inherited-project routing.
+- When the founder sends `start` or `start work`, inspect `development/` with hidden entries included but exclude only scaffold-owned `_project-template/`. Zero target-project folders means `greenfield_project`; one or more target-project folders means existing/inherited-project routing.
 - For `greenfield_project`, enforce `guardrails/development/GREENFIELD_PROJECT_POLICY.md` and `workflows/greenfield_project_workflow.md`.
 - Greenfield work must not fabricate `I1 Existing Project Intake` or `I2 Impact Scan`. Use `G0-G5` evidence until an actual project baseline exists.
 - `start` only selects the route. It does not authorize framework bootstrap, dependency installation, database creation, code generation, or product code.

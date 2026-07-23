@@ -34,7 +34,7 @@ start
 Agent kemudian:
 
 1. membaca `AGENTS.md` dan state operasional
-2. memeriksa `development/`, termasuk hidden entries, tetapi mengabaikan `README.md` dan `_project-template/` milik scaffold
+2. memeriksa `development/`, termasuk hidden entries, tetapi mengabaikan hanya `_project-template/` milik scaffold
 3. memilih mode: tanpa target project berarti `greenfield_project`, dengan target project berarti existing/inherited project
 4. melaporkan mode dan langkah berikutnya
 
