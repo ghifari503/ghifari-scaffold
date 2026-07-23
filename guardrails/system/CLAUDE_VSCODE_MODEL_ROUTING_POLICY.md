@@ -50,6 +50,7 @@ The founder is never asked to choose a model. Routing must not create a second u
 - Include task hash, level, selected model or `model_switch_unavailable`, relative token/cost bands, reason, and evidence path.
 - Never record raw prompts, secrets, credentials, private provider details, or invented actual usage/cost values.
 - Treat estimates as relative guidance unless the runtime supplies authoritative usage data.
+- Add an `AGENT_ACTIVITY_LOG.md` event only for task start, material delegation/escalation, blocker, or meaningful completion. Link `AI_ROUTING_LOG.md` rather than copying routing data.
 
 ## Gate Preservation
 

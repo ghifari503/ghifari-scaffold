@@ -60,7 +60,7 @@ If shared context files are missing during first target repo intake, create the 
 After any meaningful work, pause, handoff, QA closure, blocker discovery, implementation slice, or session close, the agent must update the target repository shared context:
 
 - update `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-- append to `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
+- append to `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` only for contributor-session detail or handoff that needs information beyond the activity entry
 - create or update the relevant handoff file under `development/[project-folder]/artifacts/shared/handoffs/`
 - update `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` when verified project facts, architecture, stack, routes/APIs, module boundaries, integrations, or environment requirements change
 
@@ -120,11 +120,11 @@ Stop before implementation or handoff if:
 - target repo path is known but shared context files are missing and no baseline was created
 - first intake lacks usable documentation and `PROJECT_STATE.md` does not record the required code-derived baseline or documented unknowns
 - a meaningful session is closing without updating shared context
-- contributor log was not appended for the latest meaningful work
+- required contributor-session or handoff detail was not appended to `CONTRIBUTOR_LOG.md`
 - handoff file is missing for incomplete feature/slice work
 - shared context contains secrets or raw transcripts
 - shared context conflicts with current repo evidence and the conflict is not recorded
 
 ## Completion Rule
 
-A target repo feature, QA, release, handoff, or meaningful implementation session is not `resume_safe`, `SUCCESS`, `ready to pr`, or complete until shared context is read before work and updated after work. During first intake, this includes `PROJECT_STATE.md` and the code-derived-baseline requirements when documentation is absent.
+A target repo feature, QA, release, handoff, or meaningful implementation session is not `resume_safe`, `SUCCESS`, `ready to pr`, or complete until shared context is read before work and updated after work. The separate scaffold activity-log requirement is governed by `AGENT_ACTIVITY_LOG_POLICY.md`. During first intake, this includes `PROJECT_STATE.md` and the code-derived-baseline requirements when documentation is absent.

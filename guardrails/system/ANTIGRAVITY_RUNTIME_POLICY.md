@@ -43,4 +43,5 @@ This is a preference map, not a claim that every Antigravity account exposes eve
 
 - Record runtime, selected or active model, routing status, relative token/cost band, and concise non-sensitive reason in `artifacts/shared/AI_ROUTING_LOG.md` when routing is used.
 - Do not record raw prompts, credentials, quotas, or unverified actual cost.
+- Create a linked `AGENT_ACTIVITY_LOG.md` event only for task start, material route change, blocker, or meaningful completion; never for each tool call.
 - Model routing never bypasses task classification, founder approval, skills, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or release decisions.

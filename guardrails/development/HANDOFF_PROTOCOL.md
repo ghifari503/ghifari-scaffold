@@ -27,12 +27,13 @@ This repository assumes exactly one active task at a time.
 7. `artifacts/operations/PRE_CODING_GATE.md`
 8. `guardrails/development/SHARED_CONTEXT_POLICY.md`
 9. Target repo `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md` when a target repo is attached
-10. Latest relevant target repo `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` entries when a target repo is attached
-11. Relevant target repo `development/[project-folder]/artifacts/shared/handoffs/` files when a target repo is attached
-12. `guardrails/memory/MEMORY_POLICY.md`
-13. `artifacts/memory/MEMORY_INDEX.md`
-14. `artifacts/memory/MEMORY_LEDGER.toml`
-15. Every artifact listed under `Inputs / Source Docs` in `artifacts/operations/CURRENT_TASK.md`
+10. `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot and relevant recent entries
+11. Latest relevant target repo `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` entries when a target repo is attached
+12. Relevant target repo `development/[project-folder]/artifacts/shared/handoffs/` files when a target repo is attached
+13. `guardrails/memory/MEMORY_POLICY.md`
+14. `artifacts/memory/MEMORY_INDEX.md`
+15. `artifacts/memory/MEMORY_LEDGER.toml`
+16. Every artifact listed under `Inputs / Source Docs` in `artifacts/operations/CURRENT_TASK.md`
 
 No implementation should start until this read order is completed.
 No implementation should start unless `guardrails/development/PRE_CODING_POLICY.md` allows the workflow shape and `artifacts/operations/PRE_CODING_GATE.md` allows the current mode and allowed write paths are documented.
@@ -81,6 +82,7 @@ Required before handoff or session close:
 - `artifacts/operations/CURRENT_TASK.md` reflects current status, touched artifacts, and exact next action
 - `artifacts/operations/SESSION_LOG.md` contains the latest activity summary
 - target repo shared context under `development/[project-folder]/artifacts/shared/` is updated when a target repo was involved
+- `artifacts/operations/AGENT_ACTIVITY_LOG.md` contains the required meaningful-work event
 - every relevant scope artifact changed by the work is updated or explicitly recorded as having no additional documentation delta
 
 The handoff is invalid if the most recent official step is missing from `artifacts/operations/SESSION_LOG.md` or if the log entry was not written in the same documentation-sync batch.

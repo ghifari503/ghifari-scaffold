@@ -82,9 +82,9 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 - For target repo work under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
 - Shared developer continuity must live in `development/[project-folder]/artifacts/shared/` so it can be carried in the target repo Git history.
-- Before continuing target repo work, read `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant files under `handoffs/`.
+- Before continuing target repo work, read `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant files under `handoffs/`. Also read the root `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot plus relevant recent entries.
 - If shared context is missing during first target repo intake, create the baseline before handoff or implementation.
-- After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts change, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md`, and create/update the relevant shared handoff file.
+- After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts change, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` only when contributor-session or handoff detail is needed, and create/update the relevant shared handoff file. Append the required event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
 - Shared context must be Git-safe and must not contain secrets, `.env` values, raw chat transcripts, credential dumps, private personal data, or large raw logs.
 
 ## Code-Derived Baseline Gate
@@ -322,7 +322,7 @@ handoff
 Expected behavior:
 - Read the active task, workflow state, latest session log, shared target context, and relevant memory.
 - Confirm the current feature and selected task slice.
-- Update `PROJECT_STATE.md` when project facts changed, `ACTIVE_CONTEXT.md`, `CONTRIBUTOR_LOG.md`, and the relevant handoff file under `development/[project-folder]/artifacts/shared/handoffs/`.
+- Update `PROJECT_STATE.md` when project facts changed, `ACTIVE_CONTEXT.md`, `CONTRIBUTOR_LOG.md` when detailed contributor/handoff context is needed, and the relevant handoff file under `development/[project-folder]/artifacts/shared/handoffs/`. Append the required event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
 - Record completed work, remaining work, decisions, changed files, commands and test results, known issues, blockers, Do Not Repeat notes, and the exact next step.
 - Do not claim `resume_safe` for medium/major work until the latest official step and required documentation sync are recorded.
 - This prepares continuity for another developer or runtime; it does not close QA or approve release.
@@ -449,8 +449,8 @@ Selection behavior:
 - `29`: treat this as local development readiness for the selected project; inspect gate status, local setup evidence, allowed write paths, and remaining blockers before any real execution.
 - `30`: run the skill check policy against `.codex/skills/` and `.claude/skills/`; refresh `guardrails/system/SKILL_CATALOG.md`; do not edit product code.
 - `31-39`: run the AI Contributor Lifecycle support command using `workflows/ai_contributor_lifecycle.md`; write scaffold evidence only and respect the pre-coding gate.
-- `40`: read `guardrails/development/SHARED_CONTEXT_POLICY.md`, then read target repo `artifacts/shared/ACTIVE_CONTEXT.md`, `CONTRIBUTOR_LOG.md`, and relevant `handoffs/`.
-- `41`: update target repo `artifacts/shared/ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md`, and create/update the relevant shared handoff from templates.
+- `40`: read `guardrails/development/SHARED_CONTEXT_POLICY.md`, then read target repo `artifacts/shared/ACTIVE_CONTEXT.md`, `CONTRIBUTOR_LOG.md`, relevant `handoffs/`, and root `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot/relevant entries.
+- `41`: update target repo `artifacts/shared/ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` only for detailed contributor/handoff context, create/update the relevant shared handoff from templates, and append required root `AGENT_ACTIVITY_LOG.md` event.
 - `0`: summarize current session and stop.
 
 ## Current Safe First Commands
@@ -1057,6 +1057,7 @@ Use the existing docs, code patterns, and artifacts in the repository instead of
 ```text
 Read shared target repository context before continuing:
 development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md
+artifacts/operations/AGENT_ACTIVITY_LOG.md
 development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md
 development/[project-folder]/artifacts/shared/handoffs/
 Then continue with targeted scans only.
@@ -1066,6 +1067,7 @@ Then continue with targeted scans only.
 ```text
 Update shared target repository context for this work session:
 development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md
+artifacts/operations/AGENT_ACTIVITY_LOG.md
 development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md
 development/[project-folder]/artifacts/shared/handoffs/[feature]-[slice]-handoff.md
 Keep it Git-safe and do not store secrets, raw chat, or large logs.

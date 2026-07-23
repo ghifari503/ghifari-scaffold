@@ -108,7 +108,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - Shared developer continuity belongs inside the target repo at `development/[project-folder]/artifacts/shared/` so it can be committed with that project.
    - Before continuing target repo work, read target shared context: `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant `handoffs/`.
    - If target shared context is missing during first intake, create the baseline before handoff or implementation.
-   - After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts changed, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md`, and create/update the relevant shared handoff file.
+   - After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts changed, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` when contributor-session or handoff detail is needed, and create/update the relevant shared handoff file.
    - Shared context must be Git-safe: no secrets, `.env` values, raw chat transcripts, private personal data, credential dumps, or large raw logs.
 13. Code-Derived Baseline Gate:
    - During first `I1` intake, enforce `guardrails/development/CODE_DERIVED_BASELINE_POLICY.md` when no relevant project documentation exists or available documentation cannot establish the current project state.
@@ -146,6 +146,11 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - The visible VS Code main-session model is sticky. Do not claim an in-place model switch; `Auto` permission mode is not a model selector.
    - L0 may use Haiku, L1-L2 use Sonnet, L3 may use Opus for bounded analysis/review, and L4 uses Fable only after its actual supported local model ID or alias is verified. When L4 selection is unavailable, record `model_switch_unavailable` and continue only if the active model meets the risk floor.
    - Do not retry automatically, downgrade during implementation, hard-code account-specific model IDs, or bypass any workflow gate. Record concise Git-safe routing evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available.
+22. Scaffold Agent Activity Log Gate:
+   - For every meaningful scaffold or target-project activity, enforce `guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md` and append the required event to `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
+   - Before source scanning or continuing work, read only its `Current Activity Snapshot`, the active task entries, and at most three relevant recent entries. Do not read the full log by default.
+   - Never log per tool call, raw prompts, raw command output, secrets, or unverified token/cost data. Link existing target routing, QA, contributor, or handoff evidence rather than duplicate it.
+   - When a target project is active, update its `ACTIVE_CONTEXT.md` with the current root activity-log entry. The root activity log is committed with the scaffold repository; it is not part of the target project's Git history.
 
 ## Global Rules
 1. Read these files before significant work:
@@ -154,6 +159,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - `guardrails/development/LOGGING_STANDARD.md`
    - `artifacts/operations/CURRENT_PHASE.md`
    - `artifacts/operations/CURRENT_TASK.md`
+   - `artifacts/operations/AGENT_ACTIVITY_LOG.md` (snapshot and relevant recent entries only)
    - `artifacts/access/README.md`
    - `guardrails/development/HANDOFF_PROTOCOL.md`
    - `guardrails/development/ARTIFACT_STORAGE_POLICY.md`
@@ -210,8 +216,8 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 17. A `medium` or `major` activity is invalid if execution started before the compact plan and explicit founder approval were recorded in chat or the relevant operational artifact.
 18. Before creating or updating any artifact, evidence, log, QA output, release note, memory entry, planning document, or generated documentation, enforce `guardrails/development/ARTIFACT_STORAGE_POLICY.md`.
 19. For target repository work under `development/[project-folder]`, shared continuity updates are mandatory before `resume_safe`, `SUCCESS`, `ready to pr`, or handoff may be claimed.
-   - Read shared target context before source scanning or continuing work.
-   - Write shared target context after meaningful work.
+   - Read shared target context before source scanning or continuing work, using the token-efficient activity-log read rule.
+   - Write shared target context after meaningful work, including the required activity event.
    - Use `development/[project-folder]/artifacts/shared/`, not scaffold-local `artifacts/`, for Git-carried developer-to-developer context.
    - Commit and push this context from the target project's Git repository; the scaffold root `.gitignore` must ignore all target project files.
 20. When first intake has no usable project documentation, do not claim a source-derived baseline is complete until `CODE_DERIVED_BASELINE_POLICY.md` requirements, target `PROJECT_STATE.md`, shared-context updates, and relevant verified memory synchronization are complete.

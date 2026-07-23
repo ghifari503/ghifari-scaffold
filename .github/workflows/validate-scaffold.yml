@@ -29,6 +29,9 @@ jobs:
           git check-ignore -q development/example-project/artifacts/shared/PROJECT_STATE.md
           test -f .githooks/pre-commit
           test -f .githooks/pre-push
+          test -f artifacts/operations/AGENT_ACTIVITY_LOG.md
+          test -f templates/agent_activity_log_template.md
+          test -f guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md
       - name: Validate Codex model routing
         run: |
           node --check scripts/codex-route.mjs

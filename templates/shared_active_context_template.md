@@ -15,6 +15,7 @@
 - current_status: `[short status]`
 - current_gate: `[I1|I2|P1-P7|B1-B3|R1-R4|other]`
 - resume_safe: `[yes|no]`
+- activity_log_current_entry: `[artifacts/operations/AGENT_ACTIVITY_LOG.md entry id or none]`
 
 ## What Is Known
 - `[verified project fact with source path]`

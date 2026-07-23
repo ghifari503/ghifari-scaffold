@@ -115,6 +115,7 @@ Use this lightweight classification when deciding whether end-of-activity docume
 ## Logging Locations
 
 - Session log: `artifacts/operations/SESSION_LOG.md`
+- Scaffold agent activity log: `artifacts/operations/AGENT_ACTIVITY_LOG.md`
 - Learnings: `artifacts/improvement/LEARNINGS.md`
 - Workflow state: `artifacts/operations/WORKFLOW_STATE.md`
 - Current phase: `artifacts/operations/CURRENT_PHASE.md`
@@ -127,6 +128,7 @@ Use this lightweight classification when deciding whether end-of-activity docume
 
 - Never change `created_at` after an entry is created.
 - Every status change must update `updated_at`.
+- For scaffold or target-project meaningful work, append one event-based entry to `artifacts/operations/AGENT_ACTIVITY_LOG.md` using `guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md`. Never log per tool call; agents read only its snapshot and relevant recent entries.
 - When a task moves across model/session, fill `handoff_at`, `handoff_from`, `handoff_to`, and `resume_safe`.
 - Every official workflow step must create or update a matching `artifacts/operations/SESSION_LOG.md` step entry before the next official step or handoff.
 - If a step finishes without a session log entry, treat the activity as incomplete and do not mark it `SUCCESS`, `fixed`, `verified`, `closed`, `resume_safe`, or `ready for the next task`.

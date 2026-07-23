@@ -71,6 +71,7 @@
 ## Memory And Shared Context Sync
 - shared_active_context_updated: `[yes|no]`
 - contributor_log_entry: `[path or reference]`
+- activity_log_entry: `[artifacts/operations/AGENT_ACTIVITY_LOG.md entry id or none]`
 - memory_ledger_entries:
   - `[id]`
 - feature_registry_entries:

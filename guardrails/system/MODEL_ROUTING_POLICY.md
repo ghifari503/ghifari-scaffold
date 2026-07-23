@@ -42,6 +42,7 @@ The shared baseline is `.codex/model-routing.json`. A developer may override mod
 - `actual_usage` is `unavailable_from_codex_cli` unless a runtime supplies authoritative usage data.
 - The log is capped to recent entries; it is continuity evidence, not an analytics warehouse.
 - The bands are relative routing guidance. API list prices or subscription quota must not be recorded as actual Codex usage unless an authoritative runtime source supplies them.
+- Create a linked `AGENT_ACTIVITY_LOG.md` event only when routing starts a task, changes delegation/profile, blocks work, or completes a meaningful routed activity. Do not duplicate every routing decision or tool call there.
 
 ## Escalation And Fallback
 

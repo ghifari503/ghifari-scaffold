@@ -34,4 +34,5 @@ This quick-entry file should always help the reader answer:
 3. `artifacts/operations/WORKFLOW_STATE.md`
 4. `artifacts/operations/CURRENT_TASK.md`
 5. `artifacts/operations/SESSION_LOG.md`
+6. `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot dan entry relevan terakhir ketika target repo aktif
 

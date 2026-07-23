@@ -7,7 +7,7 @@ This policy applies before creating or updating any scaffold artifact, evidence 
 
 ## Active Storage Map
 
-- Operational state and handoff logs: `artifacts/operations/`
+- Operational state, scaffold handoff logs, and agent activity log: `artifacts/operations/`
 - Local, development, and demo access inventory: `artifacts/access/`
 - Project context: `artifacts/context/`
 - Architecture decisions, architecture evidence, and API specs: `artifacts/architecture/`
@@ -47,6 +47,7 @@ Use these replacements:
 - Do not store strict policies or guardrails in `artifacts/`; use `guardrails/`.
 - Do not store reusable templates in `artifacts/`; use `templates/`.
 - Do not store target repo shared continuity in scaffold-local `artifacts/`; use `development/[project-folder]/artifacts/shared/` so it travels with the target repo.
+- Store agent/runtime task activity only in `artifacts/operations/AGENT_ACTIVITY_LOG.md`; do not duplicate it into target `CONTRIBUTOR_LOG.md`, target `AI_ROUTING_LOG.md`, or `SESSION_LOG.md`.
 - Before writing an artifact, classify the artifact type and choose the storage path from the Active Storage Map.
 - If no correct storage path exists, stop and update this policy before writing the artifact.
 

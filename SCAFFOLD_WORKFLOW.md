@@ -201,6 +201,8 @@ Menjaga pekerjaan tetap dapat dilanjutkan, diaudit, dan dipahami agent atau deve
 
 Setelah setiap official step atau meaningful work, update `WORKFLOW_STATE.md`, `CURRENT_TASK.md`, `SESSION_LOG.md`, artifact source-of-truth yang terdampak, shared context target project, serta memory dan learnings bila relevan.
 
+Untuk aktivitas agent lintas project, append event bermakna ke `artifacts/operations/AGENT_ACTIVITY_LOG.md`. Baca hanya snapshot dan entry relevan terakhir, bukan seluruh riwayat atau setiap tool call.
+
 Handoff harus mencatat objective, current state, keputusan, artifact yang berubah, test result, known issue, blocker, Do Not Repeat, dan exact next step.
 
 Task `medium` atau `major` tidak boleh dilaporkan sebagai `SUCCESS`, `verified`, `resume_safe`, `closed`, atau `ready to pr` sebelum documentation sync lengkap.

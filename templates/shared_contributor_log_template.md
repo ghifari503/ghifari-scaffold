@@ -2,6 +2,8 @@
 
 Append one entry for every meaningful work session.
 
+Use scaffold `artifacts/operations/AGENT_ACTIVITY_LOG.md` for concise agent task events. Keep this log for contributor-session detail and handoff context; reference the relevant activity entry instead of duplicating it.
+
 ## Entry Template
 
 ```markdown
@@ -13,6 +15,7 @@ Append one entry for every meaningful work session.
 - status: `[in_progress|paused|blocked|completed|handoff_ready]`
 - branch: `[branch-or-unknown]`
 - commit: `[commit-or-unknown]`
+- activity_log_entry: `[artifacts/operations/AGENT_ACTIVITY_LOG.md entry id]`
 
 ### Summary
 - `[short summary]`
