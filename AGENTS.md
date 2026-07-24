@@ -150,6 +150,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - For every meaningful scaffold or target-project activity, enforce `guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md` and append the required event to `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
    - Before source scanning or continuing work, read only its `Current Activity Snapshot`, the active task entries, and at most three relevant recent entries. Do not read the full log by default.
    - Never log per tool call, raw prompts, raw command output, secrets, or unverified token/cost data. Link existing target routing, QA, contributor, or handoff evidence rather than duplicate it.
+   - `model_or_profile` is mandatory for every activity entry: use exact router/runtime/frontmatter evidence with `model_source`, or `active_model_unavailable` plus a short reason. `not_recorded` is prohibited for new entries.
    - When a target project is active, update its `ACTIVE_CONTEXT.md` with the current root activity-log entry. The root activity log is committed with the scaffold repository; it is not part of the target project's Git history.
 
 ## Global Rules

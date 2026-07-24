@@ -19,7 +19,9 @@
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - runtime: `[codex|claude|gemini|antigravity|manual]`
 - agent_role: `[supervisor|builder|reviewer|qa|planner|other]`
-- model_or_profile: `[model/profile|not_recorded]`
+- model_or_profile: `[gpt-5.6-terra / standard / supervisor|active_model_unavailable]`
+- model_source: `[codex_router|runtime_status|agent_frontmatter|managed_configuration|unavailable]`
+- model_availability_reason: `[router entry, runtime status source, or concise unavailable reason]`
 - task_id: `[task-id]`
 - target_project: `[project-folder|scaffold]`
 - task_size: `[small|medium|major]`

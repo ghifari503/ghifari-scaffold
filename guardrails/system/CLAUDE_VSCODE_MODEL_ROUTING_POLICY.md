@@ -51,6 +51,7 @@ The founder is never asked to choose a model. Routing must not create a second u
 - Never record raw prompts, secrets, credentials, private provider details, or invented actual usage/cost values.
 - Treat estimates as relative guidance unless the runtime supplies authoritative usage data.
 - Add an `AGENT_ACTIVITY_LOG.md` event only for task start, material delegation/escalation, blocker, or meaningful completion. Link `AI_ROUTING_LOG.md` rather than copying routing data.
+- For a model-aware Claude subagent, record its explicit model and `model_source: agent_frontmatter`. For a main session, record a model only when runtime status or managed configuration proves it; otherwise use `active_model_unavailable` with its reason.
 
 ## Gate Preservation
 
