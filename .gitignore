@@ -62,3 +62,9 @@ Desktop.ini
 
 # Per-developer Codex model availability overrides
 /.codex/model-routing.local.json
+
+# Graphify output is a reproducible local knowledge graph. Shared context stores
+# only its status and location so the next developer/agent can decide to refresh.
+/graphify-out/
+**/graphify-out/
+**/.graphify-state.json

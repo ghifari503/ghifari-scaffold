@@ -41,6 +41,9 @@ Do not maintain a separate command menu in this skill. When commands change, upd
 14. If the user typed `improve`, ask whether parity should be `ON` or `OFF` before editing files.
 15. Treat parity mode as scaffold-only. Do not interpret parity as permission or obligation to mirror project-level implementation changes across repositories.
 16. Never require `I2 Impact Scan` for `start dev` unless local readiness reveals a required source/config/dependency/schema/test/behavior change.
+17. After one target project is selected, check its Graphify status with `scripts/graphify-status.ps1`. For `missing`, `stale`, or `present_unverified`, explain that a knowledge graph maps code, documentation, configuration, and project artifacts so an agent can trace architecture, assess change impact, and continue prior work without rereading the repository. For `missing`, state whether Graphify and its `uv` prerequisite are installed, then offer their local setup if required. Ask `Set up, build, or refresh the knowledge graph now? (Y/N)`. Do not install, build, refresh, or scan until the developer answers `Y`; ask a separate confirmation before installing `uv`.
+18. For `current`, state that the agent will use the existing local graph with Git-safe shared context, then ask whether to refresh it. Never scan every project under `development/` automatically.
+19. Report an installed Graphify version when available. Never upgrade because the master scaffold was pulled; offer `update-graphify-project.ps1 -Update` only after the developer explicitly approves the local update, then require a graph rebuild and shared-context version sync.
 
 ## Explicit Command Mapping
 

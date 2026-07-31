@@ -112,6 +112,9 @@ Expected behavior:
 - Inspect `development/` with hidden entries included, excluding only scaffold-owned `_project-template/`, before asking for a project target.
 - If it has zero target-project folders, select `greenfield_project`, report that a new-project discovery is required, and ask for project name, intended outcome, first feature candidate, constraints, and available references. Do not create a framework, install dependencies, or write product code.
 - If it has one or more target-project folders, treat the request as existing/inherited-project work, list detected project folders, and continue through the project picker and `I1 Existing Project Intake` route.
+- After a target project is selected, inspect its local Graphify status. When it is missing or stale, explain that a knowledge graph maps code, docs, configuration, and project artifacts so an agent can understand architecture, trace impact, and resume work accurately. For a missing graph, offer Graphify setup; if `uv` is also missing, explain it is a local prerequisite and ask separately before installing it. Ask `Set up, build, or refresh the knowledge graph now? (Y/N)` and proceed only after `Y`.
+- Do not scan all target projects automatically. A graph is always local to one selected project and `graphify-out/` is ignored by Git.
+- A master pull never upgrades Graphify in a target project. Report the installed version and offer an explicit, project-scoped update only when the user approves; rebuild the graph and synchronize shared context after an approved upgrade.
 - Follow `guardrails/development/GREENFIELD_PROJECT_POLICY.md` for the zero-entry route. `start` does not open a build gate.
 
 ### Start Work Session
