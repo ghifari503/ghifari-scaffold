@@ -8,7 +8,7 @@ The graph maps code, documentation, configuration, and project artifacts. With i
 
 ## Developer Experience
 
-After `start` or `start dev` selects one target project, the active agent checks Graphify status and gives an informed choice:
+Whenever one target project becomes active--through `start`, `start dev`, attach, or a resumed session--the active agent checks Graphify status and gives an informed choice:
 
 ```text
 Knowledge graph status: missing / stale.
