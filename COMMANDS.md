@@ -82,6 +82,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 - For target repo work under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
 - Shared developer continuity must live in `development/[project-folder]/artifacts/shared/` so it can be carried in the target repo Git history.
+- Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
 - Before continuing target repo work, read `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant files under `handoffs/`. Also read the root `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot plus relevant recent entries.
 - If shared context is missing during first target repo intake, create the baseline before handoff or implementation.
 - After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts change, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` only when contributor-session or handoff detail is needed, and create/update the relevant shared handoff file. Append the required event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.

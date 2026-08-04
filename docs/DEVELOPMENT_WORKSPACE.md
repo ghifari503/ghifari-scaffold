@@ -16,6 +16,8 @@ Each `[project-folder]` is a separate Git repository. Clone an existing project 
 
 The scaffold repository ignores every target project folder, including its `artifacts/shared/`. Commit and push target source plus target shared context from inside the target project repository.
 
+Keep project requirements, design references, and feature documentation in root `dev-doc/[feature-name]/`. Do not create `dev-doc/` inside a target project folder under `development/`.
+
 ## Startup Detection
 
 `start` inspects `development/` and excludes only `_project-template/`.

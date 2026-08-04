@@ -42,6 +42,7 @@ Use these replacements:
 
 - Do not create new root folders under `artifacts/` without updating this policy and `artifacts/README.md`.
 - Do not store active feature requirements or design in `artifacts/`.
+- Do not create `development/[project-folder]/dev-doc/`; active project requirements, design, assets, prototypes, and related feature documentation belong only in root `dev-doc/[feature-name]/`.
 - Do not store raw automation output in `artifacts/test/`; use `artifacts/qa/`.
 - Do not store human-authored QA summaries in `artifacts/qa/`; use `artifacts/test/`.
 - Do not store strict policies or guardrails in `artifacts/`; use `guardrails/`.

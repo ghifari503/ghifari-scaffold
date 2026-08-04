@@ -114,6 +114,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - The target project must be a separate Git repository; do not commit or push target files from the scaffold root repository.
    - Before target project setup or work, verify the target repository is initialized or cloned and verify scaffold-root Git protection is active through `scripts/enable-scaffold-git-protection.ps1` when the runtime can run it.
    - Shared developer continuity belongs inside the target repo at `development/[project-folder]/artifacts/shared/` so it can be committed with that project.
+   - Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
    - Before continuing target repo work, read target shared context: `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant `handoffs/`.
    - If target shared context is missing during first intake, create the baseline before handoff or implementation.
    - After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts changed, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` when contributor-session or handoff detail is needed, and create/update the relevant shared handoff file.

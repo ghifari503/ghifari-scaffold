@@ -50,7 +50,7 @@ Before continuing work in a target repository, every agent/runtime must read:
 6. `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
 7. latest relevant entries in `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
 8. relevant files under `development/[project-folder]/artifacts/shared/handoffs/`
-9. related `development/[project-folder]/dev-doc/[feature-name]/` when the target repo keeps dev-doc inside itself
+9. related root `dev-doc/[feature-name]/`
 10. scaffold `artifacts/memory/` only after active operational and shared target context are read
 
 If shared context files are missing during first target repo intake, create the baseline before handoff or implementation. Do not silently continue with only chat history.
@@ -91,7 +91,7 @@ When files conflict, use this order:
 1. current target repository source and current evidence
 2. target repo shared context under `development/[project-folder]/artifacts/shared/`
 3. scaffold operational state under `artifacts/operations/`
-4. target repo `dev-doc/`
+4. root scaffold `dev-doc/`
 5. scaffold memory under `artifacts/memory/`
 6. older session logs or candidate memory
 

@@ -24,7 +24,7 @@ The following paths define protected scaffold behavior:
 
 ## Allowed Team Extensions
 
-Teams may add project-specific material under a target repository, including `dev-doc/`, project source, project tests, project automation, and `development/[project-folder]/artifacts/shared/`.
+Teams may add project-specific source, tests, automation, and Git-carried continuity under a target repository at `development/[project-folder]/artifacts/shared/`. Active project documentation belongs in root `dev-doc/`, not inside `development/[project-folder]/`.
 
 Teams may add scaffold skills, agents, templates, and documentation when the change does not bypass required gates or contradict protected policies.
 

@@ -33,6 +33,8 @@ Active feature BRD, PRD, and design belong under:
 dev-doc/[feature-name]/
 ```
 
+Do not create a `dev-doc/` folder inside `development/[project-folder]/`; `development/` is reserved for target source and Git-carried `artifacts/shared/` continuity.
+
 ## File Naming
 - **Strict Character Set:** Use only ASCII characters: lowercase letters (`a-z`), numbers (`0-9`), underscores (`_`), and hyphens (`-`).
 - **Prohibition:** Do NOT use spaces, Unicode characters (including Chinese, Arabic, etc.), or special symbols that require encoding escapes.
