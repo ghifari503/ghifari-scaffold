@@ -42,8 +42,9 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 - Graphify is an optional, local acceleration layer for one selected target project. It helps agents map code, documentation, configuration, and artifacts to investigate architecture, trace change impact, and resume prior work with less rediscovery.
 - It complements, and never replaces, the target project's committed `artifacts/shared/` context, workflow evidence, or current repository facts.
 - Whenever one target project becomes active--including through `start`, `start dev`, attach, or a resumed session--inspect its Graphify status with `scripts/graphify-status.ps1`. For `missing`, `stale`, or `present_unverified`, explain the benefit and ask: `Set up, build, or refresh the knowledge graph now? (Y/N)`.
-- Do not install Graphify, install its `uv` prerequisite, build, refresh, scan, enable always-on runtime guidance, or update Graphify without the developer's explicit approval. Installing `uv` always requires a separate confirmation.
-- Run Graphify only against the selected target repository, never this master scaffold or every project under `development/`. Keep `graphify-out/` and generated graph data local and ignored by Git.
+- Do not install Graphify, install its `uv` prerequisite, build, refresh, scan, or update Graphify without the developer's explicit approval. Installing `uv` always requires a separate confirmation.
+- Install the Graphify CLI only once per developer computer through the user-level `uv` tool environment. This master scaffold owns the Codex, Claude, and Gemini instructions; never run `graphify install --project`, a platform install command, or an always-on registration in a target repository.
+- Run graph builds only against the selected target repository, never this master scaffold or every project under `development/`. Keep only `graphify-out/` and generated graph data local and ignored by Git; do not generate target `.codex/`, `.claude/`, `.gemini/`, `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` through Graphify.
 - A master scaffold pull must never upgrade or rebuild a target project's Graphify installation. When an update is requested, report the installed version, request explicit approval, then require a graph rebuild and target shared-context status sync.
 
 ## AI Contributor Lifecycle Overlay

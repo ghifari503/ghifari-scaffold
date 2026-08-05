@@ -1,14 +1,14 @@
 # Graphify Integration
 
-Graphify is an optional local knowledge-graph capability for target projects managed by this scaffold. It supports Codex, Claude, and Gemini.
+Graphify is an optional local knowledge-graph capability for one selected target project. The master scaffold owns the operating rules for Codex, Claude, and Gemini; Graphify accelerates investigation but never replaces committed `artifacts/shared/` context or current repository facts.
 
 ## Why Agents Use It
 
-The graph maps code, documentation, configuration, and project artifacts. With it, an agent can investigate architecture and change impact through focused queries instead of repeatedly searching and rereading a repository. It complements, but never replaces, the committed shared context and workflow evidence.
+The graph maps code, documentation, configuration, and project artifacts. It lets an agent investigate architecture, trace dependencies and change impact, and resume prior work without repeatedly rediscovering the whole repository.
 
 ## Developer Experience
 
-Whenever one target project becomes active--through `start`, `start dev`, attach, or a resumed session--the active agent checks Graphify status and gives an informed choice:
+Whenever a target project becomes active--through `start`, `start dev`, attach, or a resumed session--the active agent checks its local graph status and gives an informed choice:
 
 ```text
 Knowledge graph status: missing / stale.
@@ -16,61 +16,62 @@ Knowledge graph status: missing / stale.
 It helps the agent understand architecture, trace dependencies and change impact,
 and continue work from previous developers with less rediscovery.
 
-Build or refresh the knowledge graph now? (Y/N)
+Set up, build, or refresh the knowledge graph now? (Y/N)
 ```
 
-No graph is installed, built, or refreshed without `Y`. Multiple projects are never scanned in bulk.
+Nothing is installed, built, refreshed, or updated without `Y`. Installing `uv` always needs a separate confirmation. Multiple projects are never scanned in bulk.
 
-## Setup and Output
+## Installation Scope
 
-Run setup only from the master scaffold while targeting one nested Git repository:
+Install Graphify once per developer computer, not once per project. The helper still receives a selected target path so it can reject the master scaffold root and make the next graph action explicit, but it writes no Graphify runtime configuration into that target.
 
 ```powershell
 .\scripts\setup-graphify-project.ps1 -ProjectPath .\development\my-project -Install
 ```
 
-If `uv` is not installed, the active agent must explain that it is a local prerequisite and request explicit approval. After `Y`, it may use the Windows package manager through:
+If `uv` is missing and its separate installation was approved:
 
 ```powershell
 .\scripts\setup-graphify-project.ps1 -ProjectPath .\development\my-project -InstallPrerequisite -Install
 ```
 
-The helper uses `winget` for this one prerequisite. If `winget` is unavailable, it stops and reports the manual prerequisite instead of choosing another installer silently.
+The CLI lives in the developer's user-level `uv` tool environment. A developer who later works on another project using this scaffold is not asked to reinstall it; the agent only checks whether it is available and asks whether to build or refresh that project's graph.
 
-The helper registers Graphify for `codex`, `claude`, and `gemini`. It refuses the master scaffold root. The selected project can then build its graph with the Graphify command appropriate to the active runtime.
+## Target-Project Boundary
 
-After `graphify-out/graph.json` exists, enable the always-on guidance shown in the official Graphify documentation:
+The selected target project may contain its local `graphify-out/` output. It is ignored by Git because it is generated, can be rebuilt, and may be large. Record only its status, output location, installed version, and next action in the target's committed `artifacts/shared/PROJECT_STATE.md` and `ACTIVE_CONTEXT.md`.
 
-```powershell
-.\scripts\setup-graphify-project.ps1 -ProjectPath .\development\my-project -EnableAlwaysOn
-```
+Do not run `graphify install --project`, `graphify codex install`, `graphify claude install`, `graphify gemini install`, or any always-on registration in a target repository. Those commands generate project-local runtime files that duplicate or conflict with this scaffold's master-owned instructions:
 
-This runs the equivalent of `graphify codex install`, `graphify claude install`, and `graphify gemini install` inside the selected target project. It is deliberately blocked until a graph has been built.
+- `.codex/`
+- `.claude/`
+- `.gemini/`
+- `AGENTS.md`
+- `CLAUDE.md`
+- `GEMINI.md`
 
-`graphify-out/` remains local and is ignored by Git. Record only graph status, output location, and the recommended next action in the target project's `artifacts/shared/PROJECT_STATE.md` and `ACTIVE_CONTEXT.md`.
+Do not blanket-ignore those paths in target repositories: they may later contain intentional project configuration. If a prior Graphify installation generated such files, remove only the identified generated files in a separate, explicitly approved target-repository cleanup task.
 
-## Status Helper
+## Status and Building
 
 ```powershell
 .\scripts\graphify-status.ps1 -ProjectPath .\development\my-project
 ```
 
-Statuses are `missing`, `stale`, `current`, or `present_unverified`. `stale` means the latest committed change is newer than `graph.json`; uncommitted work is intentionally not treated as a durable freshness signal.
+Statuses are `missing`, `stale`, `current`, or `present_unverified`. `stale` means the latest committed target change is newer than `graph.json`; uncommitted work is intentionally not treated as a durable freshness signal. After an explicit `Y`, run the installed Graphify CLI only within the selected target repository to build or refresh `graphify-out/`.
 
 ## Updates and Master Pulls
 
-Pulling this master scaffold never changes a target project's source, dependencies, database, or Graphify installation. The next agent sees the updated master guidance and reads the target project's committed shared context first.
-
-When a user asks to update Graphify, first report the installed version and request approval. Only then run:
+Pulling this master scaffold never changes a target project's source, dependencies, database, graph, or developer-local Graphify version. When an update is requested, first report the installed version and request approval. Then run:
 
 ```powershell
 .\scripts\update-graphify-project.ps1 -ProjectPath .\development\my-project -Update
 ```
 
-The helper upgrades `graphifyy`, refreshes project-scoped runtime registration, and reports that a graph rebuild plus shared-context version update is required. It never updates Graphify, rewrites a graph, or migrates a target project merely because the master was pulled.
+This upgrades the single user-level CLI and requires the selected target graph to be rebuilt plus its shared-context status to be synchronized. It does not register a runtime, rewrite target agent instructions, or migrate project files.
 
 ## Safety Boundary
 
-- Do not run Graphify against this master scaffold.
-- Do not commit graph files, report data, or credentials.
-- Shared context remains the official, Git-carried handoff record. The graph is an optional local acceleration layer.
+- Never run Graphify against this master scaffold.
+- Never commit `graphify-out/`, graph reports, generated runtime sidecars, or credentials.
+- Shared context remains the official Git-carried handoff record; the graph is an optional local acceleration layer.

@@ -2,17 +2,14 @@
 param(
     [Parameter(Mandatory)]
     [string]$ProjectPath,
-    [ValidateSet('codex', 'claude', 'gemini')]
-    [string[]]$Runtime = @('codex', 'claude', 'gemini'),
     [switch]$Install,
-    [switch]$InstallPrerequisite,
-    [switch]$EnableAlwaysOn
+    [switch]$InstallPrerequisite
 )
 
 $resolvedProject = (Resolve-Path -LiteralPath $ProjectPath -ErrorAction Stop).Path
 $scaffoldRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 if ($resolvedProject.TrimEnd('\') -eq $scaffoldRoot.TrimEnd('\')) {
-    throw 'Refusing to install Graphify in the master scaffold root. Select a target project instead.'
+    throw 'Refusing to prepare Graphify for the master scaffold root. Select a target project instead.'
 }
 
 if (-not (Test-Path -LiteralPath (Join-Path $resolvedProject '.git'))) {
@@ -21,12 +18,12 @@ if (-not (Test-Path -LiteralPath (Join-Path $resolvedProject '.git'))) {
 
 if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
     if (-not $InstallPrerequisite) {
-        throw 'uv is required. Rerun with -InstallPrerequisite after confirming its local installation.'
+        throw 'uv is required. Rerun with -InstallPrerequisite only after separately confirming its user-level installation.'
     }
     if (-not (Get-Command winget -ErrorAction SilentlyContinue)) {
         throw 'uv is missing and winget is unavailable. Install uv manually, then rerun this helper.'
     }
-    if ($PSCmdlet.ShouldProcess('local computer', 'Install uv with winget')) {
+    if ($PSCmdlet.ShouldProcess('developer computer', 'Install uv with winget')) {
         winget install --id astral-sh.uv --exact --accept-package-agreements --accept-source-agreements
     }
     if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
@@ -36,37 +33,19 @@ if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
 
 if (-not (Get-Command graphify -ErrorAction SilentlyContinue)) {
     if (-not $Install) {
-        throw 'Graphify is not installed. Rerun with -Install after confirming the package installation.'
+        throw 'Graphify is not installed. Rerun with -Install only after confirming the user-level package installation.'
     }
-    if ($PSCmdlet.ShouldProcess('local uv tool environment', 'Install graphifyy')) {
+    if ($PSCmdlet.ShouldProcess('developer user-level uv tool environment', 'Install graphifyy')) {
         uv tool install graphifyy
     }
 }
 
-Push-Location -LiteralPath $resolvedProject
-try {
-    foreach ($platform in $Runtime) {
-        if ($PSCmdlet.ShouldProcess($resolvedProject, "Register Graphify for $platform")) {
-            graphify install --project --platform $platform
-        }
-    }
-
-    if ($EnableAlwaysOn) {
-        if (-not (Test-Path -LiteralPath (Join-Path $resolvedProject 'graphify-out\graph.json'))) {
-            throw 'Build the knowledge graph first, then rerun with -EnableAlwaysOn.'
-        }
-        foreach ($platform in $Runtime) {
-            if ($PSCmdlet.ShouldProcess($resolvedProject, "Enable always-on Graphify guidance for $platform")) {
-                graphify $platform install
-            }
-        }
-    }
-} finally {
-    Pop-Location
-}
-
-if ($EnableAlwaysOn) {
-    Write-Host 'Always-on Graphify guidance is enabled for the selected runtimes.'
-} else {
-    Write-Host 'Graphify is registered. Let the active agent present the graph build/update choice before running Graphify.'
-}
+$version = (graphify --version | Select-Object -First 1).Trim()
+[pscustomobject]@{
+    project_path = $resolvedProject
+    graphify_installed = $true
+    installed_version = $version
+    installation_scope = 'developer_user_level_uv_tool'
+    target_runtime_files_created = $false
+    next_action = 'After explicit approval, build or refresh graphify-out only for this selected target project.'
+} | ConvertTo-Json -Compress
