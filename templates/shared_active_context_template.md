@@ -20,6 +20,7 @@
 ## What Is Known
 - `[verified project fact with source path]`
 - project_state_baseline: `[artifacts/shared/PROJECT_STATE.md path and last verified date]`
+- graphify_status: `[not_checked|missing|stale|current|present_unverified]`; only `graphify-out/` is local to this target and master scaffold owns runtime guidance.
 
 ## Decisions Locked
 - `[decision with source path]`

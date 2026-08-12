@@ -63,6 +63,15 @@
 - unknown_critical_areas:
   - `[area, paths checked, next discovery action]`
 
+## Optional Knowledge Graph
+- graphify_status: `[not_checked|missing|stale|current|present_unverified]`
+- graphify_cli_version: `[version|not_installed|unknown]`
+- graphify_cli_scope: `developer_user_level_uv_tool`
+- graphify_output: `graphify-out/ (local and ignored by target Git)`
+- graphify_runtime_sidecars: `not_permitted; master scaffold owns agent guidance`
+- graphify_checked_at: `YYYY-MM-DDTHH:mm:ss+07:00`
+- graphify_next_action: `[none|offer_setup|offer_build|offer_refresh]`
+
 ## Targeted Discovery Index
 | Future Task Area | Start With | Adjacent Evidence | Notes |
 |---|---|---|---|
