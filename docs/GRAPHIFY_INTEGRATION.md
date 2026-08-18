@@ -8,7 +8,7 @@ The graph maps code, documentation, configuration, and project artifacts. It let
 
 ## Developer Experience
 
-Whenever a target project becomes active--through `start`, `start dev`, attach, or a resumed session--the active agent checks its local graph status and gives an informed choice:
+Whenever a target project becomes active--through `start`, `start dev`, attach, or a resumed session--the active agent checks its local graph status. If Graphify is missing, it recommends setup and requests approval. If Graphify is installed, the founder-approved strict policy refreshes the active target graph after every meaningful source, configuration, documentation, dependency, or shared-context change.
 
 ```text
 Knowledge graph status: missing / stale.
@@ -19,7 +19,7 @@ and continue work from previous developers with less rediscovery.
 Set up, build, or refresh the knowledge graph now? (Y/N)
 ```
 
-Nothing is installed, built, refreshed, or updated without `Y`. Installing `uv` always needs a separate confirmation. Multiple projects are never scanned in bulk.
+Installing Graphify or `uv` still requires explicit approval; `uv` always needs a separate confirmation. Once Graphify is installed, refreshes are event-driven and automatic for the active target only. Multiple projects are never scanned in bulk.
 
 ## Installation Scope
 
@@ -58,7 +58,14 @@ Do not blanket-ignore those paths in target repositories: they may later contain
 .\scripts\graphify-status.ps1 -ProjectPath .\development\my-project
 ```
 
-Statuses are `missing`, `stale`, `current`, or `present_unverified`. `stale` means the latest committed target change is newer than `graph.json`; uncommitted work is intentionally not treated as a durable freshness signal. After an explicit `Y`, run the installed Graphify CLI only within the selected target repository to build or refresh `graphify-out/`.
+Statuses are `missing`, `stale`, `current`, or `present_unverified`. `stale` means the latest committed change or a relevant uncommitted project delta is newer than `graph.json`. For an installed graph, refresh only once per meaningful delta with `/graphify . --update` in the selected target's assistant context; use a full build only when the graph is missing or update mode cannot recover. Record status and any blocker in target shared context.
+
+## Token-Efficient Use
+
+- Refresh only the selected active target and only after a meaningful delta; never refresh after a read-only check or unchanged retry.
+- Prefer Graphify's update mode over a full build.
+- Query the refreshed graph with the smallest adequate context budget and targeted symbols/paths; do not load raw graph output into chat.
+- A stale installed graph blocks `resume_safe`, QA closure, handoff, and PR readiness unless an explicit blocker is recorded.
 
 ## Updates and Master Pulls
 

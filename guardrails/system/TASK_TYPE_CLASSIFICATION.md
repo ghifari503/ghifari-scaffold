@@ -4,6 +4,8 @@
 
 Every runtime must classify the requested work before significant scaffold work, planning, coding, QA, handoff, or review.
 
+Before executing any classified task that changes files, workflow state, or an external/local environment, perform relevant skill or agent lookup. Record the selected capability or `no_relevant_local_skill`; lightweight read-only checks and direct answers are exempt.
+
 This policy applies to Codex/GPT, Claude, and Gemini.
 
 ## Source Files
@@ -117,4 +119,3 @@ Stop before implementation when:
 Use the template in `templates/task_classification_template.md`.
 
 For short clarification-only responses, a compact summary is allowed, but the same fields must be considered.
-

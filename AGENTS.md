@@ -41,11 +41,14 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 ## Optional Graphify Knowledge-Graph Policy
 - Graphify is an optional, local acceleration layer for one selected target project. It helps agents map code, documentation, configuration, and artifacts to investigate architecture, trace change impact, and resume prior work with less rediscovery.
 - It complements, and never replaces, the target project's committed `artifacts/shared/` context, workflow evidence, or current repository facts.
-- Whenever one target project becomes active--including through `start`, `start dev`, attach, or a resumed session--inspect its Graphify status with `scripts/graphify-status.ps1`. For `missing`, `stale`, or `present_unverified`, explain the benefit and ask: `Set up, build, or refresh the knowledge graph now? (Y/N)`.
-- Do not install Graphify, install its `uv` prerequisite, build, refresh, scan, or update Graphify without the developer's explicit approval. Installing `uv` always requires a separate confirmation.
+- Whenever one target project becomes active--including through `start`, `start dev`, attach, or a resumed session--inspect its Graphify status with `scripts/graphify-status.ps1`. For `missing` or `present_unverified`, explain the benefit and request installation/build approval. For an installed graph, Graphify refresh is mandatory after each meaningful target-project source, configuration, documentation, dependency, or shared-context change.
+- Founder approval of the strict Graphify refresh policy on 2026-08-18 authorizes event-driven refreshes for installed Graphify on the active target only. Installing Graphify or its `uv` prerequisite still requires separate explicit developer approval; installing `uv` always requires a separate confirmation.
+- Refresh only the changed graph using the Graphify update mode, once per meaningful delta. Use graph queries with the smallest adequate context budget instead of loading raw graph output or repeatedly rescanning unchanged targets.
 - Install the Graphify CLI only once per developer computer through the user-level `uv` tool environment. This master scaffold owns the Codex, Claude, and Gemini instructions; never run `graphify install --project`, a platform install command, or an always-on registration in a target repository.
 - Run graph builds only against the selected target repository, never this master scaffold or every project under `development/`. Keep only `graphify-out/` and generated graph data local and ignored by Git; do not generate target `.codex/`, `.claude/`, `.gemini/`, `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` through Graphify.
+- A target session that changed relevant project material is not `resume_safe`, ready for handoff, ready for QA closure, or ready to PR until its installed Graphify graph is refreshed or an explicit blocker is recorded in shared context.
 - A master scaffold pull must never upgrade or rebuild a target project's Graphify installation. When an update is requested, report the installed version, request explicit approval, then require a graph rebuild and target shared-context status sync.
+- A master scaffold pull must never copy, merge, or overwrite target source, active documentation, shared context, dependencies, environment, database, or Graphify output. Use `guardrails/system/SCAFFOLD_UPDATE_POLICY.md`; adoption is opt-in per target, dry-run first, and fails closed on a dirty target or any legacy copied scaffold core.
 
 ## AI Contributor Lifecycle Overlay
 - Use `workflows/ai_contributor_lifecycle.md` as the scaffold-level overlay for contributor work across Codex, Claude, and Gemini CLI.
@@ -86,14 +89,16 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 7. Before build steps, remind the user to scope by feature/module.
 8. Use `process-controller` skill for status checks, pre-step checks, and post-step updates when available.
 9. Hybrid skill-check policy:
+   - Before executing any non-read-only task, perform a relevant local skill or agent lookup and record the selected capability or the explicit `no_relevant_local_skill` result in the active plan, session log, or task evidence.
+   - This applies to intake, planning, documentation generation, coding, refactor, test creation, QA, review, handoff, release preparation, and scaffold maintenance. Direct questions and lightweight read-only checks remain exempt when they do not change files, gates, or workflow state.
    - For official workflow steps `P1-P7`, `B1-B3`, `R1-R4`, always perform skill lookup first.
    - Before any coding, refactor, test creation, scaffold/code generation, dependency work, migration, or build step, always search for relevant skills or agents first, even when the request is informal and not explicitly named as `B1/B2/B3`.
    - Codex/GPT must prefer `.codex/skills/` and inspect `.codex/agents/` when an agent role is needed; use `.claude/` only as a reference fallback when no Codex equivalent exists.
    - Claude must prefer `.claude/skills/` and inspect `.claude/agents/` when an agent role is needed; use `.codex/` only as a reference fallback when no Claude equivalent exists.
    - Gemini CLI and Antigravity must follow this `AGENTS.md` policy, use `.agents/skills/` for Antigravity when available, and preserve the same gate, artifact path, and evidence shape.
-   - If no relevant local skill or agent exists for the coding work, use `find-skills` to discover candidates, validate source reputation, usage, license, and requested capability, then follow `guardrails/system/SKILL_CHECK_POLICY.md` for acquisition.
+   - If no relevant local skill or agent exists for an executing task, search skills.sh through `find-skills` before examining any external source. Validate source reputation, usage, license, files included, and requested capability, then follow `guardrails/system/SKILL_CHECK_POLICY.md` for acquisition.
    - Auto-acquire only an allowlisted external skill. Install its complete skill folder into `.codex/skills/`, `.claude/skills/`, and `.agents/skills/`, run `cek skill`, and verify all mirrors before use. For any source outside the allowlist, present the candidate and wait for founder approval before download.
-   - If no suitable external skill exists, run the `skill-creator` flow first to create or propose the missing skill before coding proceeds.
+   - If no suitable external skill exists, run the `skill-creator` flow first to create or propose the missing skill before the task execution proceeds.
    - Skill lookup or skill creation never opens the coding gate by itself; `I1`, `I2`, compact-plan approval for medium/major work, allowed write paths, and `PRE_CODING_GATE.md` must still allow the work.
    - For intake, audit, repo review, document edits, file reads, and lightweight clarifications outside official workflow steps, skill lookup is optional and only needed when clearly relevant.
 10. Dev-Doc Discovery Gate:
@@ -222,6 +227,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - If no scope-specific artifact beyond the operational trio needed a change, record that explicitly in `SESSION_LOG.md`.
    - A `medium` or `major` activity is not `resume_safe`, `SUCCESS`, `fixed`, `verified`, `closed`, or `ready to pr` while documentation sync is still pending.
    - For any change request that adds, changes, refactors, or creates a feature/module, the required documentation set also includes an approved plan in `plan/` plus a matching artifact checklist in `artifacts/operations/plan-approval-checklists/` before implementation may start.
+   - Technical closure enforcement: record `task_size`, `qa_evidence_required`, and (when needed) `qa_evidence_path` in `CURRENT_TASK.md`; `scripts/validate-documentation-sync.ps1` is the canonical validator. Claude Code must keep its Stop hook configured, and Antigravity must keep `.agents/hooks.json` enabled. A failed validator blocks technical closure; intentional scaffold commits and CI run the same validation.
 15. Do not hand off or continue a `medium` or `major` task unless the latest official step has a matching `SESSION_LOG.md` step entry and the required documentation sync fields are recorded.
 16. If the latest official step is missing from `SESSION_LOG.md`, set `resume_safe=no`, repair the log first, and do not start the next official step.
 17. A `medium` or `major` activity is invalid if execution started before the compact plan and explicit founder approval were recorded in chat or the relevant operational artifact.
@@ -248,6 +254,9 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
   - `artifacts/test/[module]-bug-status.md`
 - Do not mark a bug complete in only one artifact; the root bug list, bug log, and bug status summary must agree.
 - Keep bug IDs stable after creation and preserve fix/verification references for agent-readable history.
+- Every bug-fix investigation must perform an adjacent-error check before closure: examine the root cause, direct callers/callees, equivalent validation or state paths, error handling, and the nearest affected integration boundary.
+- Record each related finding as `confirmed related bug`, `risk/hypothesis`, or `not reproduced`. A confirmed additional bug receives its own stable bug ID and synchronized listing/log/status entries; do not silently expand the active bug-fix scope.
+- Bug-fix QA is incomplete until the original behavior, the adjacent integration boundary, and the related-error findings are recorded. Broad scans or suites still require an allowed reason.
 - Do not store passwords, API keys, tokens, or private credentials in bug listing files.
 
 ## Memory Rules
@@ -323,6 +332,10 @@ Use `workflows/ai_contributor_lifecycle.md` as the detailed evidence overlay for
 
 ## Design Rules
 - Store active feature-specific design specs in `dev-doc/[feature-name]/design/`.
+- Treat an available approved visual reference as the controlling UI source: this includes Figma, Stitch, mockups, screenshots, and approved HTML prototypes.
+- UI implementation must match a complete visual reference as faithfully as the target platform permits, including hierarchy, layout, spacing, typography, colour, assets, responsive behaviour, and represented states. Accessibility and necessary platform adaptations remain mandatory.
+- When the visual reference is incomplete or absent, extend the closest established base style or approved design system seamlessly. Record the source, assumptions, and unresolved visual gaps in the affected design specification; do not introduce a new visual direction without founder approval.
+- Verify visual fidelity in the required scoped visual QA evidence; a UI visual result cannot be marked `pass` merely because the functional checks pass.
 - Before feature/backend/frontend/API/system behavior/refactor/integration/database-related implementation, discover and read related `dev-doc/` material for the feature or module when it exists.
 - If no related `dev-doc/` material exists for a new feature, record `dev-doc missing` and create the planning baseline before coding.
 - Follow structure: `[page-name]/[section]/[sub-section]/`.
@@ -353,6 +366,9 @@ Use `workflows/ai_contributor_lifecycle.md` as the detailed evidence overlay for
 - Before repeating QA, compare the current delta with `last_passing_point`; rerun only impacted checks unless a recorded broad-suite reason applies.
 - Store concise command summaries and durable evidence paths, not long raw logs, traces, screenshots, coverage dumps, or generated reports in chat, operational logs, or shared context.
 - Prefer updating the existing test stack if one already exists and is healthy.
+- For every browser-capable target project, assess and provision Playwright during project-start readiness after the target and frontend runtime are identified. The target-specific dependency install and browser download still require the founder's explicit approval and an open allowed-install scope.
+- Once provisioned, Playwright is mandatory whenever the task enters a QA/test list with browser-visible UI, user-flow, responsive, or visual scope. Record a scoped Playwright result; use `skipped` or `blocked` with a reason only when browser QA is genuinely inapplicable or unavailable.
+- For backend-only, native Flutter, firmware, or other non-browser targets, do not install Playwright solely to satisfy this rule; record the browser QA layer as inapplicable.
 - If the current stack is weak or missing, Playwright remains the default for browser-based QA.
 - Keep Playwright runtime artifacts under `artifacts/qa/playwright/` and prepare that folder structure before the first run.
 - Keep human-authored QA summaries, bug logs, status summaries, and verification writeups under `artifacts/test/`.

@@ -63,6 +63,7 @@ Allowed before `I2`:
 
 Requires explicit founder approval and open gate before execution:
 - dependency install
+- Playwright dependency or browser installation for a browser-capable target
 - local env file creation
 - migration or seed execution
 - dev server or emulator boot command
@@ -74,6 +75,10 @@ Blocked before `I2`:
 - migrations or schema changes
 - tests or fixtures tied to a feature change
 - refactors or behavior changes
+
+### Browser QA Readiness
+
+When a project starts and its audited target includes browser-visible UI, local readiness must inspect Playwright configuration and report whether its package and required browsers are ready. It may identify the exact install command, but may install neither until the founder explicitly approves the target-specific install scope. Browser-inapplicable targets must record that classification rather than receiving a needless Playwright dependency.
 
 ## Allowed Modes
 

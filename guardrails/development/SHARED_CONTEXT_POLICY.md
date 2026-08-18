@@ -63,6 +63,7 @@ After any meaningful work, pause, handoff, QA closure, blocker discovery, implem
 - append to `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` only for contributor-session detail or handoff that needs information beyond the activity entry
 - create or update the relevant handoff file under `development/[project-folder]/artifacts/shared/handoffs/`
 - update `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` when verified project facts, architecture, stack, routes/APIs, module boundaries, integrations, or environment requirements change
+- when Graphify is installed, refresh the active target's graph after each meaningful source, configuration, documentation, dependency, or shared-context delta; record the refresh status or explicit blocker in `PROJECT_STATE.md` and `ACTIVE_CONTEXT.md`
 
 This write is mandatory for every developer because the next developer's agent may only receive the Git repository plus scaffold rules.
 
@@ -120,6 +121,7 @@ Stop before implementation or handoff if:
 - target repo path is known but shared context files are missing and no baseline was created
 - first intake lacks usable documentation and `PROJECT_STATE.md` does not record the required code-derived baseline or documented unknowns
 - a meaningful session is closing without updating shared context
+- an installed Graphify graph is stale after meaningful target-project work and no refresh or explicit blocker is recorded
 - required contributor-session or handoff detail was not appended to `CONTRIBUTOR_LOG.md`
 - handoff file is missing for incomplete feature/slice work
 - shared context contains secrets or raw transcripts

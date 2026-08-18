@@ -51,6 +51,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash scripts/claude-documentation-stop-hook.sh"
+          }
+        ]
+      }
     ]
   }
 }

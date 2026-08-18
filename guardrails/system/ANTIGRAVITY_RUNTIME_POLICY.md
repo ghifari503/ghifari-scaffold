@@ -9,6 +9,7 @@ Run this scaffold consistently in Google Antigravity IDE or CLI while preserving
 - Antigravity workspace context must read `AGENTS.md`.
 - `.agents/rules/00-scaffold-runtime.md` and `.agents/rules/10-model-routing.md` are the workspace rule entrypoints. Configure both as **Always On** in Antigravity IDE once per cloned workspace.
 - `.agents/skills/` is the Antigravity skill mirror. It must remain byte-identical to `.codex/skills/` and is validated by `scripts/check-antigravity-skills.ps1` or `scripts/check-antigravity-skills.sh`.
+- `.agents/hooks.json` is a required workspace hook configuration. Keep its `documentation-closure-gate` enabled; its Stop hook must return `decision: continue` when `scripts/validate-documentation-sync.ps1` finds incomplete closure evidence.
 - Do not place operational rules, secrets, product state, or developer-local settings in `.agents/`.
 
 ## Gemini Routing Standard
@@ -46,3 +47,4 @@ This is a preference map, not a claim that every Antigravity account exposes eve
 - Create a linked `AGENT_ACTIVITY_LOG.md` event only for task start, material route change, blocker, or meaningful completion; never for each tool call.
 - Record the active model with `model_source: runtime_status` only when Antigravity exposes it. Otherwise use `active_model_unavailable` and `model_source: unavailable`; never infer Flash or Pro from the task level.
 - Model routing never bypasses task classification, founder approval, skills, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or release decisions.
+- A Gemini/Antigravity agent must not claim medium/major completion, QA closure, `resume_safe`, `verified`, `closed`, or ready-to-PR until the Stop hook accepts the current task. If hooks are unavailable or disabled, it must report that limitation and CI/intentional scaffold commit validation remains the fallback enforcement.

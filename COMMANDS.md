@@ -38,6 +38,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - If no scope-specific document changed beyond the operational trio, record `no additional documentation delta required` in `artifacts/operations/SESSION_LOG.md`.
 - The runtime must not move to the next official step, handoff, or `resume_safe` claim until the latest official step is represented in `artifacts/operations/SESSION_LOG.md`.
 - The runtime must not mark a `medium` or `major` activity as `SUCCESS`, `fixed`, `verified`, `closed`, `resume_safe`, or `ready to pr` while documentation sync is still pending.
+- Claude and Gemini/Antigravity Stop hooks run `scripts/validate-documentation-sync.ps1` for a medium/major closure claim. Repair the listed artifact before ending the task; intentional scaffold commits and CI validate the same rule.
 
 ## Medium/Major Plan-First Gate
 
@@ -48,6 +49,13 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - If a `medium` or `major` task began without approval, stop, mark the activity `PAUSED`, and repair `artifacts/operations/SESSION_LOG.md` before continuing.
 
 ## Coding Skill Lookup Gate
+
+## Strict Execution Skill Gate
+
+- Before any non-read-only task executes, look up a relevant local skill or agent and record the selected capability or `no_relevant_local_skill` in the active task evidence.
+- This applies to intake, planning, documentation generation, coding, refactor, test creation, QA, review, handoff, release preparation, and scaffold maintenance.
+- Direct answers and lightweight read-only checks are exempt only when they do not change files, workflow gates, or operational state.
+- When no relevant local capability exists, run `find-skills` through skills.sh before examining any external source. If no suitable validated external skill exists, complete the `skill-creator` flow before task execution proceeds.
 
 - Before any coding, refactor, test creation, scaffold/code generation, dependency work, migration, or build step, the runtime must search for relevant skills or agents first.
 - Codex/GPT must prefer `.codex/skills/` and inspect `.codex/agents/` when an agent role is needed; `.claude/` is fallback reference only when no Codex equivalent exists.
@@ -87,6 +95,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - If shared context is missing during first target repo intake, create the baseline before handoff or implementation.
 - After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts change, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` only when contributor-session or handoff detail is needed, and create/update the relevant shared handoff file. Append the required event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
 - Shared context must be Git-safe and must not contain secrets, `.env` values, raw chat transcripts, credential dumps, private personal data, or large raw logs.
+- Pulling the master never writes into a target. For an approved, per-target adoption report use `update scaffold [project-folder]`, which runs `scripts/update-scaffold-project.ps1` in read-only mode first. Apply requires the exact dry-run report id and may create only a new versioned adoption receipt; it never overwrites target work or existing documents.
 
 ## Code-Derived Baseline Gate
 
@@ -104,6 +113,15 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 ## Session Commands
 
+### Version
+```text
+version
+```
+
+Expected behavior:
+- Read `SCAFFOLD_VERSION.md` and display the current scaffold version, release date, status, and versioning-policy summary.
+- Do not start a workflow step, modify files, install dependencies, or inspect target projects.
+
 ### Start (Automatic Project Route)
 ```text
 start
@@ -113,9 +131,11 @@ Expected behavior:
 - Inspect `development/` with hidden entries included, excluding only scaffold-owned `_project-template/`, before asking for a project target.
 - If it has zero target-project folders, select `greenfield_project`, report that a new-project discovery is required, and ask for project name, intended outcome, first feature candidate, constraints, and available references. Do not create a framework, install dependencies, or write product code.
 - If it has one or more target-project folders, treat the request as existing/inherited-project work, list detected project folders, and continue through the project picker and `I1 Existing Project Intake` route.
-- Whenever one target project becomes active--after selection through `start`/`start dev`, attach, or a resumed session--inspect its local Graphify status. When it is missing or stale, explain that a knowledge graph maps code, docs, configuration, and project artifacts so an agent can understand architecture, trace impact, and resume work accurately. For a missing CLI, offer one user-level Graphify setup for the developer computer; if `uv` is also missing, explain it is a local prerequisite and ask separately before installing it. Ask `Set up, build, or refresh the knowledge graph now? (Y/N)` and proceed only after `Y`.
+- Whenever one target project becomes active--after selection through `start`/`start dev`, attach, or a resumed session--inspect its local Graphify status. When the CLI or graph is missing, explain its benefit and request setup/build approval; if `uv` is missing, ask separately before installing it. For an installed graph, automatically refresh the active target once per meaningful source, configuration, documentation, dependency, or shared-context delta using update mode.
 - Do not scan all target projects automatically. A graph is always local to one selected project and only `graphify-out/` is ignored by Git. The master scaffold owns agent guidance, so Graphify must not create project `.codex/`, `.claude/`, `.gemini/`, `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` files.
 - A master pull never upgrades Graphify on a developer computer or rebuilds a target graph. Report the installed version and offer an explicit user-level update only when the user approves; rebuild the selected graph and synchronize shared context after an approved upgrade.
+- Do not mark a target session `resume_safe`, close QA, hand off, or claim ready to PR while its installed graph is stale without a recorded blocker. Keep refreshes token-efficient: update only the active target, only once per meaningful delta, and query only the relevant graph slice.
+- For a browser-capable target, include Playwright readiness in project startup: inspect whether it is configured, identify the appropriate package-manager command, and request confirmation before installing its dependency or browsers. Do not install Playwright for backend-only, native Flutter, firmware, or other non-browser targets.
 - Follow `guardrails/development/GREENFIELD_PROJECT_POLICY.md` for the zero-entry route. `start` does not open a build gate.
 
 ### Start Work Session
@@ -714,6 +734,8 @@ After fixing:
 - update the root bug listing
 - update artifacts/test/[module]-bug-log.md
 - update artifacts/test/[module]-bug-status.md
+- perform a targeted adjacent-error check covering root cause, direct callers/callees, equivalent validation/state paths, error handling, and the nearest integration boundary
+- record every related finding as `confirmed related bug`, `risk/hypothesis`, or `not reproduced`; create a separate stable bug ID for each confirmed additional bug instead of silently expanding the active fix
 - run required QA, including Playwright for UI/browser-visible bugfixes
 ```
 
@@ -924,7 +946,8 @@ Prioritize regression risks in the existing system.
 Run step R2: QA Testing.
 Test only this feature:
 [feature name]
-Prefer the existing test stack if it is healthy; otherwise use Playwright.
+For browser-visible scope, run the relevant targeted Playwright test as part of this QA list. If Playwright is inapplicable or blocked, record `skipped` or `blocked` with the reason; do not replace it silently with a functional-only result.
+For non-browser scope, prefer the existing healthy test stack.
 ```
 
 ### Release Prep
@@ -975,6 +998,14 @@ Respect the current frontend route.
 
 ## Design Workflow
 
+### Enforce Visual Fidelity
+```text
+For UI implementation, treat the approved visual reference as controlling. A reference may come from Figma, Stitch, mockups, screenshots, or an approved HTML prototype.
+Match a complete reference strictly: hierarchy, layout, spacing, typography, colours, assets, responsive behaviour, and visible states.
+If the reference is missing or incomplete, extend the closest established base style/design system seamlessly. Record the selected source, assumptions, and unresolved gaps in the affected design spec, then include visual fidelity in scoped QA.
+Do not introduce a new visual direction without founder approval.
+```
+
 ### Use General Design References
 ```text
 Use the design references in:
@@ -987,6 +1018,13 @@ Then map the relevant patterns into the impacted feature design folder.
 Use the Figma reference from:
 dev-doc/[feature-name]/design/[page]/[section]/figma-link.txt
 Then update only the affected design specs.
+```
+
+### Use Stitch Reference
+```text
+Use the approved Stitch mockup or exported reference in:
+dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/assets/
+Record its exact file or URL in the affected design spec, then update only that area.
 ```
 
 ### Use Uploaded Design Images

@@ -10,6 +10,7 @@
 ## Classification
 - user_intent: `...`
 - primary_task_type: `[feature-development|bug-fix|ui-prototype|ui-revamp|refactor|integration|database-change|data-migration|test-automation|performance-optimization|security-fix|dependency-upgrade|devops-deployment|incident-hotfix|documentation-sync|review-only|legacy-artifact-migration|local-dev-readiness]`
+- skill_lookup: `[selected skill/agent path|no_relevant_local_skill|read_only_exempt]`
 - secondary_task_types: `[none|...]`
 - confidence: `[high|medium|low]`
 - risk_level: `[low|medium|high|critical]`
@@ -36,4 +37,3 @@
 
 ## Next Action
 - `...`
-

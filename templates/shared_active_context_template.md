@@ -21,6 +21,8 @@
 - `[verified project fact with source path]`
 - project_state_baseline: `[artifacts/shared/PROJECT_STATE.md path and last verified date]`
 - graphify_status: `[not_checked|missing|stale|current|present_unverified]`; only `graphify-out/` is local to this target and master scaffold owns runtime guidance.
+- graphify_refresh_status: `[not_installed|current|refreshed|stale_blocked]`
+- graphify_last_refresh_trigger: `[activation|source_change|config_change|documentation_change|dependency_change|shared_context_change|not_applicable]`
 
 ## Decisions Locked
 - `[decision with source path]`

@@ -51,14 +51,14 @@ For products with user-facing interfaces (web, mobile, desktop).
    â†’ Unit tests for components
    â†’ Visual regression tests (against design images)
    â†’ Accessibility tests (check design specs requirements)
-   â†’ Functional automation default: Playwright
+   â†’ Targeted Playwright automation is required for browser-visible scope
    â†“
    
 9. INTEGRATION TESTING
    â†’ QA against design specs
    â†’ User flow testing
    â†’ Cross-browser testing
-   â†’ Browser automation via Playwright E2E
+   â†’ Browser automation via targeted Playwright E2E is required
    â†“
    
 10. REVIEW & REFINEMENT

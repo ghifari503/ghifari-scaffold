@@ -23,6 +23,9 @@ This policy applies to every runtime and to during-development QA, final QA, reg
 8. A skipped QA layer is valid only when it has a reason, risk note, and any required founder approval. `skipped` is never equivalent to `pass`.
 9. If an environment, dependency, credential, device, browser, or manual visual review blocks QA, record `blocked` with the next action. Do not spend tokens repeatedly retrying the same blocked check without a changed prerequisite.
 10. Token efficiency must not weaken required QA coverage, security checks, release gates, or the manual visual QA rule.
+11. For UI changes, compare the implemented route or component against its controlling visual reference (Figma, Stitch, mockup, screenshot, or approved prototype). When that reference is incomplete, verify seamless continuity with the selected base style/design system and record the assumptions.
+12. For browser-visible QA scope, use the project's provisioned Playwright setup and run the smallest relevant browser test. If it is not applicable or cannot run, record `skipped` or `blocked` with the reason, risk, and next action; a functional-only result does not substitute for required browser QA.
+13. For every bug-fix, perform and record a targeted adjacent-error check before closure: root cause, direct callers/callees, equivalent validation or state paths, error handling, and the nearest integration boundary. Classify findings as `confirmed related bug`, `risk/hypothesis`, or `not reproduced`; broad scans remain exception-only.
 
 ## Required QA Evidence
 
@@ -35,6 +38,8 @@ Every during-development QA log and final QA evidence must record, when applicab
 - Whether a broad/full suite ran; if yes, its recorded reason.
 - Skipped or blocked checks, reasons, risk, and required next action.
 - Durable evidence paths when output is too large for the QA artifact.
+- For UI work: controlling visual reference, comparison method, fidelity findings, and any approved or unresolved deviation.
+- For bug-fix work: adjacent-error areas checked, findings by classification, new bug IDs for confirmed related bugs, and the reason any broader check was or was not needed.
 
 ## Execution Order
 
@@ -60,4 +65,3 @@ Stop and record the QA state instead of claiming completion when:
 - Final QA evidence: `artifacts/test/[feature]-qa-evidence.md`
 - Large runtime outputs: `artifacts/qa/` using the relevant tool subfolder, such as `artifacts/qa/playwright/`
 - Human-authored summaries, decisions, bug logs, and status: `artifacts/test/`
-

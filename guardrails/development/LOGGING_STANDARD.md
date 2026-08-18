@@ -111,6 +111,7 @@ Use this lightweight classification when deciding whether end-of-activity docume
 - Every `medium` or `major` activity must record that a compact plan was presented and explicitly approved before execution.
 - The approval may be recorded in `artifacts/operations/SESSION_LOG.md`, `artifacts/operations/CURRENT_TASK.md`, or the relevant plan/checklist artifact.
 - If execution starts before approval, mark the step `PAUSED`, record the missing approval as the blocker, and do not mark the activity `SUCCESS`, `resume_safe`, `fixed`, `verified`, `closed`, or `ready to pr`.
+- For every executing task, record the selected skill/agent or `no_relevant_local_skill` in the session classification, active plan, or step evidence. A lightweight read-only check or direct answer is exempt only when it does not change files, workflow state, or an environment.
 
 ## Logging Locations
 
@@ -153,6 +154,7 @@ Use this lightweight classification when deciding whether end-of-activity docume
 - If no scope-specific artifact changed beyond the operational trio, record `documentation_sync_status: no additional documentation delta required` in `artifacts/operations/SESSION_LOG.md`.
 - `resume_safe`, `SUCCESS`, `fixed`, `verified`, `closed`, and PR-readiness claims are invalid for `medium` or `major` work while documentation sync is pending.
 - For `medium` or `major` work, `artifacts/operations/SESSION_LOG.md` must record `documentation_sync_status` in the session entry for the latest step.
+- Any medium/major task intended for technical closure enforcement must set `task_size`, `qa_evidence_required`, and (when QA is required) `qa_evidence_path` in `CURRENT_TASK.md`. A closure status is invalid when `scripts/validate-documentation-sync.ps1` fails.
 - If a bug status becomes `fixed`, add test/verification evidence.
 - If a bug status becomes `closed`, reference the `verified` evidence.
 

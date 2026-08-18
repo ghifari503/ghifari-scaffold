@@ -70,7 +70,9 @@
 - graphify_output: `graphify-out/ (local and ignored by target Git)`
 - graphify_runtime_sidecars: `not_permitted; master scaffold owns agent guidance`
 - graphify_checked_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- graphify_next_action: `[none|offer_setup|offer_build|offer_refresh]`
+- graphify_refresh_policy: `[mandatory_event_driven|not_installed]`
+- graphify_last_refresh_trigger: `[activation|source_change|config_change|documentation_change|dependency_change|shared_context_change|not_applicable]`
+- graphify_next_action: `[none|request_install|build|refresh|record_blocker]`
 
 ## Targeted Discovery Index
 | Future Task Area | Start With | Adjacent Evidence | Notes |
