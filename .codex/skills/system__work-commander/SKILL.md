@@ -14,6 +14,7 @@ Use this skill when the user types:
 - `improve skill`
 - `cek skill`
 - `check skill`
+- `version`
 
 ## Canonical Command Source
 
@@ -27,6 +28,7 @@ Do not maintain a separate command menu in this skill. When commands change, upd
 
 1. Give a brief warm greeting.
 2. Read `COMMANDS.md` first to stay aligned with the canonical command behavior.
+2a. Before executing any action command or task, run `scripts/check-scaffold-freshness.ps1` on Windows or `scripts/check-scaffold-freshness.sh` on Bash. Read the reported core rules and operational snapshot on the first action; on later actions, reload only sources whose fingerprint changed. This check is local and read-only: never run `git fetch` or `git pull` automatically.
 3. If the user typed only `start work` / `mulai bekerja` / `begin work` / `work`, scan `development/` and list detected project folders as numbered choices.
 4. Ask the founder to continue by replying with the project number only.
 5. If the user already supplied a project path with `work [path]`, skip the picker and use that target directly.
@@ -41,9 +43,13 @@ Do not maintain a separate command menu in this skill. When commands change, upd
 14. If the user typed `improve`, ask whether parity should be `ON` or `OFF` before editing files.
 15. Treat parity mode as scaffold-only. Do not interpret parity as permission or obligation to mirror project-level implementation changes across repositories.
 16. Never require `I2 Impact Scan` for `start dev` unless local readiness reveals a required source/config/dependency/schema/test/behavior change.
-17. Whenever one target project becomes active--through selection, attach, or a resumed session--check its Graphify status with `scripts/graphify-status.ps1`. For `missing`, `stale`, or `present_unverified`, explain that a knowledge graph maps code, documentation, configuration, and project artifacts so an agent can trace architecture, assess change impact, and continue prior work without rereading the repository. For a missing CLI, state whether Graphify and its `uv` prerequisite are installed, then offer one user-level setup for the developer computer if required. Ask `Set up, build, or refresh the knowledge graph now? (Y/N)`. Do not install, build, refresh, or scan until the developer answers `Y`; ask a separate confirmation before installing `uv`. Never run Graphify project installation, platform installation, or always-on registration: master scaffold instructions apply to Codex, Claude, and Gemini.
-18. For `current`, state that the agent will use the existing local graph with Git-safe shared context, then ask whether to refresh it. Never scan every project under `development/` automatically.
+17. Whenever one target project becomes active--through selection, attach, or a resumed session--check its Graphify status with `scripts/graphify-status.ps1`. For a missing CLI or graph, explain the benefit and request setup/build approval; ask a separate confirmation before installing `uv`. Once Graphify is installed, refresh only the active target with `/graphify . --update` after each meaningful source, configuration, documentation, dependency, or shared-context delta. Never run Graphify project installation, platform installation, or always-on registration: master scaffold instructions apply to Codex, Claude, and Gemini.
+18. Refresh once per meaningful delta, never after an unchanged retry or read-only check. Use targeted queries with the smallest adequate context budget, and block `resume_safe`, QA closure, handoff, and PR readiness when an installed graph remains stale without a recorded blocker. Never scan every project under `development/` automatically.
 19. Report an installed Graphify version when available. Never upgrade because the master scaffold was pulled; offer `update-graphify-project.ps1 -Update` only after the developer explicitly approves the user-level update, then require a graph rebuild and shared-context version sync. Keep only `graphify-out/` local to the selected target; never generate Graphify runtime sidecars or root agent files there.
+20. Before any target-repository task begins, verify that Playwright and required browser binaries are installed and usable, including for backend-only, native Flutter, firmware, and other non-browser targets. A missing prerequisite blocks task start: report the exact target-specific dependency/browser install command and obtain founder approval before installing. Gemini CLI and Gemini/Antigravity must always run Playwright headlessly (`headless: true`) and never use `--headed`.
+21. If the user typed `version`, read `SCAFFOLD_VERSION.md` and report its current version, release date, status, and semantic-versioning policy. Do not start a workflow or modify files.
+22. For every task, apply `guardrails/development/ODN_TRACEABILITY_POLICY.md` after normal task classification. Target `artifacts/shared/` is client-safe only; internal lifecycle, handoff, routing, traceability, contributor/process, and development-state metadata resolves from `artifacts/traceability/[project]/`.
+23. On a target's first scaffold-update adoption, run the ODN shared-artifact migration in dry-run mode. Preserve `client_safe` artifacts. Do not remove `internal_process_state` until an explicitly approved apply has copied and hash-verified it, passed every required check, installed prevention rules, and reported Git-history leakage without rewriting history.
 
 ## Explicit Command Mapping
 
@@ -54,6 +60,7 @@ Do not maintain a separate command menu in this skill. When commands change, upd
 | `improve` | Transition to `system__improve-commander`; ask whether parity should be `ON` or `OFF`, then propose a plan before editing. |
 | `improve skill` | Transition to `system__improve-skill`; propose a plan before editing skills. |
 | `cek skill` / `check skill` | Run the skill check policy, normalize new runtime skill prefixes, mirror missing skill folders, and refresh `guardrails/system/SKILL_CATALOG.md`. |
+| `version` | Report the master scaffold version from `SCAFFOLD_VERSION.md` without starting a workflow. |
 
 ## Notes
 

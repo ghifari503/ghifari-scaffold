@@ -50,18 +50,20 @@ Comprehensive index of all available skills, organized by workflow phase.
 - [code-reviewer](#qa-code-reviewer)
 
 ### Release Phase
+- [multi-stage-dockerfile](#release-multi-stage-dockerfile)
 - [release-prep](#release-release-prep)
 - [release-checker](#release-release-checker)
 
 ### System & Meta
-- [find-skills](#system-find-skills)
 - [agent-development](#system-agent-development)
 - [process-controller](#system-process-controller)
 - [work-commander](#system-work-commander)
-- [handoff](#system-handoff)
-- [skill-creator](#system-skill-creator)
+- [find-skills](#system-find-skills)
 - [improve-skill](#system-improve-skill)
+- [skill-creator](#system-skill-creator)
+- [graphify-refresh](#system-graphify-refresh)
 - [improve-commander](#system-improve-commander)
+- [handoff](#system-handoff)
 
 ---
 
@@ -253,6 +255,12 @@ Comprehensive index of all available skills, organized by workflow phase.
 
 ## Release Phase
 
+### release_multi-stage-dockerfile
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/release__multi-stage-dockerfile/`
+**Claude Path:** `.claude/skills/release__multi-stage-dockerfile/`
+**Description:** Create optimized multi-stage Dockerfiles for any language or framework.
+
 ### release_release-prep
 **Availability:** codex, claude
 **Codex Path:** `.codex/skills/release__release-prep/`
@@ -266,12 +274,6 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Status:** Placeholder (no SKILL.md yet)
 
 ## System & Meta
-
-### system_find-skills
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/system__find-skills/`
-**Claude Path:** `.claude/skills/system__find-skills/`
-**Description:** Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
 
 ### system_agent-development
 **Availability:** codex, claude
@@ -291,17 +293,11 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Claude Path:** `.claude/skills/system__work-commander/`
 **Description:** Work Commander Skill
 
-### system_handoff
+### system_find-skills
 **Availability:** codex, claude
-**Codex Path:** `.codex/skills/system__handoff/`
-**Claude Path:** `.claude/skills/system__handoff/`
-**Description:** Compact the current conversation into a handoff document for another agent to pick up.
-
-### system_skill-creator
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/system__skill-creator/`
-**Claude Path:** `.claude/skills/system__skill-creator/`
-**Description:** Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.
+**Codex Path:** `.codex/skills/system__find-skills/`
+**Claude Path:** `.claude/skills/system__find-skills/`
+**Description:** Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
 
 ### system_improve-skill
 **Availability:** codex, claude
@@ -309,11 +305,29 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Claude Path:** `.claude/skills/system__improve-skill/`
 **Description:** >
 
+### system_skill-creator
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/system__skill-creator/`
+**Claude Path:** `.claude/skills/system__skill-creator/`
+**Description:** Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy.
+
+### system_graphify-refresh
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/system__graphify-refresh/`
+**Claude Path:** `.claude/skills/system__graphify-refresh/`
+**Description:** Enforce event-driven, token-efficient Graphify refresh for an active target project whenever its source, configuration, documentation, dependencies, or shared context changes. Use whenever Graphify status, build, refresh, target activation, handoff, QA closure, or project-resume freshness is involved.
+
 ### system_improve-commander
 **Availability:** codex, claude
 **Codex Path:** `.codex/skills/system__improve-commander/`
 **Claude Path:** `.claude/skills/system__improve-commander/`
 **Description:** >
+
+### system_handoff
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/system__handoff/`
+**Claude Path:** `.claude/skills/system__handoff/`
+**Description:** Compact the current conversation into a handoff document for another agent to pick up.
 
 ---
 

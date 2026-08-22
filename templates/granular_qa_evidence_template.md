@@ -7,7 +7,7 @@ Use this template for final QA evidence before final impact check and PR readine
 - artifact_type: `test`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[codex|claude|gemini|manual]`
+- contributor_role: `historical_record`
 - owner: `founder`
 - status: `[draft|in_progress|blocked|done]`
 - task_id: `[task-id]`
@@ -44,6 +44,8 @@ Use this template for final QA evidence before final impact check and PR readine
 
 ## E2E / Browser QA
 - required: `[yes|no]`
+- playwright_applicability: `[required|inapplicable|blocked]`
+- playwright_readiness: `[configured|missing_dependency|missing_browsers|not_applicable]`
 - command_or_method:
 - result: `[pass|fail|blocked|skipped]`
 - evidence:
@@ -85,6 +87,20 @@ Use this template for final QA evidence before final impact check and PR readine
 - result: `[pass|fail|blocked|skipped]`
 - evidence:
 - notes:
+
+## Bug-Fix Adjacent-Error Check
+- required: `[yes|no]`
+- root_cause_summary:
+- direct_callers_or_callees_checked:
+- equivalent_validation_or_state_paths_checked:
+- error_handling_checked:
+- nearest_integration_boundary_checked:
+- confirmed_related_bugs: `[bug IDs or none]`
+- risks_or_hypotheses:
+- not_reproduced:
+- broad_check_needed: `[yes|no]`
+- broad_check_reason:
+- evidence:
 
 ## Existing Failures / Known Issues
 - baseline_failures:

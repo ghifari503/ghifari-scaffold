@@ -71,7 +71,7 @@ Otherwise a concise chat report is enough.
 When a required coding skill is not available locally:
 
 1. Search the runtime-appropriate mirror (`.codex/skills/`, `.claude/skills/`, or `.agents/skills/`) and `SKILL_CATALOG.md` before searching externally.
-2. Use `find-skills` to discover external candidates.
+2. Use `find-skills` through skills.sh to discover external candidates before examining or acquiring a skill from another external source.
 3. Validate capability fit, publisher reputation, usage signal, license, and the files included by the candidate skill.
 4. An allowlisted publisher may be acquired without an additional founder approval. The default allowlist is:
    - `anthropics`

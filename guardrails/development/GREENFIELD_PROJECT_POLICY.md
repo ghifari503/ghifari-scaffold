@@ -69,7 +69,7 @@ Before G5, all of these must be true:
 - Relevant skills or agents have been found; if none exists, the `skill-creator` flow has run first.
 - Target repository shared context exists under `development/[project-folder]/artifacts/shared/`.
 - `PROJECT_STATE.md` is created from `templates/shared_project_state_template.md` with `baseline_mode: greenfield_planned`.
-- `ACTIVE_CONTEXT.md` and `CONTRIBUTOR_LOG.md` exist and identify the approved bootstrap scope.
+- Master Scaffold ODN batch state and internal handoff identify the approved bootstrap scope; no internal continuity files exist in target shared facts.
 - The pre-coding gate lists explicit allowed and blocked write paths.
 - Founder approval for the exact bootstrap and first-slice scope is recorded.
 
@@ -94,4 +94,4 @@ Stop before G5 if:
 
 ## Continuity Rules
 
-After G1, G2, G3, G4, G5, a pause, blocker, or handoff, update the target shared context and capture stable decisions, constraints, feature status, and next steps in scaffold memory according to `guardrails/memory/MEMORY_POLICY.md`.
+After G1, G2, G3, G4, G5, a pause, blocker, or handoff, update client-safe target facts only when applicable, synchronize Master Scaffold ODN/internal state, and capture verified stable decisions in memory according to `guardrails/memory/MEMORY_POLICY.md`.

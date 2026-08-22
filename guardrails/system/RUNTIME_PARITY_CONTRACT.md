@@ -38,6 +38,8 @@ Task classification rule: before significant work, all runtimes must use `guardr
 
 AI contributor lifecycle rule: when working on a cloned, attached, inherited, or scaffold-managed project, all runtimes must preserve the lifecycle overlay in `workflows/ai_contributor_lifecycle.md`, including readiness baseline, implementation planning, during-development QA, self review, granular final QA evidence, final impact checking, handoff, and PR readiness.
 
+ODN traceability rule: Codex/GPT, Claude, Gemini CLI, and Antigravity must preserve the same ODN trigger classification, stable `component:scope` lookup, maximum-three initial batch context, Master Scaffold authority boundary, schema-adoption classification/migration order, mandatory removal gate, leakage status, identity prohibition, and Git-history reporting. Runtime syntax may differ; state meaning and paths may not.
+
 ## Mandatory Artifact Parity
 
 All supported runtimes MUST write evidence to the same locations:

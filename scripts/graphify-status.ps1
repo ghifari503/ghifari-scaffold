@@ -19,6 +19,16 @@ if ($graphifyCommand) {
     try { $graphifyVersion = (graphify --version | Select-Object -First 1).Trim() } catch { $graphifyVersion = 'installed_version_unavailable' }
 }
 
+$hasRelevantWorkingChange = $false
+if (Test-Path -LiteralPath (Join-Path $resolvedProject '.git')) {
+    try {
+        $workingChanges = @(git -C $resolvedProject status --porcelain --untracked-files=all 2>$null)
+        $hasRelevantWorkingChange = @($workingChanges | Where-Object {
+            $_ -notmatch '(^|\s)graphify-out([/\\]|$)' -and $_ -notmatch '(^|\s)\.graphify-state\.json$'
+        }).Count -gt 0
+    } catch { }
+}
+
 $status = if (-not (Test-Path -LiteralPath $graphPath)) {
     'missing'
 } elseif (-not (Test-Path -LiteralPath (Join-Path $resolvedProject '.git'))) {
@@ -29,7 +39,7 @@ $status = if (-not (Test-Path -LiteralPath $graphPath)) {
     try {
         $headTime = [DateTime]::Parse((git -C $resolvedProject log -1 --format=%cI)).ToUniversalTime()
     } catch { }
-    if ($headTime -gt $graphTime) { 'stale' } else { 'current' }
+    if ($headTime -gt $graphTime -or $hasRelevantWorkingChange) { 'stale' } else { 'current' }
 }
 
 [pscustomobject]@{
@@ -39,5 +49,6 @@ $status = if (-not (Test-Path -LiteralPath $graphPath)) {
     graphify_version = $graphifyVersion
     graph_path = if (Test-Path -LiteralPath $graphPath) { $graphPath } else { $null }
     report_path = if (Test-Path -LiteralPath $reportPath) { $reportPath } else { $null }
+    relevant_working_changes_detected = $hasRelevantWorkingChange
     action_required = $status -in @('missing', 'stale', 'present_unverified')
 } | ConvertTo-Json -Compress

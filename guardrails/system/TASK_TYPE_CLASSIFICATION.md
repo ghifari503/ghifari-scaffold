@@ -4,7 +4,11 @@
 
 Every runtime must classify the requested work before significant scaffold work, planning, coding, QA, handoff, or review.
 
+Before executing any classified task that changes files, workflow state, or an external/local environment, perform relevant skill or agent lookup. Record the selected capability or `no_relevant_local_skill`; lightweight read-only checks and direct answers are exempt.
+
 This policy applies to Codex/GPT, Claude, and Gemini.
+
+Normal task type controls existing gates. Every task also receives the secondary ODN trigger classification from `guardrails/development/ODN_TRACEABILITY_POLICY.md`: `read_only`, `minor_change`, or `logical_change`. This overlay must not replace or reorder the primary classification.
 
 ## Source Files
 
@@ -25,6 +29,7 @@ Before significant work, the runtime must produce or internally record a task cl
 - required artifacts
 - required tests
 - stop conditions
+- ODN trigger classification and, for a logical change, stable `component:scope`
 
 For `medium`, `major`, ambiguous, or high-risk work, the classification must be written or summarized in `artifacts/operations/SESSION_LOG.md`.
 
@@ -117,4 +122,3 @@ Stop before implementation when:
 Use the template in `templates/task_classification_template.md`.
 
 For short clarification-only responses, a compact summary is allowed, but the same fields must be considered.
-

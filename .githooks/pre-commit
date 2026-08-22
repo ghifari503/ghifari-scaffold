@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 
 if [ "${ALLOW_SCAFFOLD_COMMIT:-}" = "1" ]; then
+  "$(dirname "$0")/../scripts/validate-documentation-sync.sh"
   exit 0
 fi
 

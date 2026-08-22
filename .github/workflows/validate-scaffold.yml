@@ -21,6 +21,8 @@ jobs:
           bash -n scripts/enable-scaffold-git-protection.sh
           bash -n scripts/check-antigravity-skills.sh
           bash -n scripts/check-claude-routing.sh
+          bash -n scripts/validate-documentation-sync.sh
+          bash -n scripts/claude-documentation-stop-hook.sh
           bash -n .githooks/pre-commit
           bash -n .githooks/pre-push
       - name: Validate target project Git isolation
@@ -59,6 +61,14 @@ jobs:
         run: |
           bash scripts/check-claude-routing.sh
           node -e "JSON.parse(require('fs').readFileSync('.claude/model-routing.json', 'utf8'))"
+      - name: Validate documentation closure enforcement
+        shell: pwsh
+        run: |
+          Get-Content -Raw .claude/settings.json | ConvertFrom-Json | Out-Null
+          Get-Content -Raw .agents/hooks.json | ConvertFrom-Json | Out-Null
+          [scriptblock]::Create((Get-Content -Raw scripts/validate-documentation-sync.ps1)) | Out-Null
+          [scriptblock]::Create((Get-Content -Raw scripts/antigravity-documentation-stop-hook.ps1)) | Out-Null
+          ./scripts/validate-documentation-sync.ps1
       - name: Check scaffold whitespace
         # Imported skill references intentionally preserve upstream Markdown hard breaks.
         run: git diff --check $(git hash-object -t tree /dev/null) HEAD -- . ':(exclude).codex/**' ':(exclude).claude/**' ':(exclude).agents/**'

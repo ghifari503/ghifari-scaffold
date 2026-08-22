@@ -1,4 +1,4 @@
-﻿# LOGGING_STANDARD
+# LOGGING_STANDARD
 
 Use this standard for all logging so records stay consistent, auditable, and easy to search.
 
@@ -29,7 +29,7 @@ Add this block near the top of the file:
 - artifact_type: `[brd|prd|flow|design|api|test|release|improvement|log]`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[claude|codex|manual]`
+- contributor_role: `historical_record`
 - owner: `[name-or-role]`
 - status: `[draft|in_progress|blocked|review|done]`
 - task_id: `[single active task id when relevant]`
@@ -111,6 +111,7 @@ Use this lightweight classification when deciding whether end-of-activity docume
 - Every `medium` or `major` activity must record that a compact plan was presented and explicitly approved before execution.
 - The approval may be recorded in `artifacts/operations/SESSION_LOG.md`, `artifacts/operations/CURRENT_TASK.md`, or the relevant plan/checklist artifact.
 - If execution starts before approval, mark the step `PAUSED`, record the missing approval as the blocker, and do not mark the activity `SUCCESS`, `resume_safe`, `fixed`, `verified`, `closed`, or `ready to pr`.
+- For every executing task, record the selected skill/agent or `no_relevant_local_skill` in the session classification, active plan, or step evidence. A lightweight read-only check or direct answer is exempt only when it does not change files, workflow state, or an environment.
 
 ## Logging Locations
 
@@ -129,7 +130,7 @@ Use this lightweight classification when deciding whether end-of-activity docume
 - Never change `created_at` after an entry is created.
 - Every status change must update `updated_at`.
 - For scaffold or target-project meaningful work, append one event-based entry to `artifacts/operations/AGENT_ACTIVITY_LOG.md` using `guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md`. Never log per tool call; agents read only its snapshot and relevant recent entries.
-- When a task moves across model/session, fill `handoff_at`, `handoff_from`, `handoff_to`, and `resume_safe`.
+- When a task moves across sessions, fill `handoff_at`, `contributor_role`, `continuation_state`, and `resume_safe`. Do not persist contributor identity.
 - Every official workflow step must create or update a matching `artifacts/operations/SESSION_LOG.md` step entry before the next official step or handoff.
 - If a step finishes without a session log entry, treat the activity as incomplete and do not mark it `SUCCESS`, `fixed`, `verified`, `closed`, `resume_safe`, or `ready for the next task`.
 - Every `medium` or `major` activity must end with documentation sync before it may be reported as complete, paused, handed off, or ready for the next task.
@@ -153,17 +154,16 @@ Use this lightweight classification when deciding whether end-of-activity docume
 - If no scope-specific artifact changed beyond the operational trio, record `documentation_sync_status: no additional documentation delta required` in `artifacts/operations/SESSION_LOG.md`.
 - `resume_safe`, `SUCCESS`, `fixed`, `verified`, `closed`, and PR-readiness claims are invalid for `medium` or `major` work while documentation sync is pending.
 - For `medium` or `major` work, `artifacts/operations/SESSION_LOG.md` must record `documentation_sync_status` in the session entry for the latest step.
+- Any medium/major task intended for technical closure enforcement must set `task_size`, `qa_evidence_required`, and (when QA is required) `qa_evidence_path` in `CURRENT_TASK.md`. A closure status is invalid when `scripts/validate-documentation-sync.ps1` fails.
 - If a bug status becomes `fixed`, add test/verification evidence.
 - If a bug status becomes `closed`, reference the `verified` evidence.
 
 ## Handoff Fields
 
-Use these fields for cross-model continuity:
+Use these neutral fields for cross-session continuity:
 - `task_id`
-- `started_by_runtime`
-- `last_updated_by_runtime`
 - `handoff_at`
-- `handoff_from`
-- `handoff_to`
+- `contributor_role`
+- `continuation_state`
 - `resume_safe`
 

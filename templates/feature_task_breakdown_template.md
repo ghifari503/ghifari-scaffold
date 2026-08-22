@@ -4,7 +4,7 @@
 - feature: `[feature-name]`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[codex|claude|gemini]`
+- contributor_role: `historical_record`
 - owner: `founder`
 - status: `[draft|approved|blocked|completed]`
 

@@ -6,7 +6,7 @@
 - artifact_type: `plan_approval_checklist`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[codex|claude|gemini|manual]`
+- contributor_role: `historical_record`
 - owner: `founder`
 - status: `[pending_review|changes_requested|approved|blocked]`
 - build_coding_status: `[blocked|allowed]`

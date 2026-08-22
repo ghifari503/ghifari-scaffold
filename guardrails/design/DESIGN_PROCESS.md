@@ -79,8 +79,8 @@ dev-doc/[feature-name]/design/
 **Designer Activities:**
 1. Review design folder structure
 2. Review template files and fill in visual details
-3. Create Figma designs (or other design tool)
-4. Link Figma designs to design spec folders
+3. Create visual designs in Figma, Stitch, or another approved design tool
+4. Link or store the controlling visual reference in the design spec folder
 5. Document colors, typography, spacing, components
 6. Document all component states
 7. Specify responsive behavior
@@ -127,7 +127,7 @@ design/[page]/[section]/[sub-section]/
 - [ ] Accessibility requirements included
 - [ ] Component library mapped
 - [ ] Interaction specs clear
-- [ ] Figma links added
+- [ ] Controlling visual references added (Figma, Stitch, mockup, screenshot, or prototype)
 
 ---
 
@@ -152,12 +152,12 @@ design/[page]/[section]/[sub-section]/
 
 **Reference Material:**
 - `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/` (complete spec)
-- Figma link for visual reference
+- Approved visual reference: Figma, Stitch, mockup, screenshot, or HTML prototype
 - `templates/design/master-ui-templates/` only if target detail is incomplete
 - Design system components
 
 **Implementation Requirements:**
-- [ ] Follow design specs exactly
+- [ ] Match a complete approved visual reference with strict fidelity for hierarchy, layout, spacing, typography, colour, assets, responsive behaviour, and visible states
 - [ ] Implement all documented states
 - [ ] Use design tokens/variables
 - [ ] Responsive behavior matches specs
@@ -174,10 +174,11 @@ If design specs can't be implemented due to technical constraints:
 
 **Missing Design Detail Handling:**
 If implementation is blocked because UI detail is missing:
-1. Check the target sub-section folder for `design.md`, `assets/mockup.png`, and `figma-link.txt`
+1. Check the target sub-section folder for `design.md`, visual assets (including Stitch exports), `figma-link.txt`, and an approved prototype
 2. If still incomplete, choose the closest approved folder in `templates/design/master-ui-templates/`
-3. Record the fallback source in the target `design.md`
-4. Continue implementation using the fallback reference until detailed design is supplied
+3. Continue the established base style/design system seamlessly; do not invent a new visual direction
+4. Record the fallback source, assumptions, and unresolved gaps in the target `design.md`
+5. Continue implementation using that reference until detailed design is supplied
 
 **Zero-Source Handling:**
 If no visual source exists at all:
@@ -193,7 +194,8 @@ If no visual source exists at all:
 ### Phase 6: Testing & Review
 
 **Design Compliance Testing:**
-- [ ] Visual comparison against design specs
+- [ ] Visual comparison against the controlling reference (Figma, Stitch, mockup, screenshot, or prototype)
+- [ ] Incomplete-reference assumptions and continuity with the base style reviewed
 - [ ] All states implemented
 - [ ] Responsive breakpoints verified
 - [ ] Accessibility requirements met
@@ -426,7 +428,7 @@ When requirements change:
 **Solution:** Lock design phase to requirements phase. Use decision log to track changes.
 
 ### Issue: Frontend can't match design exactly
-**Solution:** Document technical constraint in decision log. Design and frontend collaborate on alternative.
+**Solution:** Document the technical constraint in the decision log. Design and frontend collaborate on an alternative; do not silently reduce fidelity.
 
 ### Issue: Design specs outdated
 **Solution:** Update design specs when requirements change. Notify frontend developers of changes.

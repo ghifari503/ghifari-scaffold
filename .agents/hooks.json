@@ -1,0 +1,11 @@
+{
+  "documentation-closure-gate": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "powershell -NoProfile -File scripts/antigravity-documentation-stop-hook.ps1",
+        "timeout": 20
+      }
+    ]
+  }
+}

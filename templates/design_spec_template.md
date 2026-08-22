@@ -5,15 +5,15 @@
 **Sub-section:** [sub-section-name]
 **Date:** YYYYMMDD
 **Designer/Analyst:** [name]
-**Figma Link:** [link-to-design]
+**Visual Reference:** [Figma URL / Stitch URL or export / mockup or screenshot path / approved prototype path]
 **Fallback Template Reference:** [master template path or N/A]
-**Design Source Mode:** Detailed Spec / Figma / Image Completion / Master Template Fallback / Generated From Product Artifacts
+**Design Source Mode:** Detailed Spec / Figma / Stitch / Image Completion / Approved Prototype / Master Template Fallback / Generated From Product Artifacts
 
 ---
 
 ## Design Source Trace
 
-- **Primary Source:** [page-specific design.md / figma-link.txt / assets/mockup.png / generated]
+- **Primary Source:** [page-specific design.md / figma-link.txt / Stitch reference / assets mockup or screenshot / approved prototype / generated]
 - **Secondary Source:** [master template path or N/A]
 - **Supporting Product Artifacts:**
   - PRD: [path]
@@ -23,6 +23,7 @@
 - **Generation Notes:**
   - [Why this design source mode was used]
   - [What assumptions were required]
+  - [How incomplete detail continues the established base style/design system]
 
 ---
 
