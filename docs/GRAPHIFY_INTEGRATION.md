@@ -39,7 +39,7 @@ The CLI lives in the developer's user-level `uv` tool environment. A developer w
 
 ## Target-Project Boundary
 
-The selected target project may contain its local `graphify-out/` output. It is ignored by Git because it is generated, can be rebuilt, and may be large. Record only its status, output location, installed version, and next action in the target's committed `artifacts/shared/PROJECT_STATE.md` and `ACTIVE_CONTEXT.md`.
+The selected target project may contain its local `graphify-out/` output. It is ignored by Git because it is generated, can be rebuilt, and may be large. Record status, output location, installed version, and next action only in Master Scaffold internal traceability; do not expose Graphify process state in target shared facts.
 
 Do not run `graphify install --project`, `graphify codex install`, `graphify claude install`, `graphify gemini install`, or any always-on registration in a target repository. Those commands generate project-local runtime files that duplicate or conflict with this scaffold's master-owned instructions:
 
@@ -58,7 +58,7 @@ Do not blanket-ignore those paths in target repositories: they may later contain
 .\scripts\graphify-status.ps1 -ProjectPath .\development\my-project
 ```
 
-Statuses are `missing`, `stale`, `current`, or `present_unverified`. `stale` means the latest committed change or a relevant uncommitted project delta is newer than `graph.json`. For an installed graph, refresh only once per meaningful delta with `/graphify . --update` in the selected target's assistant context; use a full build only when the graph is missing or update mode cannot recover. Record status and any blocker in target shared context.
+Statuses are `missing`, `stale`, `current`, or `present_unverified`. `stale` means the latest committed change or a relevant uncommitted project delta is newer than `graph.json`. For an installed graph, refresh only once per meaningful delta with `/graphify . --update` in the selected target's assistant context; use a full build only when the graph is missing or update mode cannot recover. Record status and any blocker in Master Scaffold internal traceability.
 
 ## Token-Efficient Use
 

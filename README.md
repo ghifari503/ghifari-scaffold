@@ -76,7 +76,7 @@ Use this scaffold when:
 
 ## Continuity And Project Baseline
 - Every target project keeps Git-carried continuity under `development/[project-folder]/artifacts/shared/`.
-- `PROJECT_STATE.md` records the project baseline, `ACTIVE_CONTEXT.md` records current work, `CONTRIBUTOR_LOG.md` records contributor-session detail, and `handoffs/` holds incomplete-slice handoffs.
+- Target `PROJECT_STATE.md` records client-safe project facts. Current work, contributor/process detail, routing, lifecycle, and handoffs resolve from Master Scaffold `artifacts/traceability/[project]/`.
 - The scaffold-wide `artifacts/operations/AGENT_ACTIVITY_LOG.md` records which agent performed which task category and activity across projects. Activity logging is event-based and token-aware: agents read only its current snapshot and relevant recent entries, never the whole log or per-tool-call history.
 - For an inherited project without usable documentation, the agent first asks whether references exist. If none do, it creates a source-linked, code-derived `PROJECT_STATE.md` baseline and synchronizes verified facts to scaffold memory and the feature registry.
 - Future agents read shared project context and relevant memory before scanning source, then use targeted paths instead of relearning the entire repository.
@@ -145,7 +145,7 @@ Use this scaffold when:
 
 ## Git Hygiene
 - `.gitignore` keeps secrets, local dependencies, build output, raw Playwright artifacts, caches, logs, and editor files out of the scaffold repository.
-- The scaffold repository ignores all target project files under `development/[project-folder]/`, including `artifacts/shared/`. The target project's own Git repository tracks its source and shared continuity together.
+- The scaffold repository ignores all target project files under `development/[project-folder]/`. The target Git repository tracks source and client-safe shared facts; Master Scaffold tracks internal ODN/lifecycle continuity.
 - `development/_project-template/artifacts/shared/` provides the default shared-context structure for each new or attached target project.
 - After cloning the scaffold, run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
 - Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.

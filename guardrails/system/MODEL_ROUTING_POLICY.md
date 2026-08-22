@@ -34,16 +34,13 @@ The shared baseline is `.codex/model-routing.json`. A developer may override mod
 
 `gpt-5.6-terra` is the normal development default. Do not use the `gpt-5.6` alias as the default because its resolved target may not have Terra's cost profile. GPT-5.5 is never a generic fallback; use `--legacy-5-5` only for an explicit legacy/benchmark need.
 
-## Token And Cost Monitor
+## Ephemeral Routing Boundary
 
-- Router records a concise decision in `development/[project]/artifacts/shared/AI_ROUTING_LOG.md` when that shared context exists.
-- Records include a task hash, selected profile/model/effort, relative token and cost bands, status, and routing reasons.
-- Raw task text, secrets, credentials, raw logs, and unverified cost values are prohibited.
-- `actual_usage` is `unavailable_from_codex_cli` unless a runtime supplies authoritative usage data.
-- The log is capped to recent entries; it is continuity evidence, not an analytics warehouse.
-- The bands are relative routing guidance. API list prices or subscription quota must not be recorded as actual Codex usage unless an authoritative runtime source supplies them.
-- Create a linked `AGENT_ACTIVITY_LOG.md` event only when routing starts a task, changes delegation/profile, blocks work, or completes a meaningful routed activity. Do not duplicate every routing decision or tool call there.
-- Every linked activity event must copy the exact router result into `model_or_profile`, use `model_source: codex_router`, and link the matching `AI_ROUTING_LOG.md` entry. Do not replace the router result with `not_recorded`.
+- Routing selects a local execution profile only for the active command or turn. It must not write an `AI_ROUTING_LOG.md`, routing record, model/profile field, token/cost field, or identity-bearing activity event.
+- Raw task text, secrets, credentials, raw logs, and unverified cost values are prohibited from all records.
+- A routing decision may be displayed to the current operator or used to launch a bounded worker, but it is not continuity evidence.
+- If local capability cannot meet the verified risk floor, stop and report a neutral execution-capability blocker to the founder. Do not persist the unavailable runtime or model identity.
+- Meaningful work still creates the normal identity-free activity event required by `AGENT_ACTIVITY_LOG_POLICY.md`.
 
 ## Escalation And Fallback
 

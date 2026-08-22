@@ -29,7 +29,7 @@ This is a preference map, not a claim that every Antigravity account exposes eve
 - The Antigravity agent must classify the task and select the least expensive available Gemini profile that meets the risk and accuracy floor. It must not ask the founder to choose a model.
 - The selected Antigravity reasoning model is sticky for the active turn. Do not claim it switched in place.
 - Use a native Antigravity asynchronous agent or subagent only when the installed runtime exposes model selection for that worker and the subtask is independent.
-- If model selection or subagent launch is unavailable, remain on the active model, record `model_switch_unavailable` in the target `AI_ROUTING_LOG.md` when available, and continue only when the active model meets the required risk floor. Escalate to the founder if it does not.
+- If model selection or subagent launch is unavailable, continue only when the active model meets the required risk floor. Otherwise stop and report a neutral execution-capability blocker to the founder; do not persist routing identity.
 - Do not call Codex routing scripts from Antigravity. Codex automatic delegation is Codex-only.
 - Never auto-retry a failed task on another Gemini model and never silently fall back to Claude, Codex, or GPT-5.5.
 
@@ -48,9 +48,8 @@ This is a preference map, not a claim that every Antigravity account exposes eve
 
 ## Evidence And Gates
 
-- Record runtime, selected or active model, routing status, relative token/cost band, and concise non-sensitive reason in `artifacts/shared/AI_ROUTING_LOG.md` when routing is used.
+- Routing is ephemeral and must not persist runtime, model, provider, profile, token/cost, or routing-source identity in Master Scaffold or target artifacts.
 - Do not record raw prompts, credentials, quotas, or unverified actual cost.
-- Create a linked `AGENT_ACTIVITY_LOG.md` event only for task start, material route change, blocker, or meaningful completion; never for each tool call.
-- Record the active model with `model_source: runtime_status` only when Antigravity exposes it. Otherwise use `active_model_unavailable` and `model_source: unavailable`; never infer Flash or Pro from the task level.
+- Create an identity-free `AGENT_ACTIVITY_LOG.md` event only for task start, blocker, or meaningful completion; never for each tool call.
 - Model routing never bypasses task classification, founder approval, skills, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or release decisions.
 - A Gemini/Antigravity agent must not claim medium/major completion, QA closure, `resume_safe`, `verified`, `closed`, or ready-to-PR until the Stop hook accepts the current task. If hooks are unavailable or disabled, it must report that limitation and CI/intentional scaffold commit validation remains the fallback enforcement.

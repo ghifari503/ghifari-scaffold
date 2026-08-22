@@ -3,7 +3,7 @@
 ## Metadata
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[claude|codex|manual]`
+- contributor_role: `historical_record`
 - status: `[draft|approved|superseded]`
 
 ## Route Context

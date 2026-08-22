@@ -10,7 +10,7 @@ Capture a memory candidate when one of these happens:
 - A task dependency or blocker must survive context loss.
 
 ## Capture Flow
-1. Identify the source artifact.
+1. Identify the source artifact. When the source is an ODN batch, record its resolvable `odn://[project]/odn-xxxx` URI and exact `component:scope` evidence.
 2. Add or update the structured entry in `artifacts/memory/MEMORY_LEDGER.toml`.
 3. If the entry is feature/module status, update `artifacts/memory/FEATURE_REGISTRY.toml` and `artifacts/memory/FEATURE_REGISTRY.md`.
 4. Write a short memory candidate in the relevant `artifacts/memory/*.md` category file when the entry is not solely feature-registry state.
@@ -26,6 +26,7 @@ Capture a memory candidate when one of these happens:
 - Raw command output unless it is summarized and linked.
 - Details that are already obvious from current active files.
 - Feature status changes without a source artifact or explicit founder instruction.
+- Unresolvable ODN IDs, complete ODN batch history, internal handoff narrative, or Graphify structural output that would duplicate an authoritative layer.
 
 ## Preferred Summary Shape
 Use this Markdown form for category files:

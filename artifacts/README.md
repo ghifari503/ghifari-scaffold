@@ -16,10 +16,13 @@ Use `artifacts/` only for the active folders defined in `guardrails/development/
 - `qa/` - raw QA automation outputs such as Playwright traces, reports, screenshots, and videos
 - `release/` - release prep, rollback notes, smoke checklist, and release readiness
 - `test/` - human-authored QA summaries, final QA evidence, bug logs, and bug status
+- `traceability/` - Master Scaffold-only per-project identity-free ODN registry, batch/lifecycle/handoff state, schema adoption/migration evidence, and verified receipts; routing decisions are ephemeral
 
 Active feature BRD, PRD, design, assets, Figma links, and HTML prototypes belong in `dev-doc/[feature-name]/`.
 
 Reusable scaffold or design templates belong in `templates/`.
+
+Target repositories must never receive `artifacts/traceability/`. Their `artifacts/shared/` directory contains client-safe facts only.
 
 Do not create or restore these removed legacy roots:
 

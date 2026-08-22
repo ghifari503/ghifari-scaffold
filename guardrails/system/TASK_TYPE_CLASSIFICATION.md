@@ -8,6 +8,8 @@ Before executing any classified task that changes files, workflow state, or an e
 
 This policy applies to Codex/GPT, Claude, and Gemini.
 
+Normal task type controls existing gates. Every task also receives the secondary ODN trigger classification from `guardrails/development/ODN_TRACEABILITY_POLICY.md`: `read_only`, `minor_change`, or `logical_change`. This overlay must not replace or reorder the primary classification.
+
 ## Source Files
 
 - Registry: `guardrails/system/TASK_TYPE_REGISTRY.md`
@@ -27,6 +29,7 @@ Before significant work, the runtime must produce or internally record a task cl
 - required artifacts
 - required tests
 - stop conditions
+- ODN trigger classification and, for a logical change, stable `component:scope`
 
 For `medium`, `major`, ambiguous, or high-risk work, the classification must be written or summarized in `artifacts/operations/SESSION_LOG.md`.
 

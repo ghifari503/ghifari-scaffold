@@ -40,13 +40,13 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 
 ## Optional Graphify Knowledge-Graph Policy
 - Graphify is an optional, local acceleration layer for one selected target project. It helps agents map code, documentation, configuration, and artifacts to investigate architecture, trace change impact, and resume prior work with less rediscovery.
-- It complements, and never replaces, the target project's committed `artifacts/shared/` context, workflow evidence, or current repository facts.
+- It complements, and never replaces, the target project's client-safe `artifacts/shared/` facts, Master Scaffold ODN traceability, workflow evidence, or current repository facts.
 - Whenever one target project becomes active--including through `start`, `start dev`, attach, or a resumed session--inspect its Graphify status with `scripts/graphify-status.ps1`. For `missing` or `present_unverified`, explain the benefit and request installation/build approval. For an installed graph, Graphify refresh is mandatory after each meaningful target-project source, configuration, documentation, dependency, or shared-context change.
 - Founder approval of the strict Graphify refresh policy on 2026-08-18 authorizes event-driven refreshes for installed Graphify on the active target only. Installing Graphify or its `uv` prerequisite still requires separate explicit developer approval; installing `uv` always requires a separate confirmation.
 - Refresh only the changed graph using the Graphify update mode, once per meaningful delta. Use graph queries with the smallest adequate context budget instead of loading raw graph output or repeatedly rescanning unchanged targets.
 - Install the Graphify CLI only once per developer computer through the user-level `uv` tool environment. This master scaffold owns the Codex, Claude, and Gemini instructions; never run `graphify install --project`, a platform install command, or an always-on registration in a target repository.
 - Run graph builds only against the selected target repository, never this master scaffold or every project under `development/`. Keep only `graphify-out/` and generated graph data local and ignored by Git; do not generate target `.codex/`, `.claude/`, `.gemini/`, `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` through Graphify.
-- A target session that changed relevant project material is not `resume_safe`, ready for handoff, ready for QA closure, or ready to PR until its installed Graphify graph is refreshed or an explicit blocker is recorded in shared context.
+- A target session that changed relevant project material is not `resume_safe`, ready for handoff, ready for QA closure, or ready to PR until its installed Graphify graph is refreshed or an explicit blocker is recorded in Master Scaffold internal traceability.
 - A master scaffold pull must never upgrade or rebuild a target project's Graphify installation. When an update is requested, report the installed version, request explicit approval, then require a graph rebuild and target shared-context status sync.
 - A master scaffold pull must never copy, merge, or overwrite target source, active documentation, shared context, dependencies, environment, database, or Graphify output. Use `guardrails/system/SCAFFOLD_UPDATE_POLICY.md`; adoption is opt-in per target, dry-run first, and fails closed on a dirty target or any legacy copied scaffold core.
 
@@ -120,12 +120,21 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - For any target repository under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
    - The target project must be a separate Git repository; do not commit or push target files from the scaffold root repository.
    - Before target project setup or work, verify the target repository is initialized or cloned and verify scaffold-root Git protection is active through `scripts/enable-scaffold-git-protection.ps1` when the runtime can run it.
-   - Shared developer continuity belongs inside the target repo at `development/[project-folder]/artifacts/shared/` so it can be committed with that project.
+   - Target `development/[project-folder]/artifacts/shared/` contains client-safe project facts only. Identity-free internal lifecycle, handoff, traceability, contributor/process, and development-state metadata belongs in Master Scaffold `artifacts/traceability/[project]/`; routing is ephemeral.
    - Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
-   - Before continuing target repo work, read target shared context: `PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md` entries, and relevant `handoffs/`.
-   - If target shared context is missing during first intake, create the baseline before handoff or implementation.
-   - After meaningful work, pause, blocker discovery, QA closure, handoff, implementation slice, or session close, update `PROJECT_STATE.md` when project facts changed, update `ACTIVE_CONTEXT.md`, append `CONTRIBUTOR_LOG.md` when contributor-session or handoff detail is needed, and create/update the relevant shared handoff file.
-   - Shared context must be Git-safe: no secrets, `.env` values, raw chat transcripts, private personal data, credential dumps, or large raw logs.
+   - Before continuing target repo work, read client-safe `PROJECT_STATE.md`, Master Scaffold `BATCH_STATE.json`, at most three relevant ODN batches, and the relevant internal handoff.
+   - If target client-safe facts or Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
+   - After meaningful work, update target `PROJECT_STATE.md` only when client-safe project facts changed and synchronize internal batch/lifecycle/handoff state under Master Scaffold authority.
+   - Target shared facts must be Git-safe and client-safe: no secrets, `.env` values, raw chat transcripts, private personal data, credential dumps, large raw logs, or internal process metadata.
+12A. ODN Traceability And First-Adoption Migration Gate:
+   - For every task and every runtime, enforce `guardrails/development/ODN_TRACEABILITY_POLICY.md` after normal task classification without changing existing workflow gate order.
+   - Additionally classify work as `read_only`, `minor_change`, or `logical_change`. Only a logical engineering change creates or resumes an `odn-xxxx` batch; prompts, tool calls, runtimes, files, and commits are never batches.
+   - Complete internal authority lives under `artifacts/traceability/[project]/`; target repositories may expose only selective `@batch odn-xxxx` markers and `Batch: odn-xxxx` Git trailers.
+   - Resolve progressively by stable `component:scope` and load at most three batches initially. ODN must not duplicate Graphify structural data.
+   - On first adoption, dry-run and classify every target `artifacts/shared/` file as `client_safe` or `internal_process_state`. Preserve all client-safe files. Copy and hash-verify internal files before removal; require all mandatory migration checks to pass; add prevention rules; keep the migration idempotent.
+   - Report internal paths in prior Git commits as `HISTORY_PURGE_REQUIRED`. Never rewrite history without separate explicit founder approval.
+   - Enforce `guardrails/development/INTERNAL_CONTINUITY_IDENTITY_POLICY.md` for every runtime. Persist only neutral work continuity; never store runtime, provider, model, agent, engineer, routing, token, cost, or generative-process identity in traceability, activity, handoff, lifecycle, migration, or process-state records.
+   - Master schema authority is `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json`. Each project must match that schema and have `migration_status: completed` before fast-path continuation. Missing, older, failed, or in-progress adoption requires a dry-run and one schema-specific migration/recovery guarded by an exclusive lock.
 13. Code-Derived Baseline Gate:
    - During first `I1` intake, enforce `guardrails/development/CODE_DERIVED_BASELINE_POLICY.md` when no relevant project documentation exists or available documentation cannot establish the current project state.
    - After targeted documentation discovery finds no relevant material, ask the founder whether documentation, links, diagrams, access to another repository, or other context is available before deriving the baseline from source code.
@@ -150,24 +159,24 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - Enforce `guardrails/system/MODEL_ROUTING_POLICY.md`; model selection must balance accuracy floor, risk, token efficiency, and cost band.
    - Use Luna/`fast` for clear low-risk work, Terra/`standard` as the normal development default, Sol/`deep` for complex work, and Sol/`critical` for critical risk. GPT-5.5 is allowed only through explicit legacy/benchmark routing and is never an automatic fallback.
    - Use dry-run first when model availability is unknown. Developer-local model overrides are allowed only in ignored local configuration and must not alter scaffold policy.
-   - Router records concise Git-safe decision evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available. It must not record raw prompts, secrets, or invented actual-cost figures.
+   - Router makes an ephemeral local selection only. It must not write routing metadata, runtime/model/provider identity, raw prompts, secrets, or actual-cost figures to Master Scaffold or target artifacts.
    - Router selection and subagent delegation never bypass task classification, plan approval, skill lookup, I1/I2, dev-doc discovery, pre-coding, QA, documentation sync, or founder approval.
 20. Antigravity Runtime And Gemini Routing Gate:
    - For Antigravity coding, refactor, test-creation, migration, dependency, or scaffold-generation work, enforce `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md` automatically. Do not ask the founder to select a Gemini model.
-   - The model active in an Antigravity turn is sticky. Use a native worker/subagent only when the installed runtime exposes the required selection capability; otherwise record `model_switch_unavailable` and never claim an in-place model switch.
-   - Antigravity must not call Codex routing scripts or inherit Codex child-worker behavior. It preserves the same workflow gates and writes the same Git-safe routing evidence shape.
+   - The model active in an Antigravity turn is sticky. Use a native worker/subagent only when the installed runtime exposes the required selection capability; otherwise report a neutral execution-capability blocker and never claim an in-place model switch.
+   - Antigravity must not call Codex routing scripts or inherit Codex child-worker behavior. It preserves the same workflow gates without writing routing identity evidence.
 21. Claude Code VS Code Model Routing Gate:
    - For Claude Code VS Code coding, refactor, test-creation, migration, dependency, or scaffold-generation work, enforce `guardrails/system/CLAUDE_VSCODE_MODEL_ROUTING_POLICY.md` automatically. The founder must not be asked to select a Claude model.
    - Use `.claude/model-routing.json` and the native Claude agents `claude-routing-supervisor`, `claude-fast-worker`, and `claude-deep-reviewer` for bounded automatic delegation when runtime support is available.
    - The visible VS Code main-session model is sticky. Do not claim an in-place model switch; `Auto` permission mode is not a model selector.
-   - L0 may use Haiku, L1-L2 use Sonnet, L3 may use Opus for bounded analysis/review, and L4 uses Fable only after its actual supported local model ID or alias is verified. When L4 selection is unavailable, record `model_switch_unavailable` and continue only if the active model meets the risk floor.
-   - Do not retry automatically, downgrade during implementation, hard-code account-specific model IDs, or bypass any workflow gate. Record concise Git-safe routing evidence in target `artifacts/shared/AI_ROUTING_LOG.md` when available.
+   - L0 may use Haiku, L1-L2 use Sonnet, L3 may use Opus for bounded analysis/review, and L4 uses Fable only after its actual supported local model ID or alias is verified. When L4 selection is unavailable, report a neutral capability blocker and continue only if the active model meets the risk floor.
+   - Do not retry automatically, downgrade during implementation, hard-code account-specific model IDs, or bypass any workflow gate. Routing decisions are ephemeral and must not be written to Master Scaffold or target continuity artifacts.
 22. Scaffold Agent Activity Log Gate:
    - For every meaningful scaffold or target-project activity, enforce `guardrails/development/AGENT_ACTIVITY_LOG_POLICY.md` and append the required event to `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
    - Before source scanning or continuing work, read only its `Current Activity Snapshot`, the active task entries, and at most three relevant recent entries. Do not read the full log by default.
-   - Never log per tool call, raw prompts, raw command output, secrets, or unverified token/cost data. Link existing target routing, QA, contributor, or handoff evidence rather than duplicate it.
-   - `model_or_profile` is mandatory for every activity entry: use exact router/runtime/frontmatter evidence with `model_source`, or `active_model_unavailable` plus a short reason. `not_recorded` is prohibited for new entries.
-   - When a target project is active, update its `ACTIVE_CONTEXT.md` with the current root activity-log entry. The root activity log is committed with the scaffold repository; it is not part of the target project's Git history.
+   - Never log per tool call, raw prompts, raw command output, secrets, identity-bearing routing data, or unverified token/cost data. Link only neutral QA, contributor-role, or handoff evidence.
+   - Every activity entry uses the neutral `contributor_role` field. Runtime, provider, model, agent, engineer, routing-source, token, and cost identity are prohibited by `guardrails/development/INTERNAL_CONTINUITY_IDENTITY_POLICY.md`.
+   - When a target project is active, link the current root activity-log entry from Master Scaffold internal traceability. The root activity log is committed with the scaffold repository; it is not part of the target project's Git history.
 
 ## Global Rules
 1. Read these files before significant work:
@@ -233,11 +242,11 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 16. If the latest official step is missing from `SESSION_LOG.md`, set `resume_safe=no`, repair the log first, and do not start the next official step.
 17. A `medium` or `major` activity is invalid if execution started before the compact plan and explicit founder approval were recorded in chat or the relevant operational artifact.
 18. Before creating or updating any artifact, evidence, log, QA output, release note, memory entry, planning document, or generated documentation, enforce `guardrails/development/ARTIFACT_STORAGE_POLICY.md`.
-19. For target repository work under `development/[project-folder]`, shared continuity updates are mandatory before `resume_safe`, `SUCCESS`, `ready to pr`, or handoff may be claimed.
+19. For target repository work under `development/[project-folder]`, client-safe fact and Master Scaffold traceability updates are mandatory before `resume_safe`, `SUCCESS`, `ready to pr`, or handoff may be claimed.
    - Read shared target context before source scanning or continuing work; also read the root activity-log snapshot and relevant entries under the separate activity-log gate.
-   - Write shared target context after meaningful work; append the required activity event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md` under the separate activity-log gate.
-   - Use `development/[project-folder]/artifacts/shared/`, not scaffold-local `artifacts/`, for Git-carried developer-to-developer context.
-   - Commit and push this context from the target project's Git repository; the scaffold root `.gitignore` must ignore all target project files.
+   - Write client-safe target facts and internal ODN state after meaningful work; append the required activity event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
+   - Use target `artifacts/shared/` only for client-safe contract facts. Use `artifacts/traceability/[project]/` for internal developer continuation.
+   - Commit target client-safe facts from the target Git repository and internal traceability from the scaffold repository; the scaffold root `.gitignore` must continue to ignore target project files.
 20. When first intake has no usable project documentation, do not claim a source-derived baseline is complete until `CODE_DERIVED_BASELINE_POLICY.md` requirements, target `PROJECT_STATE.md`, shared-context updates, and relevant verified memory synchronization are complete.
 21. For existing-project implementation, do not open the pre-coding gate until a completed readiness baseline records dependency, environment, database, migration/seed, local run, build, lint/typecheck, test, CI/formatter discovery, and known pre-existing failures or their scoped-development status.
 
@@ -271,7 +280,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 - Use `.codex/agents/memory-curator.md` for memory capture, recall, pruning, and synchronization whenever memory maintenance is requested or a meaningful workflow event completes.
 - Treat `artifacts/memory/MEMORY_LEDGER.toml` as the machine-readable memory registry and `artifacts/memory/MEMORY_INDEX.md` as the human-readable summary.
 - Automatic memory maintenance must stay within memory and operational-log files; it may not write product code or change workflow gates.
-- Shared target repo context under `development/[project-folder]/artifacts/shared/` is the Git-carried continuity layer for developer-to-developer handoff; scaffold memory remains advisory and local to the scaffold unless intentionally committed.
+- Target `artifacts/shared/` is a client-safe fact layer; internal developer continuity and handoff resolve from Master Scaffold `artifacts/traceability/[project]/`. Scaffold memory remains advisory.
 - For a project with no usable documentation, capture memory only from the completed code-derived baseline and its source-linked intake evidence; memory must preserve concise verified facts and targeted discovery paths, not a raw source dump.
 
 ## Pre-Coding Gate Rules
@@ -430,7 +439,7 @@ See `artifacts/context/STARTUP_MODE.md` for the current selection and `guardrail
 - For `greenfield_project`, enforce `guardrails/development/GREENFIELD_PROJECT_POLICY.md` and `workflows/greenfield_project_workflow.md`.
 - Greenfield work must not fabricate `I1 Existing Project Intake` or `I2 Impact Scan`. Use `G0-G5` evidence until an actual project baseline exists.
 - `start` only selects the route. It does not authorize framework bootstrap, dependency installation, database creation, code generation, or product code.
-- Before G5, require founder discovery, first-feature requirement baseline, approved architecture and bootstrap plan, selected task slice, skill lookup or skill-creator fallback, target shared context, explicit allowed write paths, and exact founder approval.
+- Before G5, require founder discovery, first-feature requirement baseline, approved architecture and bootstrap plan, selected task slice, skill lookup or skill-creator fallback, client-safe target facts plus Master Scaffold ODN state, explicit allowed write paths, and exact founder approval.
 - After the target repository exists, use the same shared-context, memory, feature slicing, QA, documentation sync, and handoff rules as existing-project work.
 
 ## Preferred Existing-Project Style

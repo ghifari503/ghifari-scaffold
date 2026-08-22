@@ -29,7 +29,7 @@ The breakdown must identify:
 - dependencies and blockers
 - required `dev-doc/` files
 - relevant memory/context entries
-- target repo shared context entries
+- target client-safe facts and Master Scaffold ODN traceability entries
 - targeted repo scan paths
 - allowed write paths
 - QA scope
@@ -55,8 +55,8 @@ Before scanning repository source for a feature task, read active context in thi
 9. `artifacts/memory/FEATURE_REGISTRY.toml`
 10. related `dev-doc/[feature-name]/`
 11. latest relevant `artifacts/operations/SESSION_LOG.md` entry
-12. when a target repo is attached, `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-13. when a target repo is attached, latest relevant `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` entries and `handoffs/`
+12. when a target repo is attached, client-safe `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`
+13. when a target repo is attached, Master Scaffold batch state, at most three relevant ODN records, and relevant internal handoff
 
 Use memory and context to narrow the scan. Memory is advisory and must not override current repo evidence or active artifacts.
 
@@ -107,6 +107,6 @@ A feature session is not complete until:
 - the selected slice status is recorded
 - deferred slices remain backlog/next tasks
 - memory and feature registry updates are captured when meaningful
-- target repo shared context is updated when meaningful work happened
+- target client-safe facts and Master Scaffold internal traceability are updated as applicable when meaningful work happened
 - documentation sync is complete for operational files and relevant feature docs
 - the next exact task slice is clear

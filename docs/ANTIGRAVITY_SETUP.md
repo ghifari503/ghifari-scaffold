@@ -18,7 +18,7 @@ Use the Odonplay scaffold from Antigravity IDE or Antigravity CLI without changi
 - The agent selects a Gemini profile automatically according to `guardrails/system/ANTIGRAVITY_RUNTIME_POLICY.md`; the developer does not choose models per task.
 - The visible model is sticky during a user turn. An agent may only use another model through a native worker/subagent capability that is actually available.
 - When that capability is unavailable, the agent records `model_switch_unavailable` rather than claiming an in-place switch.
-- Use `artifacts/shared/AI_ROUTING_LOG.md` for Git-safe routing continuity in target projects.
+- Do not create routing continuity records. Routing is ephemeral; never write routing state or runtime/model identity to target shared facts or Master Scaffold continuity artifacts.
 
 ## Skills
 

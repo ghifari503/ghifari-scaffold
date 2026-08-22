@@ -35,6 +35,10 @@ This is an overlay on top of the official scaffold gates. It does not replace `I
 | 17 | Ready to PR | after `R4` or PR review gate | PR readiness checklist and reviewer notes |
 
 ## Operating Rules
+- After normal task classification, apply the ODN overlay without changing lifecycle or official gate order: `read_only` and unrelated `minor_change` work do not create a batch; one `logical_change` creates or resumes the exact `component:scope` batch.
+- Target `artifacts/shared/` is client-safe only. Store identity-free internal lifecycle progress, handoff, validation links, and ODN state under Master Scaffold `artifacts/traceability/[project]/`; routing remains ephemeral.
+- Read at most three directly relevant batches initially. Graphify remains structural context and its output must not be copied into ODN or lifecycle records.
+- A source-changing logical batch uses selective native-comment `@batch odn-xxxx` markers and an exact `Batch: odn-xxxx` Git trailer. Do not fabricate commit provenance or create a commit merely to close a batch.
 - Do not code before intake, impact scan, baseline validation, implementation plan, allowed write paths, and founder approval exist for the scoped change.
 - During intake for a cloned or attached repository, inventory local guardrail files, apply `guardrails/system/GUARDRAIL_PRECEDENCE_POLICY.md`, and resolve conflicts using `guardrails/system/CONFLICT_RESOLUTION_RULE.md` before coding.
 - Treat `start dev` as local readiness only. It may create readiness evidence, but it must not become feature implementation.
@@ -68,3 +72,4 @@ This route is recommended, not mandatory, for low-risk documentation-only work. 
 - Final impact check: `artifacts/improvement/[feature]-final-impact-check.md`
 - PR readiness: `artifacts/release/[feature]-pr-readiness.md`
 - Handoff note: `artifacts/operations/[task-id]-handoff.md` when a standalone handoff file is useful
+- Master Scaffold internal handoff for a target: `artifacts/traceability/[project]/handoffs/[feature]-[slice]-handoff.md`

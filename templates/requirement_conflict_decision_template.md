@@ -7,7 +7,7 @@
 - status: `[open|needs_founder_decision|resolved|superseded]`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- owner_runtime: `[codex|claude|gemini|manual]`
+- owner_role: `[implementation|review|qa|planning|manual|other]`
 
 ## Conflict Summary
 - requested_behavior:
@@ -49,4 +49,3 @@
 ## Completion
 - synchronization_complete: `[yes|no]`
 - next_exact_step:
-

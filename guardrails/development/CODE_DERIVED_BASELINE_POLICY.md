@@ -31,8 +31,8 @@ Record the founder response in `PROJECT_STATE.md`.
 During first intake, create and maintain these Git-safe target-repository files:
 
 - `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` from `templates/shared_project_state_template.md`
-- `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-- `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
+- `artifacts/traceability/[project]/BATCH_STATE.json`
+- the relevant internal handoff under `artifacts/traceability/[project]/handoffs/`
 
 Then use `memory-curator` to capture stable, verified facts from the completed intake baseline in scaffold memory:
 
@@ -85,7 +85,7 @@ First intake is not complete or `resume_safe` when documentation is absent until
 
 - the mandatory documentation question and response are recorded;
 - `PROJECT_STATE.md` contains the required evidence-backed baseline or documented unknowns;
-- `ACTIVE_CONTEXT.md` and `CONTRIBUTOR_LOG.md` identify the baseline and next step; and
+- the relevant ODN batch and internal handoff identify the baseline and next step; and
 - relevant verified facts are synchronized into scaffold memory.
 
 Stop and record a blocker instead of claiming baseline completion if the target repository cannot be read, documentation question is still awaiting a founder response, or critical project state remains unknown after the allowed targeted discovery.

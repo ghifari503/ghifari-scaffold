@@ -8,10 +8,18 @@ To record an opt-in adoption safely:
 ./scripts/update-scaffold-project.ps1 -TargetPath development/[project-folder]
 ```
 
-Review the JSON dry-run result. Only when status is `ready_for_opt_in_apply`, run the displayed report id:
+If the result reports incomplete ODN schema adoption, first review its embedded migration dry-run or run it directly:
+
+```powershell
+./scripts/odn-traceability.ps1 migrate-shared --project [project-folder] --target development/[project-folder]
+```
+
+A future real migration apply requires its exact report id and the explicit `--remove-internal-originals` switch. Ordinary scaffold update apply never authorizes that removal.
+
+After the Master Scaffold migration receipt is complete and the target working tree is clean, rerun the update dry-run. Only when status is `ready_for_opt_in_apply`, run the displayed update report id:
 
 ```powershell
 ./scripts/update-scaffold-project.ps1 -TargetPath development/[project-folder] -Apply -ReportId [report-id]
 ```
 
-The apply action creates one new receipt only. It fails closed for dirty projects, missing shared context, legacy copied scaffold files, invalid target paths, or an existing receipt.
+The apply action creates one new internal Master Scaffold receipt only. It fails closed for dirty projects, missing client-safe shared facts, incomplete current ODN schema adoption, legacy copied scaffold files, invalid target paths, or an existing receipt.

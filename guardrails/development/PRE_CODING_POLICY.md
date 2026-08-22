@@ -21,6 +21,9 @@ All items must be true before any runtime may run `B1 Backend Build`, `B2 Fronte
 - For target repo work under `development/[project-folder]`, `guardrails/development/SHARED_CONTEXT_POLICY.md` has been enforced.
 - Target repo shared context under `development/[project-folder]/artifacts/shared/` has been read before continuing work.
 - If target repo shared context was missing during first intake or greenfield setup, a baseline was created before implementation.
+- `guardrails/development/ODN_TRACEABILITY_POLICY.md` has classified the task as `read_only`, `minor_change`, or `logical_change`.
+- For a logical source change, one active ODN batch has been atomically allocated or resumed by stable `component:scope`; read-only and unrelated minor changes do not create a batch.
+- First-adoption shared-artifact migration is complete or explicitly not applicable; no internal process state remains in target `artifacts/shared/`.
 - Context-first recall has completed before repository source scanning.
 - Targeted scan paths are documented before repository source scanning.
 - Full repo scan is not used unless an allowed reason is documented or the founder explicitly approved it.
@@ -164,11 +167,12 @@ Stop and ask the founder for direction if any of these are true:
 - More than one feature is active in the same session without explicit founder approval.
 - A `medium` or `major` request has not received compact-plan approval yet.
 - Feature/module work has no task breakdown or selected current-session slice.
-- Target repo work is continuing without reading `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md`, and relevant `handoffs/`.
+- Target repo work is continuing without reading client-safe target facts, Master Scaffold batch state, at most three relevant ODN records, and relevant internal handoff.
 - Existing-project readiness baseline is missing, incomplete, stale for the current project state, or does not classify known pre-existing failures.
 - Existing-project readiness baseline does not declare scoped development ready and no founder-accepted exception is recorded.
 - Target repo shared context is missing after intake and no baseline was created.
 - A meaningful target repo session is closing without updating shared context.
+- A logical change lacks a resolvable ODN batch, or required schema-adoption migration/leakage verification is incomplete.
 - Context-first recall was skipped before repository source scanning.
 - Targeted scan paths are missing.
 - A full repo scan is proposed without an allowed reason.

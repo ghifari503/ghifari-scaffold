@@ -5,7 +5,7 @@
 - artifact_type: `test`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[claude|codex|manual]`
+- contributor_role: `historical_record`
 - owner: `[name-or-role]`
 - status: `[draft|in_progress|passed|failed|blocked]`
 - qa_platform: `playwright`
