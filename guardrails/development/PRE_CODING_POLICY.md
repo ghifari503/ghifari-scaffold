@@ -40,6 +40,8 @@ All items must be true before any runtime may run `B1 Backend Build`, `B2 Fronte
 - Existing-project route: framework, database, package manager, and test stack are audited or explicitly marked unchanged from the target repository. Greenfield route: those choices are explicitly approved in the architecture decision and bootstrap plan.
 - Founder approval exists for the scoped build step.
 - The founder approval reference recorded in the checklist artifact matches the scoped plan being executed.
+- Playwright and the required browser binaries are installed and usable in the target repository before the task begins, regardless of whether the task is browser-facing.
+- Gemini CLI and Gemini/Antigravity Playwright configuration and commands enforce `headless: true`; no `--headed` override is allowed.
 
 ## Local Development Readiness Exception
 
@@ -63,7 +65,7 @@ Allowed before `I2`:
 
 Requires explicit founder approval and open gate before execution:
 - dependency install
-- Playwright dependency or browser installation for a browser-capable target
+- Playwright dependency or browser installation for any target task when the mandatory startup prerequisite is missing
 - local env file creation
 - migration or seed execution
 - dev server or emulator boot command
@@ -76,9 +78,9 @@ Blocked before `I2`:
 - tests or fixtures tied to a feature change
 - refactors or behavior changes
 
-### Browser QA Readiness
+### Mandatory Playwright Task-Start Readiness
 
-When a project starts and its audited target includes browser-visible UI, local readiness must inspect Playwright configuration and report whether its package and required browsers are ready. It may identify the exact install command, but may install neither until the founder explicitly approves the target-specific install scope. Browser-inapplicable targets must record that classification rather than receiving a needless Playwright dependency.
+Before any target-repository task starts, local readiness must verify Playwright configuration, package availability, and required browser binaries. A missing package or browser blocks the task and must produce the exact target-specific install command for founder approval. This applies even when the current scope is backend-only, native Flutter, firmware, or otherwise browser-inapplicable; only the later browser-QA result may be marked inapplicable. Gemini CLI and Gemini/Antigravity must use Playwright headlessly (`headless: true`) and may not pass `--headed`.
 
 ## Allowed Modes
 

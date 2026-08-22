@@ -61,6 +61,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 - Recommended strict multi-agent route for medium/high-risk work: Claude plans and analyzes, Codex/GPT implements, Gemini independently reviews, then Claude or a human reviewer prepares final QA reasoning and PR/handoff summary.
 
 ## Process Control Rules (Manual Mode)
+0. Before every action command or task, run `scripts/check-scaffold-freshness.ps1` or `scripts/check-scaffold-freshness.sh`. This local no-network check reports the current Git `HEAD` and fingerprints for the core rules, version file, and operational status snapshot. Re-read relevant rules only when the session fingerprint changes. Never fetch or pull automatically.
 1. Never run major workflow steps autonomously without user confirmation.
 2. Treat `start dev` / `dev` as the local development readiness command and do not require `I2 Impact Scan` unless a real project behavior/source/config/dependency/schema/test change is discovered.
 3. Before significant work or any official step, classify the request using `guardrails/system/TASK_TYPE_CLASSIFICATION.md` and `guardrails/system/TASK_TYPE_REGISTRY.md`.
@@ -366,9 +367,10 @@ Use `workflows/ai_contributor_lifecycle.md` as the detailed evidence overlay for
 - Before repeating QA, compare the current delta with `last_passing_point`; rerun only impacted checks unless a recorded broad-suite reason applies.
 - Store concise command summaries and durable evidence paths, not long raw logs, traces, screenshots, coverage dumps, or generated reports in chat, operational logs, or shared context.
 - Prefer updating the existing test stack if one already exists and is healthy.
-- For every browser-capable target project, assess and provision Playwright during project-start readiness after the target and frontend runtime are identified. The target-specific dependency install and browser download still require the founder's explicit approval and an open allowed-install scope.
+- Before any task against a target repository begins, verify that Playwright and the required browser binaries are already installed and usable for that target. This requirement applies to every target task, including backend-only, native Flutter, firmware, and other non-browser scopes; do not start the task when the prerequisite is missing.
+- When Playwright is missing, record the task as blocked and request the founder's explicit approval for the exact target-specific dependency and browser-install command. Installation remains inside an approved allowed-install scope; a requested task does not itself authorize installation.
+- Gemini CLI and Gemini/Antigravity agents must run every Playwright command headlessly. They must set or preserve `headless: true` and must not pass `--headed` or otherwise launch a visible browser.
 - Once provisioned, Playwright is mandatory whenever the task enters a QA/test list with browser-visible UI, user-flow, responsive, or visual scope. Record a scoped Playwright result; use `skipped` or `blocked` with a reason only when browser QA is genuinely inapplicable or unavailable.
-- For backend-only, native Flutter, firmware, or other non-browser targets, do not install Playwright solely to satisfy this rule; record the browser QA layer as inapplicable.
 - If the current stack is weak or missing, Playwright remains the default for browser-based QA.
 - Keep Playwright runtime artifacts under `artifacts/qa/playwright/` and prepare that folder structure before the first run.
 - Keep human-authored QA summaries, bug logs, status summaries, and verification writeups under `artifacts/test/`.

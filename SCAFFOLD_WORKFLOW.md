@@ -14,6 +14,7 @@ Tujuan utama scaffold:
 
 ## Aturan Dasar
 
+0. Sebelum setiap command atau task dijalankan, jalankan `scripts/check-scaffold-freshness.ps1` atau `scripts/check-scaffold-freshness.sh`. Pemeriksaan ini lokal tanpa network, melaporkan `HEAD` dan fingerprint sumber, serta tidak pernah melakukan fetch atau pull. Baca ulang aturan terkait hanya jika fingerprint berubah.
 1. Baca `AGENTS.md` sebelum melakukan pekerjaan.
 2. Founder adalah pengambil keputusan akhir untuk produk, arsitektur, risiko, dan release.
 3. Request `medium` atau `major` wajib memiliki plan dan approval sebelum eksekusi.

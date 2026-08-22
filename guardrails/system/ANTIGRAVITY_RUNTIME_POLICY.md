@@ -40,6 +40,12 @@ This is a preference map, not a claim that every Antigravity account exposes eve
 - Gemini remains the default independent reviewer and consistency scanner in the multi-agent route unless the founder assigns a different role.
 - Claude and Codex assignments remain governed by their own runtime policies. All runtimes use the same gates, artifacts, handoff, and QA evidence.
 
+## Playwright Execution
+
+- Before a Gemini/Antigravity agent begins any target-repository task, it must verify that Playwright and the required browser binaries are installed and usable. If they are missing, the task is blocked pending founder-approved installation in an open allowed-install scope.
+- Gemini/Antigravity must run Playwright headlessly for every invocation. Set or preserve `headless: true`; never pass `--headed`, set `headless: false`, or launch a visible browser.
+- This startup prerequisite applies even when the immediate task is backend-only, native Flutter, firmware, or otherwise does not need browser QA. Such scope may mark the later browser-QA layer inapplicable, but may not bypass the installation prerequisite.
+
 ## Evidence And Gates
 
 - Record runtime, selected or active model, routing status, relative token/cost band, and concise non-sensitive reason in `artifacts/shared/AI_ROUTING_LOG.md` when routing is used.

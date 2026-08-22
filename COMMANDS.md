@@ -6,6 +6,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 ## How To Use
 
+- Before every command or task, run `scripts/check-scaffold-freshness.ps1` or `scripts/check-scaffold-freshness.sh`. This is local-only, reports `HEAD` and source fingerprints, and never fetches or pulls. Re-read relevant rules only when the fingerprint changes.
 - Copy one command.
 - Replace bracketed placeholders.
 - Send it to Codex or Claude as your next instruction.
@@ -135,7 +136,8 @@ Expected behavior:
 - Do not scan all target projects automatically. A graph is always local to one selected project and only `graphify-out/` is ignored by Git. The master scaffold owns agent guidance, so Graphify must not create project `.codex/`, `.claude/`, `.gemini/`, `AGENTS.md`, `CLAUDE.md`, or `GEMINI.md` files.
 - A master pull never upgrades Graphify on a developer computer or rebuilds a target graph. Report the installed version and offer an explicit user-level update only when the user approves; rebuild the selected graph and synchronize shared context after an approved upgrade.
 - Do not mark a target session `resume_safe`, close QA, hand off, or claim ready to PR while its installed graph is stale without a recorded blocker. Keep refreshes token-efficient: update only the active target, only once per meaningful delta, and query only the relevant graph slice.
-- For a browser-capable target, include Playwright readiness in project startup: inspect whether it is configured, identify the appropriate package-manager command, and request confirmation before installing its dependency or browsers. Do not install Playwright for backend-only, native Flutter, firmware, or other non-browser targets.
+- Before beginning any task against a target repository, verify that Playwright and its required browser binaries are installed and usable. This is mandatory for every target task, including backend-only, native Flutter, firmware, and other non-browser scopes; a missing prerequisite blocks task start.
+- When Playwright is missing, report the exact target-specific dependency/browser install command and request explicit founder approval. Do not install until the allowed-install scope is open. Gemini CLI and Gemini/Antigravity must execute Playwright headlessly (`headless: true`) and must never use `--headed`.
 - Follow `guardrails/development/GREENFIELD_PROJECT_POLICY.md` for the zero-entry route. `start` does not open a build gate.
 
 ### Start Work Session
@@ -994,6 +996,8 @@ Do not execute scaffold changes yet.
 Set up Playwright for this existing project without polluting the repo root.
 Keep all Playwright runtime files under the playwright/ folder.
 Respect the current frontend route.
+Do not begin any target task until the package and required browser binaries are installed and verified.
+For Gemini CLI or Gemini/Antigravity, configure every Playwright execution as headless and never use --headed.
 ```
 
 ## Design Workflow

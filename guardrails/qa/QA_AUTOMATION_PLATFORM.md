@@ -14,6 +14,11 @@ It is the recommended way to automate repetitive manual checks such as:
 
 ## Platform Policy
 
+### Mandatory Task-Start Prerequisite
+- Before any task against a target repository begins, Playwright and the required browser binaries must already be installed and usable, including for backend-only, native Flutter, firmware, and other non-browser scopes.
+- A missing package or browser blocks task start. Report the exact target-specific install command and obtain founder approval before installing it; the task request itself does not authorize the install.
+- Gemini CLI and Gemini/Antigravity must execute Playwright in headless mode only: configure `headless: true` and never use `--headed`.
+
 ### Default for New Projects
 - Playwright
 
