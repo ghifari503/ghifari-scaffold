@@ -50,4 +50,4 @@ This file is part of the target project contract. Include verified, non-sensitiv
 - known_public_compatibility_requirements:
   - `[requirement and evidence]`
 
-Internal continuation belongs only in Master Scaffold `artifacts/traceability/[project]/`.
+Internal continuation belongs only in Master Scaffold `artifacts/traceability-local/[project]/`.

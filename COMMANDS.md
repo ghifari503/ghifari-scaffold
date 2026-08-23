@@ -90,13 +90,13 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 ## Shared Target Repository Context Gate
 
 - For target repo work under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
-- Target `artifacts/shared/` contains client-safe project facts only. Identity-free lifecycle, handoff, traceability, contributor/process, and development-state metadata resolves from Master Scaffold `artifacts/traceability/[project]/`; routing is ephemeral.
+- Target `artifacts/shared/` contains client-safe project facts only. Identity-free lifecycle, handoff, traceability, contributor/process, and development-state metadata resolves from Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral.
 - Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
 - Before continuing target work, read client-safe `PROJECT_STATE.md`, Master Scaffold batch state, at most three relevant ODN batches, the relevant internal handoff, and the root activity-log snapshot.
 - If client-safe facts or the Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
 - After meaningful work, update target facts only when client-safe facts changed, synchronize internal state under Master Scaffold authority, and append the root activity event.
 - Target shared facts must not contain secrets, internal process metadata, runtime/model routing data, `.env` values, raw chats, credentials, private data, or large raw logs.
-- Pulling the master never writes into a target. For an approved, per-target adoption report use `update scaffold [project-folder]`, which runs `scripts/update-scaffold-project.ps1` in read-only mode first. Apply requires the exact dry-run report id and creates its receipt only under Master Scaffold `artifacts/traceability/[project]/`; it never overwrites target work or existing documents.
+- Pulling the master never writes into a target. For an approved, per-target adoption report use `update scaffold [project-folder]`, which runs `scripts/update-scaffold-project.ps1` in read-only mode first. Apply requires the exact dry-run report id and creates its receipt only under Master Scaffold `artifacts/traceability-local/[project]/`; it never overwrites target work or existing documents.
 - Strict startup adoption: after a master pull or changed local scaffold fingerprint/version, every selected or resumed target automatically receives this same read-only adoption report before target work continues. A non-ready report blocks implementation, QA closure, handoff, and `resume_safe`; `-Apply` still requires separate founder approval.
 
 ## Strict ODN Traceability Gate
@@ -395,7 +395,7 @@ handoff
 Expected behavior:
 - Read the active task, workflow state, latest session log, client-safe target facts, relevant ODN state/handoff, and relevant memory.
 - Confirm the current feature and selected task slice.
-- Update target `PROJECT_STATE.md` only for changed client-safe facts, update the active ODN batch and internal handoff under `artifacts/traceability/[project]/`, and append the required root activity event.
+- Update target `PROJECT_STATE.md` only for changed client-safe facts, update the active ODN batch and internal handoff under `artifacts/traceability-local/[project]/`, and append the required root activity event.
 - Record completed work, remaining work, decisions, changed files, commands and test results, known issues, blockers, Do Not Repeat notes, and the exact next step.
 - Do not claim `resume_safe` for medium/major work until the latest official step and required documentation sync are recorded.
 - This prepares continuity for another developer or runtime; it does not close QA or approve release.
@@ -1151,9 +1151,9 @@ Use the existing docs, code patterns, and artifacts in the repository instead of
 Read shared target repository context before continuing:
 development/[project-folder]/artifacts/shared/PROJECT_STATE.md
 artifacts/operations/AGENT_ACTIVITY_LOG.md
-artifacts/traceability/[project]/BATCH_STATE.json
-artifacts/traceability/[project]/batches/ (maximum three relevant records)
-artifacts/traceability/[project]/handoffs/
+artifacts/traceability-local/[project]/BATCH_STATE.json
+artifacts/traceability-local/[project]/batches/ (maximum three relevant records)
+artifacts/traceability-local/[project]/handoffs/
 Then continue with targeted scans only.
 ```
 
@@ -1162,8 +1162,8 @@ Then continue with targeted scans only.
 Update shared target repository context for this work session:
 development/[project-folder]/artifacts/shared/PROJECT_STATE.md (client-safe facts only, when changed)
 artifacts/operations/AGENT_ACTIVITY_LOG.md
-artifacts/traceability/[project]/batches/[odn-id].json
-artifacts/traceability/[project]/handoffs/[feature]-[slice]-handoff.md
+artifacts/traceability-local/[project]/batches/[odn-id].json
+artifacts/traceability-local/[project]/handoffs/[feature]-[slice]-handoff.md
 Keep all internal process metadata out of the target repository.
 ```
 

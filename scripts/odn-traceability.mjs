@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const scriptRoot = path.dirname(fileURLToPath(import.meta.url));
 const defaultMaster = path.resolve(scriptRoot, '..');
-const ODN_SCHEMA_VERSION = 3;
+const ODN_SCHEMA_VERSION = 4;
 const INTERNAL_NAMES = new Set(['ACTIVE_CONTEXT.md', 'CONTRIBUTOR_LOG.md', 'AI_ROUTING_LOG.md']);
 const INTERNAL_PATHS = [
   /(?:^|\/)handoffs(?:\/|$)/i,
@@ -34,6 +34,18 @@ const PREVENTION_RULES = [
 const IDENTITY_FIELD_PATTERN = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|model|model_or_profile|model_source|model_availability_reason|provider|vendor|routing_profile|routing_log_reference|token_band|cost_band)(?:["']?)\s*[:=]/im;
 const TARGET_AI_TRACE = /\b(?:codex|claude|gemini|openai|anthropic|ai[_ -]?(?:agent|assistant|routing|model|provider|prompt|token|cost)|llm)\b/i;
 const TARGET_SCAN_EXCLUDES = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage', '.next', 'graphify-out']);
+// The explicit AI/runtime/process trace scan covers the whole target tree, including source
+// code, not only the narrow doc/config extensions used for structural artifacts/shared
+// classification. Excluding known-binary extensions (rather than allow-listing text
+// extensions) keeps a stray trace comment in any source file detectable.
+const BINARY_SCAN_EXCLUDE_EXTENSIONS = new Set([
+  '.png', '.jpg', '.jpeg', '.gif', '.webp', '.ico', '.bmp', '.avif', '.tiff',
+  '.pdf', '.zip', '.gz', '.tgz', '.tar', '.7z', '.rar', '.br',
+  '.woff', '.woff2', '.ttf', '.otf', '.eot',
+  '.mp3', '.mp4', '.mov', '.avi', '.wav', '.ogg', '.webm',
+  '.exe', '.dll', '.so', '.dylib', '.class', '.jar', '.wasm', '.node', '.bin', '.dat',
+  '.sqlite', '.sqlite3', '.db',
+]);
 
 function parseArgs(argv) {
   const [command = 'help', ...rest] = argv;
@@ -165,8 +177,13 @@ async function listFiles(root) {
 }
 
 async function identityGate(master) {
+  // Master-side identity-freedom check only: whether continuity records (Git-carried
+  // schema authority plus the Git-ignored local-only per-project store) avoid runtime,
+  // provider, model, agent, or engineer identity fields. This is unrelated to leakageGate,
+  // which instead checks what a target repository's own Git tree may expose.
   const roots = [
     path.join(master, 'artifacts', 'traceability'),
+    path.join(master, 'artifacts', 'traceability-local'),
     path.join(master, 'artifacts', 'operations'),
   ];
   const findings = [];
@@ -470,9 +487,12 @@ async function leakageGate(target, excluded = new Set()) {
     for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
       if (entry.isDirectory()) { if (!TARGET_SCAN_EXCLUDES.has(entry.name)) await walk(path.join(directory, entry.name)); continue; }
       const file = path.join(directory, entry.name);
-      if (!TEXT_EXTENSIONS.has(path.extname(file).toLowerCase())) continue;
+      if (BINARY_SCAN_EXCLUDE_EXTENSIONS.has(path.extname(file).toLowerCase())) continue;
       if (excluded.has(normalizeRelative(path.relative(target, file)))) continue;
-      if (TARGET_AI_TRACE.test(await fs.readFile(file, 'utf8'))) traces.push(normalizeRelative(path.relative(target, file)));
+      let buffer;
+      try { buffer = await fs.readFile(file); } catch { continue; }
+      if (buffer.includes(0)) continue; // binary content sniff for files without a recognized extension
+      if (TARGET_AI_TRACE.test(buffer.toString('utf8'))) traces.push(normalizeRelative(path.relative(target, file)));
     }
   }
   await walk(target);

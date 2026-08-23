@@ -121,7 +121,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - For any target repository under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
    - The target project must be a separate Git repository; do not commit or push target files from the scaffold root repository.
    - Before target project setup or work, verify the target repository is initialized or cloned and verify scaffold-root Git protection is active through `scripts/enable-scaffold-git-protection.ps1` when the runtime can run it.
-   - Target `development/[project-folder]/artifacts/shared/` contains client-safe project facts only. Identity-free internal lifecycle, handoff, traceability, contributor/process, and development-state metadata belongs in Master Scaffold `artifacts/traceability/[project]/`; routing is ephemeral.
+   - Target `development/[project-folder]/artifacts/shared/` contains client-safe project facts only. Identity-free internal lifecycle, handoff, traceability, contributor/process, and development-state metadata belongs in Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral.
    - Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
    - Before continuing target repo work, read client-safe `PROJECT_STATE.md`, Master Scaffold `BATCH_STATE.json`, at most three relevant ODN batches, and the relevant internal handoff.
    - If target client-safe facts or Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
@@ -130,7 +130,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 12A. ODN Traceability And First-Adoption Migration Gate:
    - For every task and every runtime, enforce `guardrails/development/ODN_TRACEABILITY_POLICY.md` after normal task classification without changing existing workflow gate order.
    - Additionally classify work as `read_only`, `minor_change`, or `logical_change`. Only a logical engineering change creates or resumes an `odn-xxxx` batch; prompts, tool calls, runtimes, files, and commits are never batches.
-   - Complete internal authority lives under `artifacts/traceability/[project]/`; target repositories may expose only selective `@batch odn-xxxx` markers and `Batch: odn-xxxx` Git trailers.
+   - Complete internal authority lives under `artifacts/traceability-local/[project]/`; target repositories may expose only selective `@batch odn-xxxx` markers and `Batch: odn-xxxx` Git trailers.
    - Resolve progressively by stable `component:scope` and load at most three batches initially. ODN must not duplicate Graphify structural data.
    - On first adoption, dry-run and classify every target `artifacts/shared/` file as `client_safe` or `internal_process_state`. Preserve all client-safe files. Copy and hash-verify internal files before removal; require all mandatory migration checks to pass; add prevention rules; keep the migration idempotent.
    - Report internal paths in prior Git commits as `HISTORY_PURGE_REQUIRED`. Never rewrite history without separate explicit founder approval.
@@ -246,7 +246,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 19. For target repository work under `development/[project-folder]`, client-safe fact and Master Scaffold traceability updates are mandatory before `resume_safe`, `SUCCESS`, `ready to pr`, or handoff may be claimed.
    - Read shared target context before source scanning or continuing work; also read the root activity-log snapshot and relevant entries under the separate activity-log gate.
    - Write client-safe target facts and internal ODN state after meaningful work; append the required activity event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
-   - Use target `artifacts/shared/` only for client-safe contract facts. Use `artifacts/traceability/[project]/` for internal developer continuation.
+   - Use target `artifacts/shared/` only for client-safe contract facts. Use `artifacts/traceability-local/[project]/` for internal developer continuation.
    - Commit target client-safe facts from the target Git repository and internal traceability from the scaffold repository; the scaffold root `.gitignore` must continue to ignore target project files.
 20. When first intake has no usable project documentation, do not claim a source-derived baseline is complete until `CODE_DERIVED_BASELINE_POLICY.md` requirements, target `PROJECT_STATE.md`, shared-context updates, and relevant verified memory synchronization are complete.
 21. For existing-project implementation, do not open the pre-coding gate until a completed readiness baseline records dependency, environment, database, migration/seed, local run, build, lint/typecheck, test, CI/formatter discovery, and known pre-existing failures or their scoped-development status.
@@ -281,7 +281,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 - Use `.codex/agents/memory-curator.md` for memory capture, recall, pruning, and synchronization whenever memory maintenance is requested or a meaningful workflow event completes.
 - Treat `artifacts/memory/MEMORY_LEDGER.toml` as the machine-readable memory registry and `artifacts/memory/MEMORY_INDEX.md` as the human-readable summary.
 - Automatic memory maintenance must stay within memory and operational-log files; it may not write product code or change workflow gates.
-- Target `artifacts/shared/` is a client-safe fact layer; internal developer continuity and handoff resolve from Master Scaffold `artifacts/traceability/[project]/`. Scaffold memory remains advisory.
+- Target `artifacts/shared/` is a client-safe fact layer; internal developer continuity and handoff resolve from Master Scaffold `artifacts/traceability-local/[project]/`. Scaffold memory remains advisory.
 - For a project with no usable documentation, capture memory only from the completed code-derived baseline and its source-linked intake evidence; memory must preserve concise verified facts and targeted discovery paths, not a raw source dump.
 
 ## Pre-Coding Gate Rules

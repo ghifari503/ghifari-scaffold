@@ -87,9 +87,9 @@ Memungkinkan developer B melanjutkan pekerjaan developer A tanpa mengulang pemah
 Sebelum melanjutkan pekerjaan pada project aktif, baca:
 
 - `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` untuk fakta client-safe
-- `artifacts/traceability/[project]/BATCH_STATE.json` dan maksimal tiga batch ODN relevan
+- `artifacts/traceability-local/[project]/BATCH_STATE.json` dan maksimal tiga batch ODN relevan
 - maksimal tiga batch ODN relevan
-- handoff internal yang relevan di `artifacts/traceability/[project]/handoffs/`
+- handoff internal yang relevan di `artifacts/traceability-local/[project]/handoffs/`
 - `artifacts/memory/MEMORY_INDEX.md` dan memory yang relevan
 - feature registry dan session log terkait
 
@@ -272,7 +272,7 @@ User Request
 - `templates/`: format artifact dan evidence
 - `artifacts/operations/`: state, task, gate, dan session log
 - `development/[project-folder]/artifacts/shared/`: fakta kontrak project yang client-safe
-- `artifacts/traceability/[project]/`: authority internal ODN, lifecycle, handoff, and identity-free process state; routing decisions are ephemeral
+- `artifacts/traceability-local/[project]/`: authority internal ODN, lifecycle, handoff, and identity-free process state; routing decisions are ephemeral
 
 Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit source dan fakta client-safe dilakukan dari repository target; traceability internal dikomit dari Master Scaffold. Repo scaffold tetap mengabaikan seluruh folder target dan memblokir commit/push root secara default.
 
@@ -286,4 +286,4 @@ Sebelum coding, Terra sebagai supervisor otomatis menjalankan router tanpa memin
 
 Setelah task type normal ditentukan, semua runtime mengklasifikasikan task sebagai `read_only`, `minor_change`, atau `logical_change`. Logical change membuat atau melanjutkan satu batch `odn-xxxx` berdasarkan `component:scope`; lookup awal dibatasi tiga batch. ODN tidak mengganti gate yang ada dan tidak menduplikasi Graphify.
 
-Saat target pertama kali mengadopsi update Master Scaffold, jalankan klasifikasi seluruh `artifacts/shared/` secara dry-run. Pertahankan `client_safe`; salin dan verifikasi `internal_process_state` ke `artifacts/traceability/[project]/`; hapus dari target hanya setelah delapan check `PASS` dan apply disetujui. Tambahkan prevention rule, pastikan idempotent, dan laporkan `HISTORY_PURGE_REQUIRED` tanpa rewrite history otomatis.
+Saat target pertama kali mengadopsi update Master Scaffold, jalankan klasifikasi seluruh `artifacts/shared/` secara dry-run. Pertahankan `client_safe`; salin dan verifikasi `internal_process_state` ke `artifacts/traceability-local/[project]/`; hapus dari target hanya setelah delapan check `PASS` dan apply disetujui. Tambahkan prevention rule, pastikan idempotent, dan laporkan `HISTORY_PURGE_REQUIRED` tanpa rewrite history otomatis.

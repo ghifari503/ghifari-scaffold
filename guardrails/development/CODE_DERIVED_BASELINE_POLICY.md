@@ -31,8 +31,8 @@ Record the founder response in `PROJECT_STATE.md`.
 During first intake, create and maintain these Git-safe target-repository files:
 
 - `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` from `templates/shared_project_state_template.md`
-- `artifacts/traceability/[project]/BATCH_STATE.json`
-- the relevant internal handoff under `artifacts/traceability/[project]/handoffs/`
+- `artifacts/traceability-local/[project]/BATCH_STATE.json`
+- the relevant internal handoff under `artifacts/traceability-local/[project]/handoffs/`
 
 Then use `memory-curator` to capture stable, verified facts from the completed intake baseline in scaffold memory:
 

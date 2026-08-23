@@ -12,7 +12,7 @@ Use exactly one scaffold-level file:
 
 `artifacts/operations/AGENT_ACTIVITY_LOG.md`
 
-`AGENT_ACTIVITY_LOG.md` records concise activity across all target projects. Rich identity-free lifecycle, handoff, contributor/process, and development state resolves from Master Scaffold `artifacts/traceability/[project]/`; routing is ephemeral and target shared facts remain client-safe. Do not duplicate complete contents across files.
+`AGENT_ACTIVITY_LOG.md` records concise activity across all target projects. Rich identity-free lifecycle, handoff, contributor/process, and development state resolves from Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral and target shared facts remain client-safe. Do not duplicate complete contents across files.
 
 ## Required Events
 

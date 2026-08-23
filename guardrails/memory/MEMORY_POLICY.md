@@ -27,7 +27,7 @@ The agent may update memory files, but it may not write product code or open wor
 When memory conflicts with other files, use this priority order:
 
 1. Current repository files and current scan evidence.
-2. Target client-safe facts plus Master Scaffold `artifacts/traceability/[project]/` state when a target repo is attached.
+2. Target client-safe facts plus Master Scaffold `artifacts/traceability-local/[project]/` state when a target repo is attached.
 3. `artifacts/operations/CURRENT_TASK.md`
 4. `artifacts/operations/WORKFLOW_STATE.md`
 5. `artifacts/operations/CURRENT_PHASE.md`

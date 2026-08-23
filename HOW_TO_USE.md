@@ -219,8 +219,8 @@ Sebelum melanjutkan pekerjaan siapa pun sebelumnya:
 ```text
 Read shared target repository context before continuing:
 development/[project-folder]/artifacts/shared/PROJECT_STATE.md
-artifacts/traceability/[project]/BATCH_STATE.json
-artifacts/traceability/[project]/handoffs/
+artifacts/traceability-local/[project]/BATCH_STATE.json
+artifacts/traceability-local/[project]/handoffs/
 Then continue with targeted scans only.
 ```
 
@@ -320,8 +320,8 @@ final impact check
 ```text
 Update shared target repository context for this work session:
 development/[project-folder]/artifacts/shared/PROJECT_STATE.md (client-safe only)
-artifacts/traceability/[project]/BATCH_STATE.json
-artifacts/traceability/[project]/handoffs/[feature]-[slice]-handoff.md
+artifacts/traceability-local/[project]/BATCH_STATE.json
+artifacts/traceability-local/[project]/handoffs/[feature]-[slice]-handoff.md
 Keep it Git-safe and do not store secrets, raw chat, or large logs.
 ```
 

@@ -1,0 +1,20 @@
+name: ODN Leakage Gate
+# Opt-in target CI template. Copy to .github/workflows/odn-leakage-gate.yml inside the target
+# repository after also installing scripts/odn-leakage-scan.mjs there (see README.md in this
+# template folder). Never installed automatically by the Master Scaffold.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  odn-leakage-gate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Run explicit AI/runtime/process trace scan
+        run: node scripts/odn-leakage-scan.mjs

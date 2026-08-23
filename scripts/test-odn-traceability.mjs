@@ -2,6 +2,7 @@
 
 import * as fs from 'node:fs/promises';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -45,7 +46,7 @@ try {
   execFileSync('git', ['add', 'SCAFFOLD_VERSION.md'], { cwd: master });
   execFileSync('git', ['commit', '-qm', 'fixture master'], { cwd: master });
   await write(path.join(master, 'guardrails', 'development', 'ODN_TRACEABILITY_POLICY.md'), 'fixture policy\n');
-  await write(path.join(master, 'guardrails', 'development', 'SHARED_CONTEXT_POLICY.md'), 'artifacts/traceability/[project]/\n');
+  await write(path.join(master, 'guardrails', 'development', 'SHARED_CONTEXT_POLICY.md'), 'artifacts/traceability-local/[project]/\n');
   await write(path.join(master, 'workflows', 'ai_contributor_lifecycle.md'), 'fixture lifecycle\n');
   await write(path.join(target, 'artifacts', 'shared', 'PROJECT_STATE.md'), [
     '# Project State',
@@ -75,8 +76,18 @@ try {
   const first = await allocate(master, 'fixture-project', { component: 'auth', scope: 'login', objective: 'Trace login change' });
   assert(first.result === 'allocated' && first.batch_id === 'odn-0001', 'first allocation must reserve odn-0001');
   const masterSchema = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability', 'MASTER_SCAFFOLD_SCHEMA.json'), 'utf8'));
-  assert(masterSchema.schema_version === 3, 'bootstrap must establish Master Scaffold schema authority');
+  assert(masterSchema.schema_version === 4, 'bootstrap must establish Master Scaffold schema authority');
+  assert(await fs.stat(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'BATCH_STATE.json')), 'per-project ODN state must live under the local-only authority root');
+  assert(!(await fs.stat(path.join(master, 'artifacts', 'traceability', 'fixture-project')).catch(() => null)), 'per-project state must not be written under the Git-carried traceability root');
   assert((await identityGate(master)).status === 'PASS', 'new Master Scaffold continuity state must be identity-free');
+
+  const identityProbe = path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'IDENTITY_PROBE.md');
+  await write(identityProbe, '# Probe\n- model: `gpt-5`\n');
+  const identityDirty = await identityGate(master);
+  assert(identityDirty.status === 'FAIL' && identityDirty.prohibited_identity_findings.some((item) => item.path.includes('traceability-local')), 'identity-gate must police the Git-ignored local-only per-project store, not just the Git-carried schema authority');
+  await fs.rm(identityProbe, { force: true });
+  assert((await identityGate(master)).status === 'PASS', 'identity-gate must pass again once the offending local-only file is removed');
+  results.push('identity-gate covers the local-only per-project store distinctly from the target leakage gate: PASS');
   const resumed = await allocate(master, 'fixture-project', { component: 'auth', scope: 'login' });
   assert(resumed.result === 'resumed' && resumed.batch_id === first.batch_id, 'same component:scope must resume its active batch');
   const simultaneous = await Promise.all([
@@ -107,7 +118,7 @@ try {
     _git_evidence: evidence,
   });
   assert(completed.state === 'completed' && completed.validation_status === 'pass', 'batch completion must require acceptance, validation pass, and verified Git provenance');
-  const codeMap = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability', 'fixture-project', 'CODE_MAP.json'), 'utf8'));
+  const codeMap = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'CODE_MAP.json'), 'utf8'));
   assert(codeMap.entries.some((item) => item.file === 'src/auth/login.js' && item.batches.includes(first.batch_id)), 'batch update must maintain the source-to-batch lookup map');
   results.push('batch lifecycle completion and verified Git provenance map: PASS');
 
@@ -125,6 +136,21 @@ try {
   assert(leakage.leaked_paths.some((item) => item.path.endsWith('unsafe-explicit-client-safe.md')), 'client-safe metadata must not override a targeted internal field');
   results.push('targeted leakage detection and ordinary-word false-positive guard: PASS');
 
+  const explicitTraceTarget = path.join(temporaryBase, 'explicit-trace-target');
+  await write(path.join(explicitTraceTarget, 'artifacts', 'shared', 'PROJECT_STATE.md'), '# Client-safe facts\n');
+  await write(path.join(explicitTraceTarget, 'README.md'), '# Fixture Project\n\nBuilt with Claude Code and the Codex CLI.\n');
+  const explicitTraceScan = await leakageGate(explicitTraceTarget);
+  assert(explicitTraceScan.status === 'FAIL' && explicitTraceScan.explicit_ai_trace_paths.some((item) => item.endsWith('README.md')), 'the whole-tree scanner must fail a target that carries an explicit AI/runtime/process trace term outside artifacts/shared');
+  results.push('explicit AI-trace target fails the whole-tree share gate: PASS');
+
+  const cleanTarget = path.join(temporaryBase, 'clean-target');
+  await write(path.join(cleanTarget, 'artifacts', 'shared', 'PROJECT_STATE.md'), '# Client-safe facts\n- traceability_class: `client_safe`\n');
+  await write(path.join(cleanTarget, 'README.md'), '# Fixture Project\n\nOrdinary product documentation with no internal process trace.\n');
+  await write(path.join(cleanTarget, 'src', 'index.js'), '// @batch odn-0001\nexport const value = true;\n');
+  const cleanScan = await leakageGate(cleanTarget);
+  assert(cleanScan.status === 'PASS' && cleanScan.leaked_paths.length === 0 && cleanScan.explicit_ai_trace_paths.length === 0, 'a client-safe target with only an opaque @batch marker must pass the whole-tree share gate cleanly');
+  results.push('clean target passes the whole-tree share gate: PASS');
+
   const dryRun = await migrateShared(master, 'fixture-project', target, { _git_evidence: evidence });
   assert(dryRun.status === 'ready_for_first_adoption_apply', 'clean first adoption must produce a ready dry-run');
   assert(dryRun.counts.scanned === 4 && dryRun.counts.internal_process_state === 3 && dryRun.counts.client_safe === 1, 'dry-run must classify every shared artifact exactly once');
@@ -137,6 +163,12 @@ try {
   } catch (error) { guardedApplyFailed = /EXPLICIT_REMOVAL_REQUIRED/.test(error.message); }
   assert(guardedApplyFailed, 'apply without explicit internal-original removal switch must fail before mutation');
   assert(await fs.stat(path.join(target, 'artifacts', 'shared', 'ACTIVE_CONTEXT.md')), 'guarded apply failure must preserve internal originals');
+  let wrongReportIdFailed = false;
+  try {
+    await migrateShared(master, 'fixture-project', target, { _git_evidence: evidence, apply: true, report_id: 'not-the-real-report-id', remove_internal_originals: true });
+  } catch (error) { wrongReportIdFailed = /REPORT_ID_MISMATCH/.test(error.message); }
+  assert(wrongReportIdFailed, 'apply with a stale or incorrect report id must fail before mutation');
+  assert(await fs.stat(path.join(target, 'artifacts', 'shared', 'ACTIVE_CONTEXT.md')), 'a report-id mismatch must preserve internal originals');
   results.push('first-adoption dry-run, full classification, exact report, and removal guard: PASS');
 
   const history = await historyScan(target, evidence);
@@ -153,22 +185,26 @@ try {
   assert(Object.values(applied.receipt.checks).every((value) => value === 'PASS'), 'all eight migration checks must pass before removal');
   assert(await fs.stat(path.join(target, 'artifacts', 'shared', 'PROJECT_STATE.md')), 'client-safe artifact must remain in target');
   assert(!(await fs.stat(path.join(target, 'artifacts', 'shared', 'ACTIVE_CONTEXT.md')).catch(() => null)), 'verified internal artifact must be removed from target');
-  assert(await fs.stat(path.join(master, 'artifacts', 'traceability', 'fixture-project', 'migration', 'migrated-shared', 'ACTIVE_CONTEXT.md')), 'verified Master Scaffold copy must exist');
-  const adoption = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability', 'fixture-project', 'PROJECT_ADOPTION.json'), 'utf8'));
-  const migrationState = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability', 'fixture-project', 'MIGRATION_STATE.json'), 'utf8'));
-  assert(adoption.schema_version === 3 && adoption.migration_status === 'completed' && migrationState.status === 'completed', 'completion must record current schema adoption and migration state');
+  const migratedCopyPath = path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'migration', 'migrated-shared', 'ACTIVE_CONTEXT.md');
+  assert(await fs.stat(migratedCopyPath), 'verified Master Scaffold local-only copy must exist');
+  const migratedCopyHash = createHash('sha256').update(await fs.readFile(migratedCopyPath)).digest('hex');
+  const expectedHash = dryRun.classification.artifacts.find((item) => item.path.endsWith('ACTIVE_CONTEXT.md')).sha256;
+  assert(migratedCopyHash === expectedHash, 'the migrated local-only copy must hash-match the exact artifact recorded in the dry-run classification');
+  const adoption = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'PROJECT_ADOPTION.json'), 'utf8'));
+  const migrationState = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'MIGRATION_STATE.json'), 'utf8'));
+  assert(adoption.schema_version === 4 && adoption.migration_status === 'completed' && migrationState.status === 'completed', 'completion must record current schema adoption and migration state');
   const repeat = await migrateShared(master, 'fixture-project', target, { _git_evidence: evidence });
   assert(repeat.status === 'already_completed' && repeat.idempotent && repeat.leakage_gate === 'PASS', 'migration rerun must be idempotent and recheck leakage');
   results.push('copy/verify/remove order, eight checks, client-safe preservation, prevention, adoption state, and idempotency: PASS');
 
-  await write(path.join(master, 'artifacts', 'traceability', 'MASTER_SCAFFOLD_SCHEMA.json'), JSON.stringify({ schema_version: 4, authority: 'master-scaffold-odn', migration_contract: 'one-time-per-project-per-schema-version' }, null, 2));
+  await write(path.join(master, 'artifacts', 'traceability', 'MASTER_SCAFFOLD_SCHEMA.json'), JSON.stringify({ schema_version: 5, authority: 'master-scaffold-odn', migration_contract: 'one-time-per-project-per-schema-version' }, null, 2));
   const schemaUpgrade = await migrateShared(master, 'fixture-project', target, { _git_evidence: evidence });
   assert(schemaUpgrade.status === 'ready_for_schema_adoption_apply' && schemaUpgrade.migration_required, 'new schema must require a new migration instead of accepting an old receipt');
-  await write(path.join(master, 'artifacts', 'traceability', 'fixture-project', 'MIGRATION_STATE.json'), JSON.stringify({ project: 'fixture-project', from_schema: 3, to_schema: 4, status: 'failed' }, null, 2));
-  await write(path.join(master, 'artifacts', 'traceability', 'fixture-project', 'PROJECT_ADOPTION.json'), JSON.stringify({ project: 'fixture-project', schema_version: 3, migration_status: 'failed' }, null, 2));
+  await write(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'MIGRATION_STATE.json'), JSON.stringify({ project: 'fixture-project', from_schema: 4, to_schema: 5, status: 'failed' }, null, 2));
+  await write(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'PROJECT_ADOPTION.json'), JSON.stringify({ project: 'fixture-project', schema_version: 4, migration_status: 'failed' }, null, 2));
   const recovery = await migrateShared(master, 'fixture-project', target, { _git_evidence: evidence });
   assert(recovery.status === 'ready_for_migration_recovery_apply', 'failed migration must enter explicit recovery path instead of starting an unrelated migration');
-  const lockPath = path.join(master, 'artifacts', 'traceability', 'fixture-project', '.migration-v4.lock');
+  const lockPath = path.join(master, 'artifacts', 'traceability-local', 'fixture-project', '.migration-v5.lock');
   await write(lockPath, '{"status":"in_progress"}\n');
   let lockBlocked = false;
   try {
