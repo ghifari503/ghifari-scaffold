@@ -32,6 +32,7 @@ Do not maintain a separate command menu in this skill. When commands change, upd
 3. If the user typed only `start work` / `mulai bekerja` / `begin work` / `work`, scan `development/` and list detected project folders as numbered choices.
 4. Ask the founder to continue by replying with the project number only.
 5. If the user already supplied a project path with `work [path]`, skip the picker and use that target directly.
+5a. Immediately after a target is selected or resumed, run `scripts/update-scaffold-project.ps1 -TargetPath development/[project-folder]` (or `.sh`) in read-only mode whenever the local scaffold fingerprint/version changed after a pull, and also on a target's first activation in that session. Report the result before continuing target work. The script performs the required ODN migration classification when adoption is incomplete. A non-ready result blocks implementation, QA closure, handoff, and `resume_safe`; never run `-Apply`, copy scaffold files, or change target source without separate founder approval.
 6. After project selection, read `artifacts/operations/WORKFLOW_STATE.md`, `artifacts/operations/CURRENT_PHASE.md`, `artifacts/operations/CURRENT_TASK.md`, and `artifacts/operations/SESSION_LOG.md`.
 7. Show the current parity mode status as `ON` or `OFF`.
 8. Show the selected project, current workflow position, active gate, top 1-3 realistic recommendations, and the numbered work menu from `COMMANDS.md`.
