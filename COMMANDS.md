@@ -97,6 +97,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - After meaningful work, update target facts only when client-safe facts changed, synchronize internal state under Master Scaffold authority, and append the root activity event.
 - Target shared facts must not contain secrets, internal process metadata, runtime/model routing data, `.env` values, raw chats, credentials, private data, or large raw logs.
 - Pulling the master never writes into a target. For an approved, per-target adoption report use `update scaffold [project-folder]`, which runs `scripts/update-scaffold-project.ps1` in read-only mode first. Apply requires the exact dry-run report id and creates its receipt only under Master Scaffold `artifacts/traceability/[project]/`; it never overwrites target work or existing documents.
+- Strict startup adoption: after a master pull or changed local scaffold fingerprint/version, every selected or resumed target automatically receives this same read-only adoption report before target work continues. A non-ready report blocks implementation, QA closure, handoff, and `resume_safe`; `-Apply` still requires separate founder approval.
 
 ## Strict ODN Traceability Gate
 
