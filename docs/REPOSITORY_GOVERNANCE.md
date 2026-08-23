@@ -26,6 +26,25 @@ After cloning the scaffold, run:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1
 ```
 
-This enables local hooks that reject commit and push from the scaffold root. Project work must be committed from its own repository under `development/[project-folder]/`.
+This enables local hooks with two repository boundaries:
+
+- The scaffold root may commit and push only to `https://github.com/odonplay/odonplay-agent-scaffold` (or its equivalent SSH URL). It may never commit a target project under `development/[project-folder]`, even if a file is force-staged.
+- Each target project is an independent Git repository. Commit and push project changes only from `development/[project-folder]` to that project's remote.
 
 Local hooks are a safety layer, not an identity control. GitHub Ruleset enforcement is authoritative.
+
+## Repository Boundary
+
+`development/[project-folder]/` is a separate workspace and Git repository,
+not a nested working tree for the scaffold. Run `git status`, `git add`,
+`git commit`, and `git push` for product work from inside that target
+repository. If the target folder is not a Git repository, stop before project
+work begins. Do not force-add target files to the scaffold index.
+
+Scaffold maintenance is performed from the root repository using the official
+`https://github.com/odonplay/odonplay-agent-scaffold.git` `origin`. The hooks
+permit this official root maintenance automatically and block any other root
+push destination. For a clean Source Control list, open the active project
+folder as its own VS Code workspace (`code development/[project-folder]`).
+Opening the master-scaffold root intentionally shows master changes; Git ignore
+rules cannot hide changes to tracked scaffold files.

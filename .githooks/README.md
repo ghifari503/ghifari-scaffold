@@ -1,9 +1,9 @@
 # Local Git Hooks
 
-These hooks protect the scaffold root from accidentally committing or pushing target-project work.
+These hooks keep master-scaffold work and target-project work in separate Git histories.
 
-- `pre-commit` blocks scaffold-root commits unless a maintainer explicitly sets `ALLOW_SCAFFOLD_COMMIT=1`.
-- `pre-push` blocks scaffold-root pushes unless a maintainer explicitly sets `ALLOW_SCAFFOLD_PUSH=1`.
+- `pre-commit` permits scaffold-root commits only when `origin` is the official master repository and rejects forced staging of files under `development/[project-folder]`; only `_project-template/` belongs to the master repository.
+- `pre-push` permits scaffold-root pushes only to `https://github.com/odonplay/odonplay-agent-scaffold` or its equivalent SSH URL.
 
 Enable them after cloning with:
 
@@ -11,4 +11,4 @@ Enable them after cloning with:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1
 ```
 
-Commit and push application work from `development/[project-folder]`, which must be its own Git repository. Use the overrides only for intentional master scaffold maintenance.
+Commit and push application work from `development/[project-folder]`, which must be its own Git repository. For a clean VS Code **Changes** list, open the active target folder itself, for example `code development/example-project`. Open the scaffold root only when maintaining the master scaffold.

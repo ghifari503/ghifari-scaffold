@@ -14,6 +14,10 @@ development/
 
 Each `[project-folder]` is a separate Git repository. Clone an existing project there, or initialize and connect a project-specific remote there for a greenfield project.
 
+The target repository owns its status, index, branches, commits, and remote.
+Do not perform project work from the scaffold root. If a target folder is not a
+Git repository, initialize or clone it before continuing.
+
 The scaffold repository ignores every target project folder, including its `artifacts/shared/`. Commit target source and client-safe shared facts from the target repository; commit internal ODN/lifecycle state from the Master Scaffold repository.
 
 Keep project requirements, design references, and feature documentation in root `dev-doc/[feature-name]/`. Do not create `dev-doc/` inside a target project folder under `development/`.
@@ -35,7 +39,7 @@ After cloning the scaffold, activate root protection once:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1
 ```
 
-The protection blocks accidental commit or push from the scaffold root. It does not affect commits from a nested target project repository.
+The protection permits root commits and pushes only for the official master-scaffold remote, and blocks target paths from entering the root index. It does not affect commits from a nested target project repository.
 
 ## Shared Context Baseline
 

@@ -19,6 +19,7 @@ jobs:
           bash -n scripts/check-skills.sh
           bash -n scripts/sync-skills.sh
           bash -n scripts/enable-scaffold-git-protection.sh
+          bash -n scripts/assert-scaffold-repository.sh
           bash -n scripts/check-antigravity-skills.sh
           bash -n scripts/check-claude-routing.sh
           bash -n scripts/validate-documentation-sync.sh
