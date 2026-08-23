@@ -68,3 +68,7 @@ Desktop.ini
 /graphify-out/
 **/graphify-out/
 **/.graphify-state.json
+
+# Per-project internal continuity is local-only. It must never enter the master
+# scaffold repository or any target repository.
+/artifacts/traceability-local/

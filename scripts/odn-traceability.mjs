@@ -32,6 +32,8 @@ const PREVENTION_RULES = [
   'artifacts/shared/*-process-state*',
 ];
 const IDENTITY_FIELD_PATTERN = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|model|model_or_profile|model_source|model_availability_reason|provider|vendor|routing_profile|routing_log_reference|token_band|cost_band)(?:["']?)\s*[:=]/im;
+const TARGET_AI_TRACE = /\b(?:codex|claude|gemini|openai|anthropic|ai[_ -]?(?:agent|assistant|routing|model|provider|prompt|token|cost)|llm)\b/i;
+const TARGET_SCAN_EXCLUDES = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage', '.next', 'graphify-out']);
 
 function parseArgs(argv) {
   const [command = 'help', ...rest] = argv;
@@ -75,7 +77,7 @@ function normalizeRelative(value) {
 }
 
 function authorityPaths(master, project) {
-  const root = path.join(master, 'artifacts', 'traceability', project);
+  const root = path.join(master, 'artifacts', 'traceability-local', project);
   return {
     root,
     state: path.join(root, 'BATCH_STATE.json'),
@@ -463,9 +465,21 @@ async function scanShared(target) {
 async function leakageGate(target, excluded = new Set()) {
   const scan = await scanShared(target);
   const leaked = scan.artifacts.filter((item) => item.classification === 'internal_process_state' && !excluded.has(item.path));
+  const traces = [];
+  async function walk(directory) {
+    for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+      if (entry.isDirectory()) { if (!TARGET_SCAN_EXCLUDES.has(entry.name)) await walk(path.join(directory, entry.name)); continue; }
+      const file = path.join(directory, entry.name);
+      if (!TEXT_EXTENSIONS.has(path.extname(file).toLowerCase())) continue;
+      if (excluded.has(normalizeRelative(path.relative(target, file)))) continue;
+      if (TARGET_AI_TRACE.test(await fs.readFile(file, 'utf8'))) traces.push(normalizeRelative(path.relative(target, file)));
+    }
+  }
+  await walk(target);
   return {
-    status: leaked.length ? 'FAIL' : 'PASS',
+    status: leaked.length || traces.length ? 'FAIL' : 'PASS',
     leaked_paths: leaked.map((item) => ({ path: item.path, reason: item.reason })),
+    explicit_ai_trace_paths: traces,
   };
 }
 
