@@ -33,12 +33,12 @@ $dirtyPaths = Get-GitText $target @('status', '--porcelain')
 $sharedRoot = Join-Path $target 'artifacts/shared'
 $project = (Split-Path -Leaf $target).ToLowerInvariant()
 $odnTool = Join-Path $PSScriptRoot 'odn-traceability.mjs'
-$odnReceipt = Join-Path $master ('artifacts/traceability/{0}/migration/MIGRATION_RECEIPT.json' -f $project)
+$odnReceipt = Join-Path $master ('artifacts/traceability-local/{0}/migration/MIGRATION_RECEIPT.json' -f $project)
 $odnSchemaFile = Join-Path $master 'artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json'
 if (-not (Test-Path -LiteralPath $odnSchemaFile -PathType Leaf)) { Stop-Update 'Master ODN schema authority is missing.' }
 $odnMasterSchema = (Get-Content -Raw -LiteralPath $odnSchemaFile | ConvertFrom-Json).schema_version
 if ($null -eq $odnMasterSchema) { Stop-Update 'Master ODN schema authority is invalid.' }
-$odnAdoptionFile = Join-Path $master ('artifacts/traceability/{0}/PROJECT_ADOPTION.json' -f $project)
+$odnAdoptionFile = Join-Path $master ('artifacts/traceability-local/{0}/PROJECT_ADOPTION.json' -f $project)
 $odnAdoption = if (Test-Path -LiteralPath $odnAdoptionFile -PathType Leaf) { Get-Content -Raw -LiteralPath $odnAdoptionFile | ConvertFrom-Json } else { $null }
 $odnAdopted = (Test-Path -LiteralPath $odnReceipt -PathType Leaf) -and $null -ne $odnAdoption -and $odnAdoption.migration_status -eq 'completed' -and [int]$odnAdoption.schema_version -eq [int]$odnMasterSchema
 $odnDryRun = $null
@@ -56,7 +56,7 @@ $result = [ordered]@{ report_id=$reportIdComputed; mode=$(if ($Apply) {'apply'} 
 if (-not $Apply) { $result | ConvertTo-Json -Depth 4; exit 0 }
 if ($ReportId -ne $reportIdComputed) { Stop-Update ('Apply requires the current dry-run report id: {0}' -f $reportIdComputed) }
 if ($status -ne 'ready_for_opt_in_apply') { Stop-Update ('Apply is not safe while status is {0}.' -f $status) }
-$receiptDirectory = Join-Path $master ('artifacts/traceability/{0}/scaffold-updates' -f $project)
+$receiptDirectory = Join-Path $master ('artifacts/traceability-local/{0}/scaffold-updates' -f $project)
 $receiptPath = Join-Path $receiptDirectory ('{0}-{1}.md' -f $version, $reportIdComputed)
 if (Test-Path -LiteralPath $receiptPath) { Stop-Update 'Versioned adoption receipt already exists; no overwrite is allowed.' }
 New-Item -ItemType Directory -Path $receiptDirectory -Force | Out-Null

@@ -76,7 +76,7 @@ Use this scaffold when:
 
 ## Continuity And Project Baseline
 - Every target project keeps Git-carried continuity under `development/[project-folder]/artifacts/shared/`.
-- Target `PROJECT_STATE.md` records client-safe project facts. Current work, contributor/process detail, routing, lifecycle, and handoffs resolve from Master Scaffold `artifacts/traceability/[project]/`.
+- Target `PROJECT_STATE.md` records client-safe project facts. Current work, contributor/process detail, routing, lifecycle, and handoffs resolve from Master Scaffold `artifacts/traceability-local/[project]/`.
 - The scaffold-wide `artifacts/operations/AGENT_ACTIVITY_LOG.md` records which agent performed which task category and activity across projects. Activity logging is event-based and token-aware: agents read only its current snapshot and relevant recent entries, never the whole log or per-tool-call history.
 - For an inherited project without usable documentation, the agent first asks whether references exist. If none do, it creates a source-linked, code-derived `PROJECT_STATE.md` baseline and synchronizes verified facts to scaffold memory and the feature registry.
 - Future agents read shared project context and relevant memory before scanning source, then use targeted paths instead of relearning the entire repository.

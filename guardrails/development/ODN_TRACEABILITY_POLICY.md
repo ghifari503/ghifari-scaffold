@@ -6,10 +6,12 @@ Provide vendor-neutral change provenance and engineering memory without changing
 
 ## Authority Boundary
 
-- Complete ODN metadata is internal Master Scaffold state under `artifacts/traceability/[project]/`.
+- Complete ODN metadata is internal Master Scaffold state under `artifacts/traceability-local/[project]/`. That root is local-only: `.gitignore` excludes `/artifacts/traceability-local/`, so it is never Git-carried by the Master Scaffold repository and must never be copied into a target repository.
+- `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json` is the only traceability content the Master Scaffold repository commits to Git; it holds the shared `schema_version` authority and nothing per-project.
 - A target repository is client-shareable. It may expose only an opaque `odn-xxxx` reference through a selective `@batch odn-xxxx` source marker and the Git trailer `Batch: odn-xxxx`.
 - Target repositories must not contain batch state, ODN registry data, internal handoff, contributor/process state, routing metadata, or runtime/model/provider provenance.
 - ODN batch records, state, indexes, maps, handoffs, activity links, adoption state, migration state, and evidence must not use runtime, provider, model, agent, engineer, vendor, or generative-process identity as a field, value, key, identifier, filename, or example. Legacy identity metadata is redacted from the active working tree after source hashing; only neutral migration facts may remain.
+- `odn-traceability.mjs identity-gate` polices identity-freedom of Master Scaffold continuity records themselves (the Git-carried schema authority and the Git-ignored local-only per-project store). This is a Master-side content check, not a determination of what is Git-carried; it must not treat the local-only store as if it were a target-shareable artifact. Whether content is safe to expose to a target's own Git history is a separate question answered only by the leakage/share gate below.
 
 ## Existing Gate Preservation
 
@@ -58,7 +60,7 @@ The registry stores why a change happened, validation, decisions, related batche
 
 `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json` is the Master Scaffold schema authority. Its positive integer `schema_version` increases only for a structural or policy change that requires project migration.
 
-Every project has these internal, identity-free records under `artifacts/traceability/[project]/`:
+Every project has these internal, identity-free records under `artifacts/traceability-local/[project]/`:
 
 - `PROJECT_ADOPTION.json`: `project`, adopted `schema_version`, `migration_status`, and timestamps.
 - `MIGRATION_STATE.json`: `from_schema`, `to_schema`, `status`, report identifier, timestamps, and neutral failure evidence.
@@ -91,10 +93,17 @@ Dry-run is the default and must create no migration manifest, receipt, copy, or 
 
 ## History And Share Gate
 
+- `odn-traceability.mjs share-gate --target <path>` (the same check `migrate-shared` runs as `projected_leakage_gate`/post-removal `leakage_gate`) recursively scans the entire target working tree, not only `artifacts/shared/`, excluding `.git`, `node_modules`, `dist`, `build`, `coverage`, `.next`, and `graphify-out`. It fails on reserved internal filenames/paths, targeted internal metadata fields, and explicit AI/runtime/process trace terms (for example `codex`, `claude`, `gemini`, `openai`, `anthropic`, `llm`, or an `ai_*`/`ai-*` routing, model, provider, prompt, token, or cost term), reporting matches as `explicit_ai_trace_paths`.
 - Report internal-process paths found in target Git history with `HISTORY_PURGE_REQUIRED`, including affected commits and paths.
 - History rewriting always requires separate explicit founder approval.
-- Leakage checks focus on internal metadata paths and provenance field patterns. They must not blindly reject ordinary business-domain uses of words such as `model`, `provider`, or `agent`.
+- Leakage checks focus on internal metadata paths, provenance field patterns, and explicit process-identity terms. They must not blindly reject ordinary business-domain uses of words such as `model`, `provider`, or `agent`.
 - Allowed public provenance is limited to `@batch odn-xxxx` and `Batch: odn-xxxx`.
+
+## Target Pre-Commit And CI Leakage Prevention (Opt-In Template)
+
+- `templates/target-leakage-gate/` provides a self-contained scanner (`odn-leakage-scan.mjs`), a `pre-commit` hook, and a GitHub Actions workflow (`odn-leakage-gate.yml`) that a target repository can adopt so the same explicit-trace scan blocks a new leak locally and in CI.
+- These templates are copied into a target only during an explicit, founder-approved adoption step; the Master Scaffold never writes into a target repository automatically, and adopting the template does not itself constitute or replace the ODN migration guardrail.
+- The template scanner is standalone: it does not depend on the Master Scaffold path or on `odn-traceability.mjs`, so it keeps working if the target repository is cloned or hosted independently.
 
 ## Completion Checklist
 

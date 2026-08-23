@@ -15,7 +15,7 @@ development/[project-folder]/artifacts/shared/
 Complete internal lifecycle, handoff, traceability, contributor/process, and development-state metadata resolves from:
 
 ```text
-artifacts/traceability/[project]/
+artifacts/traceability-local/[project]/
 ```
 
 The Master Scaffold authority is internal and must never be copied into the target repository. It is identity-free under `INTERNAL_CONTINUITY_IDENTITY_POLICY.md`; routing decisions are ephemeral and never become continuity metadata. The target may expose only opaque `@batch odn-xxxx` source markers and `Batch: odn-xxxx` Git trailers as allowed by `ODN_TRACEABILITY_POLICY.md`.
@@ -46,9 +46,9 @@ Before continuing target work, every runtime must read:
 2. root operational state and current task
 3. this policy and `ODN_TRACEABILITY_POLICY.md`
 4. target `artifacts/shared/PROJECT_STATE.md` and other relevant client-safe facts
-5. Master Scaffold `artifacts/traceability/[project]/BATCH_STATE.json`
+5. Master Scaffold `artifacts/traceability-local/[project]/BATCH_STATE.json`
 6. at most three relevant ODN batches resolved progressively by component and scope
-7. relevant internal handoff from `artifacts/traceability/[project]/handoffs/`
+7. relevant internal handoff from `artifacts/traceability-local/[project]/handoffs/`
 8. related root `dev-doc/[feature-name]/`
 9. scaffold memory only after current operational, target-fact, and traceability state
 
@@ -59,7 +59,7 @@ Do not load all batch history. Graphify remains the optional authority for struc
 After a meaningful implementation slice, pause, blocker, QA closure, handoff, or session close:
 
 - update target `PROJECT_STATE.md` only when client-safe verified project facts changed
-- update the active ODN record, batch state, maps, and internal handoff under `artifacts/traceability/[project]/`
+- update the active ODN record, batch state, maps, and internal handoff under `artifacts/traceability-local/[project]/`
 - update root operational artifacts and activity log under their existing policies
 - refresh an installed Graphify graph once for each meaningful target delta and record the status or blocker in internal Master Scaffold state
 
@@ -75,6 +75,7 @@ When an existing target adopts a missing or newer Master Scaffold schema boundar
 4. Removal is allowed only after every required lifecycle, lookup, Graphify-boundary, reference, and leakage check passes.
 5. Prevention rules are added to the target; reruns use completed schema adoption state and create no duplicate state. In-progress or failed state resumes/recover instead of starting an unrelated migration.
 6. Git history is reported. It is never rewritten without separate explicit approval.
+7. Optionally, after migration completes, the target may adopt `templates/target-leakage-gate/` so its own pre-commit hook and CI block a new explicit AI/runtime/process trace from entering. This is opt-in and founder-approved per target; the Master Scaffold never installs it automatically.
 
 ## Authority Order
 

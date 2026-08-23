@@ -26,8 +26,8 @@ This repository assumes exactly one active task at a time.
 8. `guardrails/development/SHARED_CONTEXT_POLICY.md`
 9. Target repo `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` and relevant client-safe facts when a target repo is attached
 10. `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot and relevant recent entries
-11. Master Scaffold `artifacts/traceability/[project]/BATCH_STATE.json` when a target repo is attached
-12. At most three relevant batches and the relevant internal handoff under `artifacts/traceability/[project]/`
+11. Master Scaffold `artifacts/traceability-local/[project]/BATCH_STATE.json` when a target repo is attached
+12. At most three relevant batches and the relevant internal handoff under `artifacts/traceability-local/[project]/`
 13. `guardrails/memory/MEMORY_POLICY.md`
 14. `artifacts/memory/MEMORY_INDEX.md`
 15. `artifacts/memory/MEMORY_LEDGER.toml`
@@ -62,7 +62,7 @@ If the handoff asks the next runtime to implement, build, scaffold, install depe
 - `guardrails/development/PRE_CODING_POLICY.md` acknowledgement
 - `artifacts/operations/PRE_CODING_GATE.md` status
 - relevant memory entries from `artifacts/memory/`, if any
-- target client-safe fact status, active ODN batch, and internal handoff path under `artifacts/traceability/[project]/`
+- target client-safe fact status, active ODN batch, and internal handoff path under `artifacts/traceability-local/[project]/`
 - approved build mode
 - allowed write paths
 - out-of-scope paths when applicable
@@ -79,7 +79,7 @@ Required before handoff or session close:
 - `artifacts/operations/WORKFLOW_STATE.md` reflects the latest real state
 - `artifacts/operations/CURRENT_TASK.md` reflects current status, touched artifacts, and exact next action
 - `artifacts/operations/SESSION_LOG.md` contains the latest activity summary
-- target client-safe facts and Master Scaffold `artifacts/traceability/[project]/` state are synchronized as applicable
+- target client-safe facts and Master Scaffold `artifacts/traceability-local/[project]/` state are synchronized as applicable
 - `artifacts/operations/AGENT_ACTIVITY_LOG.md` contains the required meaningful-work event
 - every relevant scope artifact changed by the work is updated or explicitly recorded as having no additional documentation delta
 
@@ -128,7 +128,7 @@ Each session entry in `artifacts/operations/SESSION_LOG.md` must include:
 Each official step completion must have a matching step entry in `artifacts/operations/SESSION_LOG.md` before the next official step begins.
 
 If a session ends with incomplete work, the handoff note must be written before closing the session.
-If a target repo is involved, the internal handoff note must also be written under `artifacts/traceability/[project]/handoffs/` before closing the session.
+If a target repo is involved, the internal handoff note must also be written under `artifacts/traceability-local/[project]/handoffs/` before closing the session.
 
 ## Consistency Rules
 

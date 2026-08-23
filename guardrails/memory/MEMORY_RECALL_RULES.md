@@ -6,7 +6,7 @@ Use this order when memory is relevant:
 1. Active operational state in `artifacts/operations/`.
 2. Current task source artifacts.
 3. When a target is active, its client-safe `artifacts/shared/PROJECT_STATE.md`.
-4. Current `artifacts/traceability/[project]/BATCH_STATE.json`, at most three batches selected by exact `component:scope`, and the relevant internal handoff.
+4. Current `artifacts/traceability-local/[project]/BATCH_STATE.json`, at most three batches selected by exact `component:scope`, and the relevant internal handoff.
 5. `artifacts/memory/MEMORY_INDEX.md`.
 6. `artifacts/memory/MEMORY_LEDGER.toml`.
 7. `artifacts/memory/FEATURE_REGISTRY.toml` and `artifacts/memory/FEATURE_REGISTRY.md` when feature/module status matters.

@@ -19,7 +19,8 @@ This policy applies before creating or updating any scaffold artifact, evidence 
 - Raw QA automation outputs such as Playwright traces, reports, screenshots, and videos: `artifacts/qa/`
 - Human-authored QA summaries, final QA evidence, bug logs, and bug status: `artifacts/test/`
 - Release prep, rollback notes, smoke checklist, and release readiness: `artifacts/release/`
-- Internal per-project ODN registry, batch state, lifecycle handoff, process state, and verified migration evidence: `artifacts/traceability/[project]/`
+- Internal per-project ODN registry, batch state, lifecycle handoff, process state, and verified migration evidence (Git-ignored, local-only): `artifacts/traceability-local/[project]/`
+- Shared ODN schema authority only, nothing per-project (Git-carried): `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json`
 - Active feature BRD, PRD, design, assets, Figma links, and HTML prototypes: `dev-doc/[feature-name]/`
 - Reusable design or scaffold templates: `templates/`
 - Client-safe, Git-carried project facts for a target repo: `development/[project-folder]/artifacts/shared/`
@@ -48,7 +49,7 @@ Use these replacements:
 - Do not store human-authored QA summaries in `artifacts/qa/`; use `artifacts/test/`.
 - Do not store strict policies or guardrails in `artifacts/`; use `guardrails/`.
 - Do not store reusable templates in `artifacts/`; use `templates/`.
-- Do not store internal lifecycle, handoff, routing, contributor/process, development-state, or traceability metadata in target `artifacts/shared/`; use `artifacts/traceability/[project]/`.
+- Do not store internal lifecycle, handoff, routing, contributor/process, development-state, or traceability metadata in target `artifacts/shared/`; use `artifacts/traceability-local/[project]/`.
 - Do not move legitimate client-safe target facts into Master Scaffold authority.
 - Store agent/runtime task activity only in `artifacts/operations/AGENT_ACTIVITY_LOG.md`; ODN batch records must not duplicate agent, runtime, model, provider, token, or cost identity.
 - Before writing an artifact, classify the artifact type and choose the storage path from the Active Storage Map.

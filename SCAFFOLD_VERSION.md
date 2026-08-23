@@ -2,7 +2,7 @@
 
 ## Current Release
 
-- version: `2.0.0`
+- version: `3.0.0`
 - released_at: `2026-08-23`
 - status: `active`
 - compatibility: `master scaffold`
@@ -16,6 +16,10 @@ This scaffold uses semantic versioning:
 - `PATCH`: a backwards-compatible correction, clarification, documentation update, or internal consistency fix.
 
 Update this file as part of every approved scaffold release. A version change must record the corresponding release note or session-log evidence.
+
+## 3.0.0
+
+Breaking change: target Git repositories under `development/[project-folder]` must no longer carry any explicit AI/runtime/process trace. Complete per-project ODN/internal continuity authority moves from Git-carried `artifacts/traceability/[project]/` to Git-ignored `artifacts/traceability-local/[project]/`; only `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json` remains Git-carried, and the ODN schema version increases from `3` to `4` so any prior adoption re-runs migration under the new authority root. The target leakage/share gate now scans the entire target working tree (not only `artifacts/shared/`), excluding dependency/build/`.git` paths, and detects explicit terms such as `codex`, `claude`, `gemini`, `openai`, `anthropic`, or an `ai`/`llm` routing-model-provider-prompt-token-cost term in any non-binary file, including source code. `identity-gate` now also polices the local-only per-project store, distinct from what a target's own Git history may expose. An opt-in, founder-approved-at-adoption pre-commit/CI leakage-gate template is available at `templates/target-leakage-gate/` but is never auto-installed. Existing Git history containing internal-process paths is still only ever reported as `HISTORY_PURGE_REQUIRED`; rewriting it remains a separate, explicitly founder-approved operation.
 
 ## 2.0.0
 
