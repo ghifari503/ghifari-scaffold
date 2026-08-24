@@ -11,6 +11,7 @@ The founder is the only human decision maker.
 - **Master Framework root** is the local, non-Git workspace context of a Master Framework. Its changes are never committed or pushed anywhere, including to the Master Scaffold origin.
 - **Project Scaffold** is a deprecated compatibility term used only by legacy marker and migration names such as `.project-scaffold.json`; use **Master Framework root** in all active guidance.
 - Master Scaffold updates may originate only from the canonical local repository `E:\www\project-scaffold`. A Master Framework and every Working Project are prohibited from committing or pushing to the Master Scaffold origin.
+- The Master Scaffold Git history must contain generic scaffold material only. Never store project-specific plans, task records, session logs, traceability, credentials, requirements, architecture decisions, QA evidence, or handoffs here; keep them in the applicable Master Framework root or Working Project.
 - During intake or new-project creation, convert a non-canonical workspace that contains or will contain a Working Project into a Master Framework root with `scripts/initialize-project-scaffold.ps1`. Never convert or remove `.git` from the canonical Master Scaffold.
 - Before every Git action, state either **Commit Master Scaffold** or **Commit Target Project**. Follow `guardrails/system/REPOSITORY_TERMINOLOGY_POLICY.md`.
 
