@@ -93,10 +93,10 @@ Dry-run is the default and must create no migration manifest, receipt, copy, or 
 
 ## History And Share Gate
 
-- `odn-traceability.mjs share-gate --target <path>` (the same check `migrate-shared` runs as `projected_leakage_gate`/post-removal `leakage_gate`) recursively scans the entire target working tree, not only `artifacts/shared/`, excluding `.git`, `node_modules`, `dist`, `build`, `coverage`, `.next`, and `graphify-out`. It fails on reserved internal filenames/paths, targeted internal metadata fields, and explicit AI/runtime/process trace terms (for example `codex`, `claude`, `gemini`, `openai`, `anthropic`, `llm`, or an `ai_*`/`ai-*` routing, model, provider, prompt, token, or cost term), reporting matches as `explicit_ai_trace_paths`.
+- `odn-traceability.mjs share-gate --target <path>` (the same check `migrate-shared` runs as `projected_leakage_gate`/post-removal `leakage_gate`) recursively scans the entire target working tree, not only `artifacts/shared/`, excluding `.git`, `node_modules`, `dist`, `build`, `coverage`, `.next`, and `graphify-out`. It fails on reserved internal filenames/paths, targeted internal metadata fields, and high-signal internal runtime/process provenance: named operating tools (`Codex CLI`, `Claude Code`, `Gemini CLI`), explicit authorship/handoff/routing statements, or targeted runtime-identity fields carrying a named runtime. Findings are reported as `explicit_ai_trace_paths` for compatibility.
 - Report internal-process paths found in target Git history with `HISTORY_PURGE_REQUIRED`, including affected commits and paths.
 - History rewriting always requires separate explicit founder approval.
-- Leakage checks focus on internal metadata paths, provenance field patterns, and explicit process-identity terms. They must not blindly reject ordinary business-domain uses of words such as `model`, `provider`, or `agent`.
+- Leakage checks focus on internal metadata paths, provenance field patterns, and explicit process-identity terms. They must not reject ordinary product-domain uses of AI, LLM, model, provider, token, cost, or agent terms, including product source code and environment configuration. Git branch names and remote URLs are outside the scan because `.git` is excluded.
 - Allowed public provenance is limited to `@batch odn-xxxx` and `Batch: odn-xxxx`.
 
 ## Target Pre-Commit And CI Leakage Prevention (Opt-In Template)

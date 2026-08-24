@@ -33,7 +33,14 @@ const PREVENTION_RULES = [
 ];
 const IDENTITY_FIELD_PATTERN = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|model|model_or_profile|model_source|model_availability_reason|provider|vendor|routing_profile|routing_log_reference|token_band|cost_band)(?:["']?)\s*[:=]/im;
 const IDENTITY_METADATA_LINE_PATTERN = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|owner_runtime|model|model_or_profile|model_source|model_availability_reason|provider|vendor|routing_profile|routing_log_reference|token_band|cost_band)(?:["']?)\s*[:=].*(?:\r?\n|$)/gim;
-const TARGET_AI_TRACE = /\b(?:codex|claude|gemini|openai|anthropic|ai[_ -]?(?:agent|assistant|routing|model|provider|prompt|token|cost)|llm)\b/i;
+// A share gate protects client repositories from *internal operating provenance*,
+// not from legitimate product implementation. A target may itself use AI models,
+// providers, tokens, agents, or even environment variables for that product. Keep
+// those ordinary domain terms out of this detector and match only high-signal runtime
+// tool references or explicit authorship/process provenance instead.
+const TARGET_RUNTIME_TOOL_TRACE = /\b(?:codex\s+cli|claude\s+code|gemini\s+cli)\b/i;
+const TARGET_RUNTIME_PROVENANCE_TRACE = /\b(?:generated|authored|implemented|reviewed|maintained|created|written|handoff(?:ed)?|routed)\s+(?:by|with|using|from)\s+(?:the\s+)?(?:codex|claude|gemini|openai|anthropic|llm)\b/i;
+const TARGET_RUNTIME_IDENTITY_FIELD = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|owner_runtime|routing_profile|routing_log_reference)(?:["']?)\s*[:=].*\b(?:codex|claude|gemini|openai|anthropic|llm)\b/im;
 const TARGET_SCAN_EXCLUDES = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage', '.next', 'graphify-out']);
 // The explicit AI/runtime/process trace scan covers the whole target tree, including source
 // code, not only the narrow doc/config extensions used for structural artifacts/shared
@@ -493,7 +500,10 @@ async function leakageGate(target, excluded = new Set()) {
       let buffer;
       try { buffer = await fs.readFile(file); } catch { continue; }
       if (buffer.includes(0)) continue; // binary content sniff for files without a recognized extension
-      if (TARGET_AI_TRACE.test(buffer.toString('utf8'))) traces.push(normalizeRelative(path.relative(target, file)));
+      const content = buffer.toString('utf8');
+      if (TARGET_RUNTIME_TOOL_TRACE.test(content) || TARGET_RUNTIME_PROVENANCE_TRACE.test(content) || TARGET_RUNTIME_IDENTITY_FIELD.test(content)) {
+        traces.push(normalizeRelative(path.relative(target, file)));
+      }
     }
   }
   await walk(target);

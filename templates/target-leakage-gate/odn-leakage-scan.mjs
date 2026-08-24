@@ -23,7 +23,13 @@ const INTERNAL_PATHS = [
   /(?:^|\/)(?:lifecycle|routing|contributor|process|development)[-_](?:state|log|metadata)(?:\.|\/|$)/i,
 ];
 const INTERNAL_METADATA = /^(?:\s*[-*]\s*)?(?:["']?)(?:odn_id|odn_source|source_marker|batch_key|active_batch|internal_handoff|handoff_path|lifecycle_state|lifecycle_reference|routing_profile|model_source|model_or_profile|token_band|cost_band|activity_log_entry|allowed_write_paths|blocked_paths|do_not_repeat|resume_safe)(?:["']?)\s*[:=]/im;
-const TARGET_AI_TRACE = /\b(?:codex|claude|gemini|openai|anthropic|ai[_ -]?(?:agent|assistant|routing|model|provider|prompt|token|cost)|llm)\b/i;
+// Protect internal operating provenance without treating normal product AI terms as
+// leakage. A target may legitimately contain an AI model/provider/token/agent or
+// configuration for one; only named runtime tools and explicit process provenance
+// are relevant to this share gate.
+const TARGET_RUNTIME_TOOL_TRACE = /\b(?:codex\s+cli|claude\s+code|gemini\s+cli)\b/i;
+const TARGET_RUNTIME_PROVENANCE_TRACE = /\b(?:generated|authored|implemented|reviewed|maintained|created|written|handoff(?:ed)?|routed)\s+(?:by|with|using|from)\s+(?:the\s+)?(?:codex|claude|gemini|openai|anthropic|llm)\b/i;
+const TARGET_RUNTIME_IDENTITY_FIELD = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|owner_runtime|routing_profile|routing_log_reference)(?:["']?)\s*[:=].*\b(?:codex|claude|gemini|openai|anthropic|llm)\b/im;
 const TARGET_SCAN_EXCLUDES = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage', '.next', 'graphify-out']);
 const TEXT_EXTENSIONS = new Set(['.md', '.json', '.yaml', '.yml', '.toml', '.txt', '.ini', '.cfg']);
 // Explicit trace detection covers the whole tree (any non-binary file), not just doc/config
@@ -81,11 +87,11 @@ async function scanFile(root, file) {
   if (TEXT_EXTENSIONS.has(path.extname(file).toLowerCase()) && INTERNAL_METADATA.test(content)) {
     findings.push({ path: relative, reason: 'targeted internal metadata field' });
   }
-  const traceMatch = content.match(TARGET_AI_TRACE);
-  if (traceMatch) {
-    const withoutAllowed = content.replace(new RegExp(ALLOWED_PROVENANCE, 'g'), '');
-    if (TARGET_AI_TRACE.test(withoutAllowed)) findings.push({ path: relative, reason: `explicit AI/runtime/process trace term: ${traceMatch[0]}` });
-  }
+  const withoutAllowed = content.replace(new RegExp(ALLOWED_PROVENANCE, 'g'), '');
+  const traceMatch = withoutAllowed.match(TARGET_RUNTIME_TOOL_TRACE)
+    || withoutAllowed.match(TARGET_RUNTIME_PROVENANCE_TRACE)
+    || withoutAllowed.match(TARGET_RUNTIME_IDENTITY_FIELD);
+  if (traceMatch) findings.push({ path: relative, reason: `explicit internal runtime/process provenance: ${traceMatch[0]}` });
   return findings;
 }
 

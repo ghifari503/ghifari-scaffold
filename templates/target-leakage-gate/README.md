@@ -1,10 +1,10 @@
 # Target Leakage Gate Template (Opt-In)
 
-Reusable, standalone template that a target repository can adopt so its own Git history stays free of explicit AI/runtime/process traces after the ODN first-adoption migration completes. The Master Scaffold never installs or modifies these files in a target automatically; adoption is a separate, explicit, founder-approved step performed from inside the target repository.
+Reusable, standalone template that a target repository can adopt so its own Git history stays free of internal runtime/process provenance after the ODN first-adoption migration completes. It permits ordinary product AI implementation, including model/provider/token/agent wording and environment configuration. The Master Scaffold never installs or modifies these files in a target automatically; adoption is a separate, explicit, founder-approved step performed from inside the target repository.
 
 ## Files
 
-- `odn-leakage-scan.mjs`: standalone scanner (no dependency on the Master Scaffold path or `odn-traceability.mjs`). Scans the whole working tree by default, or only staged files with `--staged`, excluding `.git`, `node_modules`, `dist`, `build`, `coverage`, `.next`, and `graphify-out`.
+- `odn-leakage-scan.mjs`: standalone scanner (no dependency on the Master Scaffold path or `odn-traceability.mjs`). Scans the whole working tree by default, or only staged files with `--staged`, excluding `.git`, `node_modules`, `dist`, `build`, `coverage`, `.next`, and `graphify-out`. It detects internal tool/process provenance, not ordinary product AI terminology; branch and remote names are not scanned.
 - `pre-commit`: local Git hook that blocks a commit introducing a reserved internal filename/path or an explicit AI/runtime/process trace term.
 - `odn-leakage-gate.yml`: GitHub Actions workflow running the same scan on pull requests and pushes to `main`.
 

@@ -21,6 +21,14 @@ const results = [];
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 function assert(condition, message) { if (!condition) throw new Error(`ASSERTION_FAILED: ${message}`); }
 async function write(file, content) { await fs.mkdir(path.dirname(file), { recursive: true }); await fs.writeFile(file, content, 'utf8'); }
+function runTemplateScan(scanner, cwd) {
+  try {
+    return JSON.parse(execFileSync('node', [scanner], { cwd, encoding: 'utf8' }));
+  } catch (error) {
+    if (error.status === 2 && error.stdout) return JSON.parse(error.stdout);
+    throw error;
+  }
+}
 
 const temporaryBase = await fs.mkdtemp(path.join(os.tmpdir(), 'odn-traceability-v2-'));
 try {
@@ -143,6 +151,20 @@ try {
   const explicitTraceScan = await leakageGate(explicitTraceTarget);
   assert(explicitTraceScan.status === 'FAIL' && explicitTraceScan.explicit_ai_trace_paths.some((item) => item.endsWith('README.md')), 'the whole-tree scanner must fail a target that carries an explicit AI/runtime/process trace term outside artifacts/shared');
   results.push('explicit AI-trace target fails the whole-tree share gate: PASS');
+
+  const productAiTarget = path.join(temporaryBase, 'product-ai-target');
+  await write(path.join(productAiTarget, 'artifacts', 'shared', 'PROJECT_STATE.md'), '# Client-safe facts\n');
+  await write(path.join(productAiTarget, '.env'), 'AI_PROVIDER=openai\nAI_MODEL=gpt-5\n');
+  await write(path.join(productAiTarget, 'docs', 'integration.md'), '# Product AI\n\nThe travel AI provider uses a model, token budget, and agent workflow.\n');
+  await write(path.join(productAiTarget, 'src', 'provider.ts'), 'export const provider = "openai";\nexport const model = "gpt-5";\n');
+  const productAiScan = await leakageGate(productAiTarget);
+  assert(productAiScan.status === 'PASS', 'ordinary product AI provider/model/token/agent usage must not trigger the leakage gate');
+  const templateScanner = path.join(repositoryRoot, 'templates', 'target-leakage-gate', 'odn-leakage-scan.mjs');
+  const templateProductScan = runTemplateScan(templateScanner, productAiTarget);
+  assert(templateProductScan.status === 'PASS', 'the standalone target template must match the master scanner for product AI terminology');
+  const templateRuntimeScan = runTemplateScan(templateScanner, explicitTraceTarget);
+  assert(templateRuntimeScan.status === 'FAIL', 'the standalone target template must block explicit runtime-tool provenance');
+  results.push('product AI terminology is allowed while master and standalone scanners block runtime provenance: PASS');
 
   const cleanTarget = path.join(temporaryBase, 'clean-target');
   await write(path.join(cleanTarget, 'artifacts', 'shared', 'PROJECT_STATE.md'), '# Client-safe facts\n- traceability_class: `client_safe`\n');

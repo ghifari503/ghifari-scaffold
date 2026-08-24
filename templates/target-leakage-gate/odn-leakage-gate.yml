@@ -16,5 +16,5 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: Run explicit AI/runtime/process trace scan
+      - name: Run internal runtime/process provenance scan
         run: node scripts/odn-leakage-scan.mjs

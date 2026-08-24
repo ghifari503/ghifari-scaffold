@@ -1,6 +1,6 @@
 #!/bin/sh
-# Opt-in target pre-commit gate: blocks a commit that introduces an explicit AI/runtime/process
-# trace or a reserved internal path/filename into this repository's Git history.
+# Opt-in target pre-commit gate: blocks a commit that introduces explicit internal
+# runtime/process provenance or a reserved internal path/filename into Git history.
 #
 # Adoption (manual, founder-approved; never installed automatically by the Master Scaffold):
 #   1. Copy this file to .git/hooks/pre-commit (or .githooks/pre-commit with
@@ -28,7 +28,7 @@ fi
 cd "$REPO_ROOT"
 if ! node "$SCANNER" --staged; then
   echo "" >&2
-  echo "odn-leakage-gate: commit blocked. A staged file contains a reserved internal path/filename or an explicit AI/runtime/process trace term." >&2
+  echo "odn-leakage-gate: commit blocked. A staged file contains a reserved internal path/filename or internal runtime/process provenance." >&2
   echo "Review the findings above, remove the trace, and re-commit." >&2
   exit 1
 fi
