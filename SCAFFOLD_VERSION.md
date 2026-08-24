@@ -2,8 +2,8 @@
 
 ## Current Release
 
-- version: `3.0.0`
-- released_at: `2026-08-23`
+- version: `4.0.0`
+- released_at: `2026-08-24`
 - status: `active`
 - compatibility: `master scaffold`
 
@@ -16,6 +16,10 @@ This scaffold uses semantic versioning:
 - `PATCH`: a backwards-compatible correction, clarification, documentation update, or internal consistency fix.
 
 Update this file as part of every approved scaffold release. A version change must record the corresponding release note or session-log evidence.
+
+## 4.0.0
+
+Breaking workspace-boundary release. Development documentation moves to Master Framework local `dev-doc/[project-folder]/[feature-name]/` and is prohibited below `development/`. The entire Master Framework root is now explicitly non-committable regardless of path: initialization fully unstages it before archiving root Git metadata, preserves strict hooks in the archive, and the pre-commit/pre-push guards automatically unstage every root-index path if `.project-scaffold.json` and an active root Git index coexist. Working files and independent Target Project indexes under `development/` are preserved. The ODN schema remains version `4` because this release changes workspace and Git boundaries, not the internal ODN record schema.
 
 ## 3.0.0
 

@@ -148,6 +148,7 @@ Use this scaffold when:
 ## Git Hygiene
 - `.gitignore` keeps secrets, local dependencies, build output, raw Playwright artifacts, caches, logs, and editor files out of the scaffold repository.
 - The Master Scaffold ignores all Target Project files under `development/[project-folder]/`. The Target Project Git repository tracks source and client-safe shared facts; Project Scaffold internal ODN/lifecycle continuity remains local and uncommitted.
+- A Master Framework root has no commit authority for any root path. Initialization fully unstages the root before archiving `.git`; if a root index is later restored beside `.project-scaffold.json`, the pre-commit guard automatically unstages the entire root index and blocks the commit while preserving working files and nested Target Project indexes.
 - `development/_project-template/artifacts/shared/` provides the default shared-context structure for each new or attached target project.
 - After cloning the scaffold, run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
 - Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.

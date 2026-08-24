@@ -9,10 +9,12 @@ The founder is the only human decision maker.
 - **Master Framework** is a Master Scaffold that is already being used to govern one or more projects through its `development/` folder. It is an operating role, not a separate Git repository or commit target.
 - **Working Project** is the Target Project currently selected for work at `development/[working-project-name]/`. It is an independent Git repository; project-specific commits and pushes happen only there.
 - **Master Framework root** is the local, non-Git workspace context of a Master Framework. Its changes are never committed or pushed anywhere, including to the Master Scaffold origin.
+- The entire Master Framework root is non-committable, regardless of path. Only independent Target Project repositories below `development/[project-folder]/` have their own commit authority. If an active root Git index is found beside `.project-scaffold.json`, unstage every root-index path and block the commit without changing working files or nested Target Project indexes.
 - **Project Scaffold** is a deprecated compatibility term used only by legacy marker and migration names such as `.project-scaffold.json`; use **Master Framework root** in all active guidance.
 - Master Scaffold updates may originate only from the canonical local repository `E:\www\project-scaffold`. A Master Framework and every Working Project are prohibited from committing or pushing to the Master Scaffold origin.
 - The Master Scaffold Git history must contain generic scaffold material only. Never store project-specific plans, task records, session logs, traceability, credentials, requirements, architecture decisions, QA evidence, or handoffs here; keep them in the applicable Master Framework root or Working Project.
 - During intake or new-project creation, convert a non-canonical workspace that contains or will contain a Working Project into a Master Framework root with `scripts/initialize-project-scaffold.ps1`. Never convert or remove `.git` from the canonical Master Scaffold.
+- Conversion must fully unstage the Master Framework root before archiving its `.git` directory. Restoring or recreating a root Git index does not restore commit authority.
 - Before every Git action, state either **Commit Master Scaffold** or **Commit Target Project**. Follow `guardrails/system/REPOSITORY_TERMINOLOGY_POLICY.md`.
 
 This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and Google Antigravity runtime instructions.

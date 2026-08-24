@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
+sh "$(dirname "$0")/../scripts/unstage-master-framework-root.sh"
 "$(dirname "$0")/../scripts/assert-scaffold-repository.sh"
 
 official_remote="https://github.com/odonplay/odonplay-agent-scaffold"

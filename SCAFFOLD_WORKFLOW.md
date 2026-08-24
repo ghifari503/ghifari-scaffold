@@ -24,7 +24,7 @@ Tujuan utama scaffold:
 7. Gunakan context, memory, dan targeted scan; jangan membaca seluruh repository berulang kali.
 8. Setelah pekerjaan bermakna, lakukan documentation sync, update fakta client-safe bila berubah, dan sinkronkan ODN/internal state.
 9. Gunakan **Master Scaffold** untuk repository sumber generik sebelum dipakai sebagai framework; gunakan **Master Framework** untuk scaffold yang sudah mengelola proyek melalui `development/`; gunakan **Master Framework root** untuk konteks lokal non-Git; dan gunakan **Working Project** untuk Target Project aktif di `development/[working-project-name]/`.
-10. Konteks yang berubah di Master Framework root tidak boleh di-commit ke mana pun. **Master Framework** bukan tujuan commit dan tidak boleh memperbarui origin Master Scaffold. Perubahan Working Project hanya memakai **Commit Target Project**; perubahan generik hanya memakai **Commit Master Scaffold** dari `E:\www\project-scaffold`.
+10. Seluruh perubahan di Master Framework root tidak boleh di-commit ke mana pun, tanpa pengecualian berdasarkan folder. Jika marker Master Framework dan root Git index aktif ditemukan bersamaan, semua staged path pada root otomatis di-unstage dan commit diblokir; working files serta index repository Working Project tidak diubah. Perubahan Working Project hanya memakai **Commit Target Project** dari repository mandirinya; perubahan generik hanya memakai **Commit Master Scaffold** dari `E:\www\project-scaffold`.
 
 Saat intake mendeteksi Target Project atau founder meminta proyek baru, perlakukan workspace sebagai Master Framework dan konversikan konteks teknis lokalnya menjadi Master Framework root dengan `scripts/initialize-project-scaffold.ps1`. Jangan pernah menonaktifkan `.git` pada Master Scaffold resmi.
 

@@ -12,7 +12,7 @@
 - **Working Project** is the Target Project currently selected at `development/[working-project-name]/`.
 - **Target Project** is any nested Git repository at `development/[project-folder]/`.
 
-When intake finds a Target Project or the founder requests a new one, treat the workspace as a Master Framework and convert its local technical context to a Master Framework root with `scripts/initialize-project-scaffold.ps1`. The script archives only the workspace-root `.git` and refuses the canonical Master Scaffold. Master Framework root changes are intentionally not commit candidates and may never update the Master Scaffold origin.
+When intake finds a Target Project or the founder requests a new one, treat the workspace as a Master Framework and convert its local technical context to a Master Framework root with `scripts/initialize-project-scaffold.ps1`. The script fully unstages the root, archives only the workspace-root `.git`, preserves working files, and refuses the canonical Master Scaffold. No path in the Master Framework root is a commit candidate. Only nested Target Project repositories under `development/` retain their independent indexes and commit authority.
 
 ## Layout
 

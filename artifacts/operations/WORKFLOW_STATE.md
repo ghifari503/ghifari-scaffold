@@ -5,8 +5,8 @@
 - current_task: `none`
 - current_step: `none`
 - status: `generic_scaffold_baseline`
-- last_completed_task: `SCAFFOLD-20260824-DEV-DOC-LOCATION`
-- next_step: `Review and commit the approved generic documentation-location rule, then use a Master Framework root for project-specific work.`
+- last_completed_task: `SCAFFOLD-20260824-MASTER-FRAMEWORK-GIT-GUARD`
+- next_step: `Review and commit the approved Master Framework root isolation guard and scaffold 4.0.0 release.`
 
 ## Boundary
 

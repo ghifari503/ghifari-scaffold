@@ -15,7 +15,7 @@
 ## Git Boundary
 
 1. The canonical Master Scaffold remains a Git repository at `E:\www\project-scaffold`. Never delete, archive, or disable its `.git` directory. Only this local root may commit or push generic changes to the Master Scaffold origin.
-2. A Master Framework root must not have an active root `.git` directory. It is intentionally outside both Master Scaffold and Target Project history, and it must never update the Master Scaffold origin.
+2. A Master Framework root must not have an active root `.git` directory. Its entire root is outside both Master Scaffold and Target Project history, regardless of file or folder. It must never create a root commit or update any origin.
 3. A Target Project owns its own branch, index, commits, and remote. A Working Project is the selected Target Project and is the only commit location for its project-specific work.
 4. Project-specific names, requirements, documentation, code, and local context never enter the Master Scaffold index.
 
@@ -25,14 +25,14 @@ When intake finds a Target Project in `development/[project-folder]/`, or the fo
 
 1. Confirm the workspace path is different from the canonical Master Scaffold path.
 2. Confirm that a nested Target Project exists, or that the founder explicitly requested its creation.
-3. Archive the Master Framework root `.git` directory locally and create `.project-scaffold.json` as a legacy-compatible local workspace marker.
+3. Fully unstage the Master Framework root, archive its `.git` directory locally, and create `.project-scaffold.json` as a legacy-compatible local workspace marker. Preserve every working file.
 4. Continue Git work only from the selected Target Project.
 
 The conversion must fail closed when the path is the canonical Master Scaffold. Use `scripts/initialize-project-scaffold.ps1` for this operation; it archives rather than destroys Git metadata so recovery remains possible.
 
 ## Canonical Local-Path Enforcement
 
-Generic scaffold maintenance must run from the canonical Master Scaffold local path, identified by its own active Git repository and official origin. A Master Framework root is local context and is never a substitute commit root. The core repository assertion and hooks fail closed when the legacy `.project-scaffold.json` marker identifies the current Git root as Master Framework local context.
+Generic scaffold maintenance must run from the canonical Master Scaffold local path, identified by its own active Git repository and official origin. A Master Framework root is local context and is never a substitute commit root. When the legacy `.project-scaffold.json` marker coexists with an active root Git index, the pre-commit guard must unstage every root-index path and fail closed. It must preserve working files and must not alter the independent Git index of any Target Project under `development/`.
 
 ## Required Language
 

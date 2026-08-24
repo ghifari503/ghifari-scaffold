@@ -1,6 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
+sh "$(dirname "$0")/../scripts/unstage-master-framework-root.sh"
 "$(dirname "$0")/../scripts/assert-scaffold-repository.sh"
 
 target_paths="$(git diff --cached --name-only --diff-filter=ACMRD | awk '
@@ -8,6 +9,10 @@ target_paths="$(git diff --cached --name-only --diff-filter=ACMRD | awk '
 ')"
 
 if [ -n "$target_paths" ]; then
+  printf '%s\n' "$target_paths" | while IFS= read -r path; do
+    [ -n "$path" ] && git restore --staged -- "$path"
+  done
+  echo "Auto-unstaged: Target Project paths forced into the canonical Master Scaffold index." >&2
   echo "Blocked: Target Project files must not be committed by the canonical Master Scaffold repository." >&2
   echo "$target_paths" >&2
   echo "Open the Working Project at development/[project-folder] as its own workspace and commit from that repository." >&2

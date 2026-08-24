@@ -25,7 +25,9 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - **Master Scaffold** is the canonical generic Git repository. Use **Commit Master Scaffold** only for generic changes and its official remote.
 - **Project Scaffold** is a local, non-Git workspace for project context. Its root changes are never committed or pushed anywhere.
 - **Target Project** is an independent Git repository under `development/[project-folder]/`. Use **Commit Target Project** only from the selected target folder and its own remote.
+- This restriction covers the entire Master Framework root, not selected local-context folders. If `.project-scaffold.json` and an active root Git index coexist, every staged root path must be automatically unstaged and the commit blocked. Nested Working Project indexes remain independent.
 - When intake detects a Target Project or the founder requests a new one, run `scripts/initialize-project-scaffold.ps1 -ProjectScaffoldPath [workspace-path]` from the canonical Master Scaffold. The helper refuses to convert the canonical Master Scaffold itself.
+- Initialization fully unstages the future Master Framework root before archiving its Git metadata; working files are preserved.
 - Before every commit or push, state the repository path, remote, and one of the two commit labels above.
 
 ## Strict I2 Trigger Rule
