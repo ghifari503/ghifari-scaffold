@@ -1,77 +1,77 @@
-# How to Update a Master Framework
+# Cara Memperbarui Master Framework
 
-This guide applies to an active Master Framework containing local state and Working Projects. It does not apply to the canonical Master Scaffold used to publish releases.
+Panduan ini berlaku untuk Master Framework aktif yang berisi state lokal dan Working Project. Panduan ini tidak berlaku untuk Master Scaffold kanonis yang digunakan untuk menerbitkan rilis.
 
-## What Stays Untouched
+## Bagian yang Tetap Tidak Diubah
 
-The update does not modify Working Projects, their Git state, Master Framework logs, memory, traceability, operational artifacts, `plan/`, `dev-doc/`, or local runtime configuration. The only writable artifacts area is updater-owned `artifacts/framework-update/`, where update state, locks, and recoverable snapshots stay local and never enter Git.
+Proses pembaruan tidak mengubah Working Project, state Git-nya, log Master Framework, memory, traceability, artefak operasional, `plan/`, `dev-doc/`, maupun konfigurasi runtime lokal. Satu-satunya area artefak yang boleh ditulis adalah `artifacts/framework-update/`, yaitu area milik updater untuk menyimpan state pembaruan, lock, dan snapshot pemulihan. Area ini bersifat lokal dan tidak pernah masuk ke Git.
 
-## First Update From a Legacy Framework
+## Pembaruan Pertama dari Framework Lama
 
-Open PowerShell in the Master Framework root. Do not run `git pull` in that root.
+Buka PowerShell pada root Master Framework. Jangan jalankan `git pull` di root tersebut.
 
-Clone the isolated updater once:
+Clone updater terisolasi sekali saja:
 
 ```powershell
 git clone --filter=blob:none --single-branch --branch main https://github.com/odonplay/odonplay-agent-scaffold.git development/_framework-updater
 ```
 
-Trust only a clone obtained directly through the official GitHub URL. Do not receive this folder as ZIP/chat transfer, change its origin, create local commits, or rewrite `refs/remotes/origin/main`.
+Percayai hanya clone yang diperoleh langsung dari URL GitHub resmi. Jangan menerima folder ini melalui ZIP atau chat, mengubah origin-nya, membuat commit lokal, atau menulis ulang `refs/remotes/origin/main`.
 
-Then open or resume the runtime and type:
+Kemudian buka atau lanjutkan runtime, lalu ketik:
 
 ```text
 update framework
 ```
 
-The runtime recognizes a missing version as `legacy_unversioned`, runs a dry-run, shows the report, and requests confirmation before apply.
+Runtime akan mengenali versi yang tidak ada sebagai `legacy_unversioned`, menjalankan dry-run, menampilkan laporan, dan meminta konfirmasi sebelum apply.
 
-## Routine Update
+## Pembaruan Rutin
 
-Obtain the latest updater code:
+Dapatkan kode updater terbaru:
 
 ```powershell
 git -C development/_framework-updater pull --ff-only origin main
 ```
 
-Then type `update framework`. If no newer update has been obtained, startup does not offer the update prompt.
+Setelah itu ketik `update framework`. Jika belum ada pembaruan updater yang diperoleh, runtime saat mulai berjalan tidak akan menawarkan prompt pembaruan.
 
-## Manual Dry-Run
+## Dry-Run Manual
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File development/_framework-updater/scripts/update-master-framework.ps1 -FrameworkRoot .
 ```
 
-Review `status`, `framework_state`, `changes`, `protected_roots`, `target_project_mutation`, and `report_id`. Status must be `ready_to_apply` or `up_to_date`; target mutation must be `none`.
+Periksa `status`, `framework_state`, `changes`, `protected_roots`, `target_project_mutation`, dan `report_id`. Status harus `ready_to_apply` atau `up_to_date`; mutasi target harus bernilai `none`.
 
-## Manual Apply
+## Apply Manual
 
-Use the exact report id returned by the current dry-run:
+Gunakan report id persis seperti yang dihasilkan oleh dry-run saat ini:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File development/_framework-updater/scripts/update-master-framework.ps1 -FrameworkRoot . -Apply -ReportId [report-id]
 ```
 
-On success, the result reports `status: applied`. A legacy root Git directory is fully unstaged and archived only after copied files pass validation. The root then remains non-Git; the updater and Working Projects remain independent repositories.
+Jika berhasil, hasil akan melaporkan `status: applied`. Direktori Git root lama akan di-unstage seluruhnya dan diarsipkan hanya setelah file yang disalin lolos validasi. Setelah itu root tetap non-Git; updater dan Working Project tetap merupakan repository independen.
 
-## If the Update Is Blocked
+## Jika Pembaruan Diblokir
 
-The updater stops when a generic file changed both locally and upstream, the updater is dirty or has the wrong origin, the baseline is missing or divergent, the report id is stale, the canonical Master Scaffold was selected, or validation fails.
+Updater berhenti apabila file generic berubah baik secara lokal maupun di upstream, updater kotor atau memiliki origin yang salah, baseline hilang atau berbeda, report id sudah kedaluwarsa, Master Scaffold kanonis dipilih, atau validasi gagal.
 
-Do not use `reset --hard`, force checkout, automatic merge, or delete root Git. Give the reported paths to the founder and decide explicitly which version should control them.
+Jangan gunakan `reset --hard`, force checkout, merge otomatis, atau menghapus root Git. Sampaikan path yang dilaporkan kepada founder, lalu putuskan secara eksplisit versi mana yang harus digunakan.
 
 ## Rollback
 
-Failed apply operations roll back automatically. A deliberate rollback keeps root Git inactive:
+Apply yang gagal akan rollback secara otomatis. Rollback yang dilakukan secara sadar tetap menjaga root Git tidak aktif:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File development/_framework-updater/scripts/update-master-framework.ps1 -FrameworkRoot . -Rollback -SnapshotId [snapshot-id]
 ```
 
-Use the exact `snapshot_id` returned by the successful apply, not its dry-run `report_id`. The snapshot path also ends with this id. Use deliberate rollback only after founder approval. It does not modify Working Projects.
+Gunakan `snapshot_id` persis yang dihasilkan oleh apply yang berhasil, bukan `report_id` dari dry-run. Path snapshot juga berakhir dengan id tersebut. Lakukan rollback sadar hanya setelah persetujuan founder. Rollback tidak mengubah Working Project.
 
-Rollback refuses to overwrite a generic file edited after the update. A successful rollback sets a hold that prevents reconciliation from silently applying the same release again. To update afterward, obtain the desired release, run a new dry-run, review its new report, and authorize apply again.
+Rollback menolak menimpa file generic yang diedit setelah pembaruan. Rollback yang berhasil memasang hold agar reconciliation tidak menerapkan rilis yang sama secara diam-diam. Untuk memperbarui kembali, dapatkan rilis yang diinginkan, jalankan dry-run baru, periksa laporan barunya, lalu otorisasi apply kembali.
 
-## Commands That Must Not Be Used
+## Perintah yang Tidak Boleh Digunakan
 
-Never update an active Master Framework with `git pull origin main`, `git reset --hard origin/main`, or `git checkout -- .` from its root. Those commands bypass isolated dry-run, snapshot, conflict, and rollback controls.
+Jangan pernah memperbarui Master Framework aktif dari root-nya dengan `git pull origin main`, `git reset --hard origin/main`, atau `git checkout -- .`. Perintah tersebut melewati kontrol dry-run terisolasi, snapshot, conflict, dan rollback.
