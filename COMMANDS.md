@@ -20,6 +20,14 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - Skills or agents execute the mapped workflow after required checks and founder confirmation.
 - Shell commands, dependency installs, migrations, scaffold execution, and product code edits are blocked unless the pre-coding gate allows them.
 
+## Repository Terminology And Git Target
+
+- **Master Scaffold** is the canonical generic Git repository. Use **Commit Master Scaffold** only for generic changes and its official remote.
+- **Project Scaffold** is a local, non-Git workspace for project context. Its root changes are never committed or pushed anywhere.
+- **Target Project** is an independent Git repository under `development/[project-folder]/`. Use **Commit Target Project** only from the selected target folder and its own remote.
+- When intake detects a Target Project or the founder requests a new one, run `scripts/initialize-project-scaffold.ps1 -ProjectScaffoldPath [workspace-path]` from the canonical Master Scaffold. The helper refuses to convert the canonical Master Scaffold itself.
+- Before every commit or push, state the repository path, remote, and one of the two commit labels above.
+
 ## Strict I2 Trigger Rule
 
 - `I2 Impact Scan` is required only when the founder intends to change project behavior, source code, committed configuration, data schema, tests tied to a feature change, UI, API, integrations, refactors, or release behavior.

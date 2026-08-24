@@ -6,7 +6,7 @@ Provide vendor-neutral change provenance and engineering memory without changing
 
 ## Authority Boundary
 
-- Complete ODN metadata is internal Master Scaffold state under `artifacts/traceability-local/[project]/`. That root is local-only: `.gitignore` excludes `/artifacts/traceability-local/`, so it is never Git-carried by the Master Scaffold repository and must never be copied into a target repository.
+- Complete ODN metadata is Project Scaffold local state under `artifacts/traceability-local/[project]/`. That root is local-only: it is never Git-carried by either the Project Scaffold or the Target Project and must never be copied into a Target Project repository.
 - `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json` is the only traceability content the Master Scaffold repository commits to Git; it holds the shared `schema_version` authority and nothing per-project.
 - A target repository is client-shareable. It may expose only an opaque `odn-xxxx` reference through a selective `@batch odn-xxxx` source marker and the Git trailer `Batch: odn-xxxx`.
 - Target repositories must not contain batch state, ODN registry data, internal handoff, contributor/process state, routing metadata, or runtime/model/provider provenance.

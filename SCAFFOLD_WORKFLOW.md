@@ -23,6 +23,10 @@ Tujuan utama scaffold:
 6. Kerjakan satu fitur dan satu task slice per sesi secara default.
 7. Gunakan context, memory, dan targeted scan; jangan membaca seluruh repository berulang kali.
 8. Setelah pekerjaan bermakna, lakukan documentation sync, update fakta client-safe bila berubah, dan sinkronkan ODN/internal state.
+9. Gunakan **Master Scaffold** untuk repository Git generik, **Project Scaffold** untuk workspace konteks lokal non-Git, dan **Target Project** untuk repository Git proyek di `development/[project-folder]/`.
+10. Konteks yang berubah di Project Scaffold tidak boleh di-commit ke mana pun. Perubahan proyek hanya memakai **Commit Target Project**; perubahan generik hanya memakai **Commit Master Scaffold**.
+
+Saat intake mendeteksi Target Project atau founder meminta proyek baru, konversikan workspace non-canonical menjadi Project Scaffold dengan `scripts/initialize-project-scaffold.ps1`. Jangan pernah menonaktifkan `.git` pada Master Scaffold resmi.
 
 ## 1. Startup Dan Pemilihan Mode
 
@@ -274,7 +278,7 @@ User Request
 - `development/[project-folder]/artifacts/shared/`: fakta kontrak project yang client-safe
 - `artifacts/traceability-local/[project]/`: authority internal ODN, lifecycle, handoff, and identity-free process state; routing decisions are ephemeral
 
-Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit source dan fakta client-safe dilakukan dari repository target; traceability internal dikomit dari Master Scaffold. Repo scaffold tetap mengabaikan seluruh folder target dan memblokir commit/push root secara default.
+Target Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit source dan fakta client-safe dilakukan dari Target Project; traceability internal tetap lokal di Project Scaffold dan tidak dikomit ke mana pun. Master Scaffold tetap mengabaikan seluruh folder Target Project dan hanya menerima perubahan generic yang secara eksplisit dipromosikan.
 
 Update `main` pada repository scaffold hanya dilakukan oleh `@odonplay`. Contributor lain membuat branch dan Pull Request; aktifkan GitHub Ruleset pada `docs/REPOSITORY_GOVERNANCE.md` agar aturan ini enforced di server.
 

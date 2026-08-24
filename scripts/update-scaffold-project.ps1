@@ -68,7 +68,7 @@ $receipt = @(
     ('- adopted_at: `{0}`' -f (Get-Date -Format 'yyyy-MM-ddTHH:mm:ssK')),
     ('- target_branch: `{0}`' -f (Get-GitText $target @('branch','--show-current'))),
     '- effect: `Master runtime governance is now used from the updated workspace. No target source, dependency, environment, or existing documentation file was changed.`',
-    '- next_action: `Review and commit this internal receipt from the Master Scaffold repository when appropriate.`'
+    '- next_action: `Keep this internal receipt in Project Scaffold local context; do not commit it to either repository.`'
 ) -join [Environment]::NewLine
 Set-Content -LiteralPath $receiptPath -Value $receipt -NoNewline
 $result.status = 'applied_receipt_created'

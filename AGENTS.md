@@ -4,6 +4,13 @@
 This repository is an AI operating scaffold for new, existing, and inherited software or software+IoT projects.
 The founder is the only human decision maker.
 
+## Repository Terminology And Git Boundary
+- **Master Scaffold** is the canonical reusable Git repository that owns generic rules, tools, templates, and workflow guidance.
+- **Project Scaffold** is a local, non-Git workspace for one project's context; its root changes are never committed or pushed anywhere.
+- **Target Project** is an independent Git repository under `development/[project-folder]/`; project-specific commits and pushes happen only there.
+- During intake or new-project creation, convert a non-canonical workspace that contains or will contain a Target Project into a Project Scaffold with `scripts/initialize-project-scaffold.ps1`. Never convert or remove `.git` from the canonical Master Scaffold.
+- Before every Git action, state either **Commit Master Scaffold** or **Commit Target Project**. Follow `guardrails/system/REPOSITORY_TERMINOLOGY_POLICY.md`.
+
 This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and Google Antigravity runtime instructions.
 `CLAUDE.md` remains available only as a Claude compatibility pointer.
 `GEMINI.md` remains available only as a Gemini compatibility pointer.
@@ -119,9 +126,9 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - Full repo scans are allowed only for first `I1`, unknown route/stack, stale or contradicted baseline, high-risk/cross-module/security/migration/release work, documented targeted-scan failure, or explicit founder approval.
 12. Shared Target Repository Context Gate:
    - For any target repository under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
-   - The target project must be a separate Git repository; do not commit or push target files from the scaffold root repository.
-   - Before target project setup or work, verify the target repository is initialized or cloned and verify scaffold-root Git protection is active through `scripts/enable-scaffold-git-protection.ps1` when the runtime can run it.
-   - Target `development/[project-folder]/artifacts/shared/` contains client-safe project facts only. Identity-free internal lifecycle, handoff, traceability, contributor/process, and development-state metadata belongs in Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral.
+   - The Target Project must be a separate Git repository; do not commit or push its files from a Project Scaffold root.
+   - Before Target Project setup or work, verify the target repository is initialized or cloned. When the workspace is a Project Scaffold, verify its `.project-scaffold.json` marker and inactive root `.git`; when working in the canonical Master Scaffold, verify root Git protection through `scripts/enable-scaffold-git-protection.ps1`.
+   - Target `development/[project-folder]/artifacts/shared/` contains client-safe project facts only. Identity-free internal lifecycle, handoff, traceability, contributor/process, and development-state metadata belongs in Project Scaffold local `artifacts/traceability-local/[project]/`; routing is ephemeral.
    - Project requirements, product/design references, and feature documentation belong in the target repository at `development/[project-folder]/docs/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
    - Before continuing target repo work, read client-safe `PROJECT_STATE.md`, Master Scaffold `BATCH_STATE.json`, at most three relevant ODN batches, and the relevant internal handoff.
    - If target client-safe facts or Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
@@ -177,7 +184,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - Before source scanning or continuing work, read only its `Current Activity Snapshot`, the active task entries, and at most three relevant recent entries. Do not read the full log by default.
    - Never log per tool call, raw prompts, raw command output, secrets, identity-bearing routing data, or unverified token/cost data. Link only neutral QA, contributor-role, or handoff evidence.
    - Every activity entry uses the neutral `contributor_role` field. Runtime, provider, model, agent, engineer, routing-source, token, and cost identity are prohibited by `guardrails/development/INTERNAL_CONTINUITY_IDENTITY_POLICY.md`.
-   - When a target project is active, link the current root activity-log entry from Master Scaffold internal traceability. The root activity log is committed with the scaffold repository; it is not part of the target project's Git history.
+   - When a Target Project is active, link the current activity event from Project Scaffold local traceability. It is not part of either the Target Project or Master Scaffold Git history.
 
 ## Global Rules
 1. Read these files before significant work:
@@ -247,7 +254,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - Read shared target context before source scanning or continuing work; also read the root activity-log snapshot and relevant entries under the separate activity-log gate.
    - Write client-safe target facts and internal ODN state after meaningful work; append the required activity event to root `artifacts/operations/AGENT_ACTIVITY_LOG.md`.
    - Use target `artifacts/shared/` only for client-safe contract facts. Use `artifacts/traceability-local/[project]/` for internal developer continuation.
-   - Commit target client-safe facts from the target Git repository and internal traceability from the scaffold repository; the scaffold root `.gitignore` must continue to ignore target project files.
+   - Commit client-safe facts only from the Target Project Git repository. Keep Project Scaffold internal traceability local and uncommitted; the Master Scaffold `.gitignore` must continue to ignore Target Project files.
 20. When first intake has no usable project documentation, do not claim a source-derived baseline is complete until `CODE_DERIVED_BASELINE_POLICY.md` requirements, target `PROJECT_STATE.md`, shared-context updates, and relevant verified memory synchronization are complete.
 21. For existing-project implementation, do not open the pre-coding gate until a completed readiness baseline records dependency, environment, database, migration/seed, local run, build, lint/typecheck, test, CI/formatter discovery, and known pre-existing failures or their scoped-development status.
 
