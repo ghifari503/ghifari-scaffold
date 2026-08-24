@@ -79,10 +79,11 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 ## Dev-Doc Discovery Gate
 
-- Before feature development, bugfix work tied to a feature/module, backend/API change, frontend/UI change, system behavior change, integration, refactor, database change tied to a feature/module, or any related build/coding step, search the active target's `docs/` for related documentation first.
+- Before feature development, bugfix work tied to a feature/module, backend/API change, frontend/UI change, system behavior change, integration, refactor, database change tied to a feature/module, or any related build/coding step, search `dev-doc/[project-folder]/[feature-name]/` for related documentation first and inspect the target only to detect misplaced development documentation.
 - Search exact feature slugs, related module/domain names, reasonable synonyms from the request, and entries from `plan/feature-listing.md` when present.
-- If related target `docs/` material exists, read relevant BRD, PRD, design, prototype, or notes before planning or building.
-- If related target `docs/` material is missing, record `project docs missing`; for new feature work, do not code until founder interview, requirement synthesis, or planning docs create the needed baseline.
+- If related `dev-doc/[project-folder]/[feature-name]/` material exists, read relevant BRD, PRD, design, prototype, or notes before planning or building.
+- If development documentation is found anywhere below `development/[project-folder]/`, stop and ask the founder for permission to move it to `dev-doc/[project-folder]/[feature-name]/`. Never move it automatically.
+- If related `dev-doc/` material is missing, record `project docs missing`; for new feature work, do not code until founder interview, requirement synthesis, or planning docs create the needed baseline.
 - Dev-doc discovery does not open implementation permission. The pre-coding gate, allowed write paths, impact scan, skill lookup, plan approval, and founder approval still control execution.
 
 ## Feature Task Slicing And Context-First Gate
@@ -91,7 +92,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - Work on exactly one feature per session unless the founder explicitly approves a wider session.
 - Break every feature request into small task slices and select only one slice for the current session.
 - For medium/major feature work, use `templates/feature_task_breakdown_template.md`.
-- Read active operational state, project context, memory index/ledger, feature registry, related target `docs/`, and the latest relevant session log before repository source scanning.
+- Read active operational state, project context, memory index/ledger, feature registry, related `dev-doc/[project-folder]/[feature-name]/`, and the latest relevant session log before repository source scanning.
 - Do not scan or read the whole repository on every task. Use targeted scans from context, memory, target docs, impact scan, route names, symbols, modules, and allowed write paths.
 - Full repo scans are allowed only for first `I1`, unknown route/stack, stale or contradicted baseline, high-risk/cross-module/security/migration/release work, documented targeted-scan failure, or explicit founder approval.
 
@@ -99,7 +100,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 - For target repo work under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
 - Target `artifacts/shared/` contains client-safe project facts only. Identity-free lifecycle, handoff, traceability, contributor/process, and development-state metadata resolves from Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral.
-- Project requirements, product/design references, and feature documentation belong in `development/[project-folder]/docs/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
+- Project requirements, product/design references, and feature documentation belong in the Master Framework root at `dev-doc/[project-folder]/[feature-name]/`. Do not create development documentation anywhere under `development/[project-folder]/`.
 - Before continuing target work, read client-safe `PROJECT_STATE.md`, Master Scaffold batch state, at most three relevant ODN batches, the relevant internal handoff, and the root activity-log snapshot.
 - If client-safe facts or the Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
 - After meaningful work, update target facts only when client-safe facts changed, synchronize internal state under Master Scaffold authority, and append the root activity event.
@@ -165,7 +166,7 @@ Validate target sharing or a source marker/Git trailer fixture:
 
 - Before planning or coding behavior changes, enforce `guardrails/development/REQUIREMENT_PRECEDENCE_POLICY.md`.
 - Record the controlling requirement source in the implementation plan after reading relevant founder decisions, PRD, BRD, flows, API/schema constraints, design, security, QA, and current behavior in precedence order.
-- When relevant requirement sources conflict or important ambiguity remains, create `development/[project-folder]/docs/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
+- When relevant requirement sources conflict or important ambiguity remains, create `dev-doc/[project-folder]/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
 - Do not code while an unresolved conflict affects scope, acceptance criteria, API/data behavior, security, user flow, or allowed write paths.
 
 ## Session Commands
@@ -445,9 +446,9 @@ Expected behavior:
 - Ignore blank lines and lines beginning with `#`.
 - Accept only `new feature/[feature-name]` and `add feature/[feature-name]`.
 - Process one feature at a time; do not activate multiple feature entries in the same session unless the founder explicitly approves it.
-- For each accepted feature, check required docs in `development/[project-folder]/docs/[feature-name]/`.
-- For each accepted feature, check design references in `development/[project-folder]/docs/[feature-name]/design/`.
-- Do not look for active feature BRD or PRD in removed legacy roots; use `development/[project-folder]/docs/[feature-name]/brd.md` and `development/[project-folder]/docs/[feature-name]/prd.md`.
+- For each accepted feature, check required docs in `dev-doc/[project-folder]/[feature-name]/`.
+- For each accepted feature, check design references in `dev-doc/[project-folder]/[feature-name]/design/`.
+- Do not look for active feature BRD or PRD in removed legacy roots or under `development/`; use `dev-doc/[project-folder]/[feature-name]/brd.md` and `dev-doc/[project-folder]/[feature-name]/prd.md`.
 - Mark missing docs or design as `missing`; do not invent content.
 - Break the selected feature into task slices and choose one slice for the current session.
 - For `add feature/[feature-name]`, require impact scan before coding.

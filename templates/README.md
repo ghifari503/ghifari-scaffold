@@ -13,7 +13,7 @@ This folder contains reusable starting points for scaffold outputs. Templates de
 
 - Root Markdown templates: requirements, plans, impact scans, QA, handoffs, releases, and task classification.
 - `database/`: starter examples for approved database access layers.
-- `design/`: reusable UI baseline materials; active feature design belongs in root `dev-doc/[feature-name]/design/`.
+- `design/`: reusable UI baseline materials; active feature design belongs in root `dev-doc/[project-folder]/[feature-name]/design/`.
 - `development-structure/`: approved project-route structure references.
 - `qa/`: Playwright configuration and test examples used by the QA scaffold scripts.
 - `traceability/`: Master Scaffold-only ODN batch and internal handoff templates; never copy these into target `artifacts/shared/`.

@@ -1,4 +1,4 @@
-﻿# ARCHITECTURE
+# ARCHITECTURE
 
 This document is the high-level system overview for the `project-scafold` repository.
 
@@ -88,7 +88,7 @@ Operational state mainly lives in:
 
 ## Design and API Artifact Model
 - Design artifacts:
-  `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/`
+  `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/`
 - General mixed design references:
   `artifacts/design/master-ui-templates/`
 - API specs:

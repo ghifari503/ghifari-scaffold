@@ -95,9 +95,9 @@ Use this scaffold when:
 - Dynamic bug listing files: `bug-listing/[bug-list-name].md`
 - Bug-fix evidence: `artifacts/test/[module]-bug-log.md` and `artifacts/test/[module]-bug-status.md`
 - Docker-specific artifacts: `artifacts/docker/`
-- Design images: `development/[project-folder]/docs/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
-- Figma reference: `development/[project-folder]/docs/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
-- HTML UI prototype/reference: `development/[project-folder]/docs/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
+- Design images: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
+- Figma reference: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
+- HTML UI prototype/reference: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
 - Shared HTML UI prototype baseline: `templates/design/master-ui-templates/[template-name]/prototype/index.html`
 - General mixed design references: `templates/design/master-ui-templates/`
 - API specs:

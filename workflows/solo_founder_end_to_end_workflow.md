@@ -1,4 +1,4 @@
-﻿# Solo Founder End-to-End Workflow (Frontend First)
+# Solo Founder End-to-End Workflow (Frontend First)
 
 This is the recommended workflow for this repository.
 
@@ -13,13 +13,13 @@ Principles:
 
 1. Intake and scope clarification (`founder-interviewer`)
 Checkpoint output:
-- `dev-doc/[feature-name]/interview-notes.md`
+- `dev-doc/[project-folder]/[feature-name]/interview-notes.md`
 - `artifacts/architecture/DECISION_LOG.md` updated for major product decisions
 
 2. Requirement synthesis (`requirement-synthesizer`)
 Checkpoint output:
-- `dev-doc/[feature-name]/brd.md`
-- `dev-doc/[feature-name]/prd.md`
+- `dev-doc/[project-folder]/[feature-name]/brd.md`
+- `dev-doc/[project-folder]/[feature-name]/prd.md`
 - Explicit acceptance criteria listed
 
 3. Flow definition (`flow-designer`)
@@ -30,7 +30,7 @@ Checkpoint output:
 
 4. Design structure mapping (`design-mapper`)
 Checkpoint output:
-- `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/` folders
+- `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/` folders
 - `design.md`, `layout.md`, `components.md`, `interactions.md`
 - `assets/` folder and `figma-link.txt` placeholder
 
@@ -46,7 +46,7 @@ Checkpoint output:
   - all states exist (default, hover, active, disabled, loading, error)
   - responsive rules exist
   - accessibility notes exist
-- `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/design.md` marked ready
+- `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/design.md` marked ready
 
 7. Frontend implementation first (`frontend-builder`)
 Checkpoint output:

@@ -1,4 +1,4 @@
-﻿# Existing Project Onboarding Workflow
+# Existing Project Onboarding Workflow
 
 Use this workflow when the project already exists, was inherited, or was started outside this scaffold.
 
@@ -35,7 +35,7 @@ Use this workflow when the project already exists, was inherited, or was started
 - If intent is already clear, move directly to requirement delta.
 
 ## Step 4: Requirement delta
-- Update only the impacted requirement docs under `dev-doc/[feature-name]/`.
+- Update only the impacted requirement docs under `dev-doc/[project-folder]/[feature-name]/`.
 - Record change reason and expected outcome.
 - Enforce `guardrails/development/REQUIREMENT_PRECEDENCE_POLICY.md`; record the controlling source and create a requirement-conflict decision artifact for any relevant conflict or ambiguity.
 
@@ -44,7 +44,7 @@ Use this workflow when the project already exists, was inherited, or was started
 - Keep unchanged flow files as-is.
 
 ## Step 6: Design delta
-- Update only impacted design folders in `dev-doc/[feature-name]/design/`.
+- Update only impacted design folders in `dev-doc/[project-folder]/[feature-name]/design/`.
 - Keep general mixed references in `templates/design/master-ui-templates/`.
 - Full visual revamp is allowed, but it should still be broken into scoped surface areas unless the founder approves a broader launch.
 

@@ -1,4 +1,4 @@
-﻿# Runtime Parity Contract (Codex/GPT + Claude + Gemini)
+# Runtime Parity Contract (Codex/GPT + Claude + Gemini)
 
 Use this contract when the founder requires the same process and output shape
 across Codex/GPT, Claude, and Gemini runs.
@@ -44,10 +44,10 @@ ODN traceability rule: Codex/GPT, Claude, Gemini CLI, and Antigravity must prese
 
 All supported runtimes MUST write evidence to the same locations:
 
-- BRD: `dev-doc/[feature-name]/brd.md`
-- PRD: `dev-doc/[feature-name]/prd.md`
+- BRD: `dev-doc/[project-folder]/[feature-name]/brd.md`
+- PRD: `dev-doc/[project-folder]/[feature-name]/prd.md`
 - Flows: `artifacts/flows/[feature]-*.md`
-- Design: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/`
+- Design: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/`
 - API: `artifacts/architecture/api-specs/[feature]-openapi.yaml`
 - API notes: `artifacts/architecture/api-specs/[feature]-api-spec.md`
 - Test evidence: `artifacts/test/[feature]-*.md`

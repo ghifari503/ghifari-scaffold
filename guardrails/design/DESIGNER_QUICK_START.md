@@ -1,4 +1,4 @@
-﻿# Designer Quick Start Guide
+# Designer Quick Start Guide
 
 For designers new to this design system, here's what you need to know.
 
@@ -20,7 +20,7 @@ You receive a folder structure with design spec **templates**. Your job is to:
 ## ðŸ“ What You'll Receive
 
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â”œâ”€â”€ [page-name]/
 â”‚   â”œâ”€â”€ page-overview.md
 â”‚   â””â”€â”€ [section]/
@@ -437,7 +437,7 @@ Before handing off to frontend developers:
 - `templates/design_spec_template.md` - Complete template (reference while filling specs)
 - `guardrails/design/DESIGN_ASSET_SUBMISSION.md` - How to submit design assets (screenshots, Figma links)
 - `guardrails/design/FIGMA_MCP_INTEGRATION.md` - Auto-generate specs from Figma (recommended!)
-- `dev-doc/[feature-name]/design/` - All design specs (example structure)
+- `dev-doc/[project-folder]/[feature-name]/design/` - All design specs (example structure)
 - `workflows/ui_frontend_workflow.md` - How frontend uses your specs
 - `guardrails/design/VISUAL_DESIGN_INTEGRATION.md` - System overview
 

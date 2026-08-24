@@ -39,7 +39,7 @@
 - acceptance_criteria_after_resolution:
 
 ## Required Synchronization
-- [ ] `dev-doc/[feature]/brd.md` or `prd.md`
+- [ ] `dev-doc/[project-folder]/[feature]/brd.md` or `prd.md`
 - [ ] impacted flow, API, schema, or design artifact
 - [ ] implementation plan and plan approval checklist
 - [ ] `artifacts/architecture/DECISION_LOG.md` when durable technical decision exists

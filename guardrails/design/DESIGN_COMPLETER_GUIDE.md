@@ -1,4 +1,4 @@
-﻿# Design Completer Guide
+# Design Completer Guide
 
 How to use the `design-completer` workflow to generate complete design specifications from incomplete or partial design images.
 
@@ -62,7 +62,7 @@ The `design-completer` workflow:
 
 ### Step 1: Prepare Design Assets
 
-**Upload design images to:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
+**Upload design images to:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
 
 **What to upload:**
 ```
@@ -79,7 +79,7 @@ assets/
 
 ### Step 2: Create figma-link.txt (Optional)
 
-If you have Figma design, add link to: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
+If you have Figma design, add link to: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
 
 ```
 Figma Design File
@@ -610,7 +610,7 @@ Designer can review & confirm/adjust as needed.
 
 **In 3 steps:**
 
-1. **Upload** design image to `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
+1. **Upload** design image to `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
 2. **Run** design-completer workflow
 3. **Review** generated specs (design.md, layout.md, components.md, interactions.md)
 

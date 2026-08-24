@@ -8,9 +8,9 @@ Use with `guardrails/system/TASK_TYPE_CLASSIFICATION.md`.
 
 | Task Type | Default Risk | Typical Triggers | Required Gates | Required Artifacts | Required Tests / Checks |
 |---|---:|---|---|---|---|
-| `feature-development` | medium | new feature, add feature, continue feature | intake, impact scan, pre-coding gate | `plan/feature-listing.md`, `dev-doc/[feature]/`, implementation plan, session log | unit/integration/E2E as applicable |
+| `feature-development` | medium | new feature, add feature, continue feature | intake, impact scan, pre-coding gate | `plan/feature-listing.md`, `dev-doc/[project-folder]/[feature]/`, implementation plan, session log | unit/integration/E2E as applicable |
 | `bug-fix` | medium | bug, error, fix, not showing, wrong behavior | intake, impact scan, pre-coding gate, adjacent-error check | `bug-listing/[bug-list-name].md`, bug log, bug status, session log | root-cause and adjacent-error findings, regression test, Playwright for UI/browser-visible bugs |
-| `ui-prototype` | low | HTML prototype, mockup, UI shell, cangkang UI | no pre-coding gate if only writing design reference | `dev-doc/[feature]/design/.../prototype/index.html` | visual review; no product test unless promoted to source |
+| `ui-prototype` | low | HTML prototype, mockup, UI shell, cangkang UI | no pre-coding gate if only writing design reference | `dev-doc/[project-folder]/[feature]/design/.../prototype/index.html` | visual review; no product test unless promoted to source |
 | `ui-revamp` | medium | redesign, revamp, match design, UI cleanup | impact scan, pre-coding gate for source changes | design docs, screenshots/prototype, session log | Playwright or visual QA |
 | `refactor` | high | refactor, clean code, split service, reorganize | impact scan, founder confirmation, pre-coding gate | before/after boundary, decision log if structural | regression tests required |
 | `integration` | medium | connect API, integrate service, webhook, external vendor | impact scan, contract review, pre-coding gate | API specs, integration notes, session log | integration tests, E2E when user-facing |

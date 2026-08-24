@@ -1,4 +1,4 @@
-﻿# Design Folder Structure Guide
+# Design Folder Structure Guide
 
 Complete guide for the auto-generated design folder structure and where to place design assets, HTML prototypes, and Figma links.
 
@@ -6,10 +6,10 @@ Complete guide for the auto-generated design folder structure and where to place
 
 ## ðŸ“‚ Complete Folder Structure
 
-For active feature-specific design, use `dev-doc/[feature-name]/design/`. Use `templates/design/master-ui-templates/` only for shared reusable baselines and legacy references.
+For active feature-specific design, use `dev-doc/[project-folder]/[feature-name]/design/`. Use `templates/design/master-ui-templates/` only for shared reusable baselines and legacy references.
 
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â”‚
 â”œâ”€â”€ master-ui-templates/                           â† Global fallback UI templates
 â”‚   â”‚
@@ -151,7 +151,7 @@ When you run `design-mapper` workflow, it automatically creates:
 4. Product wants temporary implementation using an approved baseline UI pattern
 
 **Fallback Order:**
-1. Use detailed files in `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/`
+1. Use detailed files in `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/`
 2. Use linked Figma design in target sub-section
 3. Use target `prototype/index.html` when an HTML UI shell exists
 4. If detail is missing, use HTML prototypes or images from `templates/design/master-ui-templates/`
@@ -175,7 +175,7 @@ When you run `design-mapper` workflow, it automatically creates:
 
 ## HTML Prototype Folder - UI Shell Reference
 
-**Feature-specific location:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
+**Feature-specific location:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
 
 **Shared template location:** `templates/design/master-ui-templates/[template-name]/prototype/index.html`
 
@@ -193,7 +193,7 @@ When you run `design-mapper` workflow, it automatically creates:
 **Recommended structure:**
 
 ```text
-dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/
+dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/prototype/
   index.html
   assets/
   README.md
@@ -203,7 +203,7 @@ dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/
 
 ## ðŸ“¸ assets/ Folder - Designer Image Storage
 
-**Location:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
+**Location:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
 
 **Purpose:** 
 - Designer stores visual design references here
@@ -257,7 +257,7 @@ Examples:
 ### Usage by Frontend Developer
 ```
 Frontend dev workflow:
-1. Open dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/
+1. Open dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/
 2. Look at assets/ folder for visual references
 3. See mockup.png for final design
 4. See state-*.png for all state variations
@@ -269,7 +269,7 @@ Frontend dev workflow:
 
 ## ðŸ”— figma-link.txt - Figma URL Reference
 
-**Location:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
+**Location:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
 
 **Purpose:**
 - Store reference to live Figma design
@@ -352,7 +352,7 @@ Output:
 ## ðŸ“‹ Where to Put Figma Link - Options
 
 ### Option 1: figma-link.txt (Recommended)
-**Primary location:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
+**Primary location:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
 
 **Pros:**
 - âœ… Dedicated file for Figma reference
@@ -444,7 +444,7 @@ File: dev-doc/authentication/design/login/form/
 ### Step 1: design-mapper creates structure
 ```
 Output:
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â””â”€â”€ authentication/
     â””â”€â”€ login/
         â””â”€â”€ form/
@@ -539,7 +539,7 @@ Frontend Dev:
 
 ### Version Control
 ```
-git add dev-doc/[feature-name]/design/
+git add dev-doc/[project-folder]/[feature-name]/design/
 git commit -m "Update login form design: changed button color to #0066FF"
 ```
 

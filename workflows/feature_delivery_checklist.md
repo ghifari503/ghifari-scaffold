@@ -1,16 +1,16 @@
-﻿# Feature Delivery Checklist (Frontend First)
+# Feature Delivery Checklist (Frontend First)
 
 Use this checklist for every feature delivery.
 
 ## A. Discovery and scope
-- BRD and PRD updated in `dev-doc/[feature-name]/brd.md` and `dev-doc/[feature-name]/prd.md`
+- BRD and PRD updated in `dev-doc/[project-folder]/[feature-name]/brd.md` and `dev-doc/[project-folder]/[feature-name]/prd.md`
 - Acceptance criteria explicit and testable
 
 ## B. Flows and design
 - User and system flow docs created in `artifacts/flows/`
-- Design folders generated under `dev-doc/[feature-name]/design/`
-- Mockup images saved in `dev-doc/[feature-name]/design/[page]/[section]/assets/`
-- Figma reference saved in `dev-doc/[feature-name]/design/[page]/[section]/figma-link.txt` when used
+- Design folders generated under `dev-doc/[project-folder]/[feature-name]/design/`
+- Mockup images saved in `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/assets/`
+- Figma reference saved in `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/figma-link.txt` when used
 - All required UI states documented
 - Design QA gate passed before coding
 

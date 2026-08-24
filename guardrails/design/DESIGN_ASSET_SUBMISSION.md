@@ -1,4 +1,4 @@
-﻿# Design Asset Submission Guide
+# Design Asset Submission Guide
 
 How to submit design assets such as screenshots, mockups, HTML prototypes, and Figma links for design specifications.
 
@@ -13,7 +13,7 @@ Compatibility note:
 Every active feature-specific design spec folder has an `assets/` subfolder for visual references:
 
 ```text
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 \-- [page-name]/
     \-- [section-name]/
         \-- [sub-section-name]/
@@ -105,7 +105,7 @@ Use it when:
 - a frontend agent needs a concrete visual/interaction guide before production implementation
 
 Required location:
-- `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
+- `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
 
 Shared reusable baseline location:
 - `templates/design/master-ui-templates/[template-name]/prototype/index.html`
@@ -148,7 +148,7 @@ If the source is Figma, use `figma-link.txt` instead of uploading heavy design s
 ## Figma Link Submission
 
 File:
-- `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
+- `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
 
 Suggested format:
 

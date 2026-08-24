@@ -1,4 +1,4 @@
-﻿# UI/Frontend Development Workflow
+# UI/Frontend Development Workflow
 
 For products with user-facing interfaces (web, mobile, desktop).
 
@@ -12,7 +12,7 @@ For products with user-facing interfaces (web, mobile, desktop).
    
 2. DESIGN ANALYSIS
    â†’ Run: design-mapper
-   â†’ Output: Design folder structure + specs in dev-doc/[feature-name]/design/
+   â†’ Output: Design folder structure + specs in dev-doc/[project-folder]/[feature-name]/design/
    â†“
    
 3. VISUAL DESIGN
@@ -41,7 +41,7 @@ For products with user-facing interfaces (web, mobile, desktop).
    
 7. FRONTEND IMPLEMENTATION
    â†’ Run: frontend-builder (subagent)
-   â†’ Reference: dev-doc/[feature-name]/design/
+   â†’ Reference: dev-doc/[project-folder]/[feature-name]/design/
    â†’ Reference: assets/ folder (design images)
    â†’ Reference: figma-link.txt (live Figma design)
    â†’ Follow: design specs exactly
@@ -90,7 +90,7 @@ For products with user-facing interfaces (web, mobile, desktop).
 ## Key Integration Points
 
 ### Design â†’ Frontend
-- **Source of Truth:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/`
+- **Source of Truth:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/`
 - **What Developers Use:**
   - `design.md` - Visual specs, colors, typography
   - `layout.md` - Spacing, grid, responsive rules
@@ -123,7 +123,7 @@ For products with user-facing interfaces (web, mobile, desktop).
 ## Design Folder Structure Reference
 
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â”œâ”€â”€ authentication/
 â”‚   â”œâ”€â”€ login/
 â”‚   â”‚   â”œâ”€â”€ form/
@@ -183,7 +183,7 @@ Before deployment:
 
 ### Designer Provides
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â”œâ”€â”€ [page-name]/
 â”‚   â””â”€â”€ [section]/
 â”‚       â”œâ”€â”€ design.md (filled with visual details)

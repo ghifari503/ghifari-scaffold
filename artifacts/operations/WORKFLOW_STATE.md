@@ -5,7 +5,8 @@
 - current_task: `none`
 - current_step: `none`
 - status: `generic_scaffold_baseline`
-- next_step: `Select or create a Master Framework root, then record project-specific work only there.`
+- last_completed_task: `SCAFFOLD-20260824-DEV-DOC-LOCATION`
+- next_step: `Review and commit the approved generic documentation-location rule, then use a Master Framework root for project-specific work.`
 
 ## Boundary
 

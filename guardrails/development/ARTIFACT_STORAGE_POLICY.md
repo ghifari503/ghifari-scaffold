@@ -21,8 +21,8 @@ This policy applies before creating or updating any scaffold artifact, evidence 
 - Release prep, rollback notes, smoke checklist, and release readiness: `artifacts/release/`
 - Internal per-project ODN registry, batch state, lifecycle handoff, process state, and verified migration evidence (Git-ignored, local-only): `artifacts/traceability-local/[project]/`
 - Shared ODN schema authority only, nothing per-project (Git-carried): `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json`
-- Master-scaffold documentation and reusable examples: `dev-doc/`
-- Target project BRD, PRD, design, assets, Figma links, and HTML prototypes: `development/[project-folder]/docs/[feature-name]/`
+- Development documentation, BRD, PRD, design, assets, Figma links, HTML prototypes, and requirement-conflict decisions: `dev-doc/[project-folder]/[feature-name]/`
+- Master-scaffold documentation and reusable examples: `dev-doc/` without a project-specific child
 - Reusable design or scaffold templates: `templates/`
 - Client-safe, Git-carried project facts for a target repo: `development/[project-folder]/artifacts/shared/`
 
@@ -36,16 +36,16 @@ These roots must not be recreated:
 
 Use these replacements:
 
-- BRD: `development/[project-folder]/docs/[feature-name]/brd.md`
-- PRD: `development/[project-folder]/docs/[feature-name]/prd.md`
-- Feature design: `development/[project-folder]/docs/[feature-name]/design/`
+- BRD: `dev-doc/[project-folder]/[feature-name]/brd.md`
+- PRD: `dev-doc/[project-folder]/[feature-name]/prd.md`
+- Feature design: `dev-doc/[project-folder]/[feature-name]/design/`
 - Shared design templates: `templates/design/master-ui-templates/`
 
 ## Strict Rules
 
 - Do not create new root folders under `artifacts/` without updating this policy and `artifacts/README.md`.
 - Do not store active feature requirements or design in `artifacts/`.
-- Do not create `development/[project-folder]/dev-doc/`; active project requirements, design, assets, prototypes, and related feature documentation belong in `development/[project-folder]/docs/`.
+- Do not create development documentation under `development/[project-folder]/`, including `docs/` or `dev-doc/`. If it is found there, stop and ask the founder for permission to move it to `dev-doc/[project-folder]/[feature-name]/`; never move it automatically.
 - Do not store raw automation output in `artifacts/test/`; use `artifacts/qa/`.
 - Do not store human-authored QA summaries in `artifacts/qa/`; use `artifacts/test/`.
 - Do not store strict policies or guardrails in `artifacts/`; use `guardrails/`.

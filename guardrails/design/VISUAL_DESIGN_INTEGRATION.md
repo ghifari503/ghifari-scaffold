@@ -1,4 +1,4 @@
-﻿# Visual Design Integration - Summary
+# Visual Design Integration - Summary
 
 **Date Created:** 2026-04-07  
 **Status:** Design system documentation complete and ready for use
@@ -26,7 +26,7 @@ A complete visual design process integrated into the startup-flow framework. Thi
 Every time `design-mapper` runs, it automatically creates:
 
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â””â”€â”€ [page-name]/
     â””â”€â”€ [section]/
         â””â”€â”€ [sub-section]/
@@ -54,7 +54,7 @@ See `guardrails/design/DESIGN_FOLDER_STRUCTURE.md` for complete guide on where t
 
 ### Documentation
 ```
-âœ… dev-doc/[feature-name]/design/README.md
+âœ… dev-doc/[project-folder]/[feature-name]/design/README.md
    â†’ Complete guide to design artifacts folder
 
 âœ… guardrails/design/DESIGN_PROCESS.md
@@ -130,7 +130,7 @@ See `guardrails/design/DESIGN_FOLDER_STRUCTURE.md` for complete guide on where t
 - User flows from `flow-designer`
 
 **Output:**
-- `dev-doc/[feature-name]/prd.md` - Product requirements
+- `dev-doc/[project-folder]/[feature-name]/prd.md` - Product requirements
 - `artifacts/flows/` - User and system flows
 
 ---
@@ -143,7 +143,7 @@ See `guardrails/design/DESIGN_FOLDER_STRUCTURE.md` for complete guide on where t
 1. Analyzes user flows to extract all pages/screens
 2. Groups pages into logical sections
 3. Breaks sections into subsections (for complex pages)
-4. Creates folder structure: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/`
+4. Creates folder structure: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/`
 5. Generates template files in each folder
 6. Creates overview documents for each level
 
@@ -151,7 +151,7 @@ See `guardrails/design/DESIGN_FOLDER_STRUCTURE.md` for complete guide on where t
 
 **Example Output:**
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â”œâ”€â”€ authentication/
 â”‚   â”œâ”€â”€ authentication-overview.md
 â”‚   â”œâ”€â”€ login/
@@ -222,7 +222,7 @@ dev-doc/[feature-name]/design/
 
 **Frontend Developer Action:**
 
-1. **Review** design specs in `dev-doc/[feature-name]/design/`
+1. **Review** design specs in `dev-doc/[project-folder]/[feature-name]/design/`
 2. **Open** Figma link for visual reference
 3. **Implement** UI components
 4. **Follow** design specs exactly:
@@ -234,7 +234,7 @@ dev-doc/[feature-name]/design/
    - Accessibility requirements
 5. **Reference** component library (if exists)
 
-**Source of Truth:** `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/design.md`
+**Source of Truth:** `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/design.md`
 
 **Fallback Source When Detail Is Missing:** `templates/design/master-ui-templates/[template-name]/assets/mockup.png`
 
@@ -429,7 +429,7 @@ When designer finishes filling a `design.md`, it should have:
 ### For Updating an Existing Design
 
 1. **Requirement changes** â†’ Update PRD and flows
-2. **Designer updates** â†’ Modify design specs in `dev-doc/[feature-name]/design/`
+2. **Designer updates** â†’ Modify design specs in `dev-doc/[project-folder]/[feature-name]/design/`
 3. **Notify frontend devs** â†’ They update implementation
 4. **QA verifies** â†’ Re-test updated features
 5. **Update decision log** â†’ Document what changed and why
@@ -611,7 +611,7 @@ To start using this design system:
 - `templates/design_spec_template.md` - Design specification template
 - `.claude/skills/design-mapper/SKILL.md` - Design mapper workflow (creates folder structure with assets/)
 - `.claude/skills/design-completer/SKILL.md` - Design completer workflow (complete incomplete designs) âœ¨ NEW
-- `dev-doc/[feature-name]/design/` - All design specifications
+- `dev-doc/[project-folder]/[feature-name]/design/` - All design specifications
 
 ---
 

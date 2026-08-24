@@ -30,7 +30,7 @@ Git repository, initialize or clone it before continuing.
 
 The Master Scaffold ignores every Target Project folder, including its `artifacts/shared/`. Commit target source and client-safe shared facts from the Target Project; keep internal ODN/lifecycle state in Project Scaffold local storage and do not commit it anywhere.
 
-Keep project requirements, design references, and feature documentation in the target repository at `docs/[feature-name]/`. Do not create `dev-doc/` inside a target project folder under `development/`; the root `dev-doc/` is reserved for master-scaffold documentation and reusable examples.
+Keep project requirements, design references, and feature documentation in the Master Framework root at `dev-doc/[project-folder]/[feature-name]/`. Do not create development documentation anywhere inside a target project folder under `development/`, including `docs/` or `dev-doc/`. If an agent finds it there, it must ask the founder for permission to move it; it must not move it automatically.
 
 ## Startup Detection
 

@@ -5,7 +5,7 @@ Reusable design templates belong here when the scaffold needs shared UI baseline
 Active feature-specific design belongs in:
 
 ```text
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 ```
 
 Do not store active feature design under `artifacts/`.

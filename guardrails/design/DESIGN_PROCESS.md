@@ -1,4 +1,4 @@
-﻿# Design Process Documentation
+# Design Process Documentation
 
 ## Overview
 
@@ -20,7 +20,7 @@ The design process integrates visual design into the standard development workfl
 - âŒ NOT YET: Technical architecture or frontend implementation
 
 **Inputs Available:**
-- `dev-doc/[feature-name]/prd.md` - Product requirements
+- `dev-doc/[project-folder]/[feature-name]/prd.md` - Product requirements
 - `artifacts/flows/` - User flows, system flows
 - Component inventory from flow analysis
 
@@ -39,13 +39,13 @@ The design process integrates visual design into the standard development workfl
 1. Extract all pages/screens from flows
 2. Identify page groups and hierarchy
 3. Break pages into sections and subsections
-4. Create folder structure: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/`
+4. Create folder structure: `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/`
 5. Generate template files in each folder
 6. Map components to pages
 
 **Output Folder Structure:**
 ```
-dev-doc/[feature-name]/design/
+dev-doc/[project-folder]/[feature-name]/design/
 â”œâ”€â”€ [page-name]/
 â”‚   â”œâ”€â”€ page-overview.md
 â”‚   â””â”€â”€ [section-name]/
@@ -72,7 +72,7 @@ dev-doc/[feature-name]/design/
 **Task:** Designer creates visual designs
 
 **Input:**
-- Design specs from `dev-doc/[feature-name]/design/`
+- Design specs from `dev-doc/[project-folder]/[feature-name]/design/`
 - Approved flows and requirements
 - Brand guidelines and design system
 
@@ -98,7 +98,7 @@ dev-doc/[feature-name]/design/
 **No UI Source At All:**
 - If `design.md`, target `assets/`, target `figma-link.txt`, and usable master template images are all unavailable, the system must create a first-pass UI spec from non-UI product artifacts.
 - Required references for this recovery mode:
-  - `dev-doc/[feature-name]/prd.md`
+  - `dev-doc/[project-folder]/[feature-name]/prd.md`
   - `artifacts/flows/`
   - `artifacts/context/PROJECT_CONTEXT.md`
   - `artifacts/context/BUSINESS_CONTEXT.md`
@@ -151,7 +151,7 @@ design/[page]/[section]/[sub-section]/
 **Task:** Frontend developers implement UI based on design specs
 
 **Reference Material:**
-- `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/` (complete spec)
+- `dev-doc/[project-folder]/[feature-name]/design/[page]/[section]/[sub-section]/` (complete spec)
 - Approved visual reference: Figma, Stitch, mockup, screenshot, or HTML prototype
 - `templates/design/master-ui-templates/` only if target detail is incomplete
 - Design system components
@@ -291,11 +291,11 @@ Each design spec folder should have:
 When requirements change:
 
 1. **Requirement Changes**
-   - Update `dev-doc/[feature-name]/prd.md`
+   - Update `dev-doc/[project-folder]/[feature-name]/prd.md`
    - Update `artifacts/flows/`
 
 2. **Designer Updates Design**
-   - Modify design specs in `dev-doc/[feature-name]/design/`
+   - Modify design specs in `dev-doc/[project-folder]/[feature-name]/design/`
    - Update Figma designs
    - Document changes in design spec `design.md`
 
@@ -388,7 +388,7 @@ When requirements change:
 - **Code Connect** - Link Figma components to code
 
 ### Documentation Tools
-- Markdown files in `dev-doc/[feature-name]/design/`
+- Markdown files in `dev-doc/[project-folder]/[feature-name]/design/`
 - Figma link system
 - Version control (Git) for tracking changes
 
@@ -444,5 +444,5 @@ When requirements change:
 - `workflows/ui_frontend_workflow.md` - Full UI development workflow
 - `templates/design_spec_template.md` - Design spec template
 - `.claude/skills/design-mapper/SKILL.md` - Design mapping workflow
-- `dev-doc/[feature-name]/design/` - All design specifications
+- `dev-doc/[project-folder]/[feature-name]/design/` - All design specifications
 

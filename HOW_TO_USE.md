@@ -265,7 +265,7 @@ I2 wajib untuk perubahan behavior/source/API/DB/UI/test/dependency — **tidak w
 
 ### Step 10 — Dev-Doc Discovery
 
-AI mencari dokumentasi terkait di `dev-doc/[feature-name]/` (BRD, PRD, design, prototype). Jika tidak ada, dicatat sebagai `dev-doc missing` dan requirement baseline harus dibuat dulu sebelum coding fitur baru.
+AI mencari dokumentasi terkait di `dev-doc/[project-folder]/[feature-name]/` (BRD, PRD, design, prototype). Jika dokumen pengembangan ditemukan di bawah `development/[project-folder]/`, AI harus berhenti dan meminta izin founder untuk memindahkannya; AI tidak boleh memindahkannya otomatis. Jika tidak ada, dicatat sebagai `dev-doc missing` dan requirement baseline harus dibuat dulu sebelum coding fitur baru.
 
 ### Step 11 — Plan & Approval (Untuk Perubahan Medium/Major)
 

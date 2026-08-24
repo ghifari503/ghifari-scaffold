@@ -49,7 +49,7 @@ Before continuing target work, every runtime must read:
 5. Master Scaffold `artifacts/traceability-local/[project]/BATCH_STATE.json`
 6. at most three relevant ODN batches resolved progressively by component and scope
 7. relevant internal handoff from `artifacts/traceability-local/[project]/handoffs/`
-8. related target `docs/[feature-name]/`
+8. related `dev-doc/[project-folder]/[feature-name]/`
 9. scaffold memory only after current operational, target-fact, and traceability state
 
 Do not load all batch history. Graphify remains the optional authority for structural graph context and is never duplicated into traceability.
@@ -85,7 +85,7 @@ When evidence conflicts:
 2. founder-locked decisions and approved requirements
 3. client-safe target shared facts
 4. current Master Scaffold operational and ODN traceability state
-5. target project `docs/`
+5. related development documentation under `dev-doc/[project-folder]/[feature-name]/`
 6. verified scaffold memory
 7. older logs or candidate memory
 

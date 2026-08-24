@@ -27,13 +27,13 @@ Do not create these removed legacy roots:
 - `artifacts/prd/`
 - `artifacts/design/`
 
-For an active target project, feature BRD, PRD, and design belong under:
+For an active target project, feature BRD, PRD, design, assets, prototypes, and requirement-conflict decisions belong under the Master Framework root:
 
 ```text
-development/[project-folder]/docs/[feature-name]/
+dev-doc/[project-folder]/[feature-name]/
 ```
 
-The root `dev-doc/` folder is reserved for master-scaffold documentation and reusable examples. Do not put project-specific product documentation there.
+Do not put development documentation anywhere under `development/[project-folder]/`, including its `docs/` folder. When such documentation is discovered, stop and request founder permission before moving it to `dev-doc/[project-folder]/[feature-name]/`.
 
 ## File Naming
 - **Strict Character Set:** Use only ASCII characters: lowercase letters (`a-z`), numbers (`0-9`), underscores (`_`), and hyphens (`-`).

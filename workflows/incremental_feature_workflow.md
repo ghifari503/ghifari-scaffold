@@ -1,4 +1,4 @@
-﻿# Incremental Feature Workflow (No Full Restart)
+# Incremental Feature Workflow (No Full Restart)
 
 Use this flow when adding a feature to an existing project.
 
@@ -7,7 +7,7 @@ Use this flow when adding a feature to an existing project.
 - Record impacted artifacts list.
 
 ## Step 2: Delta requirements
-- Update only impacted requirement docs under `dev-doc/[feature-name]/`.
+- Update only impacted requirement docs under `dev-doc/[project-folder]/[feature-name]/`.
 - Add `Delta Update` section with date and reason.
 
 ## Step 3: Delta flows
@@ -15,7 +15,7 @@ Use this flow when adding a feature to an existing project.
 - Keep unchanged flow files as-is.
 
 ## Step 4: Delta design
-- Update only impacted design folders in `dev-doc/[feature-name]/design/`.
+- Update only impacted design folders in `dev-doc/[project-folder]/[feature-name]/design/`.
 - Add or replace images in `assets/` only for affected sections.
 - Update `figma-link.txt` only where Figma nodes changed.
 

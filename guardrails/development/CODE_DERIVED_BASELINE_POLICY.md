@@ -14,7 +14,7 @@ It also applies when the available documents are materially stale, contradictory
 
 ## Mandatory Documentation Question
 
-Before deriving a baseline from code, search targeted likely documentation locations, including the target repository root documentation, target `docs/`, architecture/API/design notes, setup guides, and documentation named by the founder or existing project configuration. Do not search or create `development/[project-folder]/dev-doc/`.
+Before deriving a baseline from code, search targeted likely documentation locations, beginning with `dev-doc/[project-folder]/`, then the target repository root documentation, architecture/API/design notes, setup guides, and documentation named by the founder or existing project configuration. Do not create development documentation anywhere under `development/[project-folder]/`. If documentation is discovered there, stop and ask the founder for permission to move it to the corresponding `dev-doc/[project-folder]/[feature-name]/` path.
 
 If no relevant documentation is found, ask the founder exactly this question before source-derived baseline work:
 

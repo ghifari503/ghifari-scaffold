@@ -33,7 +33,7 @@ Before planning or coding a feature, bugfix, API, database, UI, integration, ref
 
 ## Requirement Conflict Decision
 
-Create `development/[project-folder]/docs/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
+Create `dev-doc/[project-folder]/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
 
 Every conflict decision must record:
 

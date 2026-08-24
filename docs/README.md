@@ -11,4 +11,4 @@ This folder provides navigation and operational explanations for the scaffold. P
 - `ANTIGRAVITY_SETUP.md` and `CLAUDE_CODE_VSCODE_SETUP.md`: runtime-specific setup notes.
 - `overview/`: compatibility navigation documents and high-level reference material.
 
-Project requirements, feature documentation, design references, and prototypes belong in the active target repository at `docs/[feature-name]/`. Root `dev-doc/` is reserved for master-scaffold documentation and reusable examples.
+Project requirements, feature documentation, design references, and prototypes belong in the Master Framework root at `dev-doc/[project-folder]/[feature-name]/`. Do not store development documentation below `development/`.

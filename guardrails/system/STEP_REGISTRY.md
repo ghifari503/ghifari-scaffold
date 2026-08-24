@@ -1,4 +1,4 @@
-﻿# Step Registry & Token Cost Estimator
+# Step Registry & Token Cost Estimator
 
 Use this file before running a step to understand the token estimate and how much of the remaining quota it may consume.
 
@@ -156,7 +156,7 @@ Use these support steps with `workflows/ai_contributor_lifecycle.md` when a clon
 - Recommended Model: `Sonnet / GPT-4o`
 - Token Estimate: `800-1,500`
 - Context Needed: current change request or unclear business intent
-- Output: `dev-doc/[feature-name]/interview-notes.md`
+- Output: `dev-doc/[project-folder]/[feature-name]/interview-notes.md`
 - Notes: use when the intended change is still unclear after intake
 
 #### STEP P2 - Requirement Synthesis
@@ -164,7 +164,7 @@ Use these support steps with `workflows/ai_contributor_lifecycle.md` when a clon
 - Recommended Model: `Sonnet / GPT-4o`
 - Token Estimate: `1,500-3,000`
 - Context Needed: intake notes + impact scan + founder clarification
-- Output: requirement delta artifacts in `dev-doc/[feature-name]/brd.md` or `dev-doc/[feature-name]/prd.md`
+- Output: requirement delta artifacts in `dev-doc/[project-folder]/[feature-name]/brd.md` or `dev-doc/[project-folder]/[feature-name]/prd.md`
 - Tip: keep the scope limited to the current change
 
 #### STEP P3 - User Flow Design
@@ -180,7 +180,7 @@ Use these support steps with `workflows/ai_contributor_lifecycle.md` when a clon
 - Recommended Model: `Haiku / GPT-4o mini`
 - Token Estimate: `400-800`
 - Context Needed: validated impacted flows
-- Output: `dev-doc/[feature-name]/design/` folder structure for impacted UI
+- Output: `dev-doc/[project-folder]/[feature-name]/design/` folder structure for impacted UI
 - Notes: lightweight task, cheap model is usually enough
 
 #### STEP P5 - Design Completion

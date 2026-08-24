@@ -27,7 +27,7 @@
 
 ## Implementation Notes
 - api_contract_location: `artifacts/architecture/api-specs/`
-- design_source_location: `dev-doc/[feature-name]/design/`
+- design_source_location: `dev-doc/[project-folder]/[feature-name]/design/`
 - qa_evidence_location: `artifacts/test/`
 
 ## Exact Next Step
