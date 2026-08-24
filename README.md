@@ -1,6 +1,8 @@
-﻿# Project Scaffold (Codex/GPT + Claude + Gemini Compatible)
+# Master Scaffold (Codex/GPT + Claude + Gemini Compatible)
 
-This package helps a solo founder or owner run AI agents safely for both new projects from scratch and existing or inherited projects.
+This package is the **Master Scaffold**: a reusable Git repository that helps a solo founder or owner run AI agents safely for both new projects from scratch and existing or inherited projects.
+
+For one project, use a **Project Scaffold** as the local non-Git workspace and keep the actual application in a nested **Target Project** repository under `development/[project-folder]/`. Project Scaffold context is local only and is not committed to either repository.
 
 Use this scaffold when:
 - you want to define and bootstrap a new project from zero
@@ -47,7 +49,7 @@ Use this scaffold when:
 - Frontend behavior should still be validated before backend contract expansion when UI is part of the scope.
 - For existing-project onboarding, clone or attach the target repository into `development/[project-folder]`; that folder becomes the active workspace for the cloned project.
 - Target repositories and new project folders live under `development/[project-folder]`.
-- Each target project is a separate Git repository. Commit and push project source plus `artifacts/shared/` from inside that project folder, never from the scaffold root.
+- Each Target Project is a separate Git repository. Commit and push project source plus `artifacts/shared/` from inside that project folder, never from a Project Scaffold root.
 - Existing Flutter projects are supported through intake and Flutter-specific guardrails; do not bootstrap a new Flutter app before the target repo is audited.
 
 ## Recommended First Run
@@ -76,7 +78,7 @@ Use this scaffold when:
 
 ## Continuity And Project Baseline
 - Every target project keeps Git-carried continuity under `development/[project-folder]/artifacts/shared/`.
-- `PROJECT_STATE.md` records the project baseline, `ACTIVE_CONTEXT.md` records current work, `CONTRIBUTOR_LOG.md` records contributor-session detail, and `handoffs/` holds incomplete-slice handoffs.
+- Target `PROJECT_STATE.md` records client-safe project facts. Current work, contributor/process detail, routing, lifecycle, and handoffs resolve from Project Scaffold local `artifacts/traceability-local/[project]/` and are not Git-carried.
 - The scaffold-wide `artifacts/operations/AGENT_ACTIVITY_LOG.md` records which agent performed which task category and activity across projects. Activity logging is event-based and token-aware: agents read only its current snapshot and relevant recent entries, never the whole log or per-tool-call history.
 - For an inherited project without usable documentation, the agent first asks whether references exist. If none do, it creates a source-linked, code-derived `PROJECT_STATE.md` baseline and synchronizes verified facts to scaffold memory and the feature registry.
 - Future agents read shared project context and relevant memory before scanning source, then use targeted paths instead of relearning the entire repository.
@@ -93,9 +95,9 @@ Use this scaffold when:
 - Dynamic bug listing files: `bug-listing/[bug-list-name].md`
 - Bug-fix evidence: `artifacts/test/[module]-bug-log.md` and `artifacts/test/[module]-bug-status.md`
 - Docker-specific artifacts: `artifacts/docker/`
-- Design images: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
-- Figma reference: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
-- HTML UI prototype/reference: `dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
+- Design images: `development/[project-folder]/docs/[feature-name]/design/[page]/[section]/[sub-section]/assets/`
+- Figma reference: `development/[project-folder]/docs/[feature-name]/design/[page]/[section]/[sub-section]/figma-link.txt`
+- HTML UI prototype/reference: `development/[project-folder]/docs/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html`
 - Shared HTML UI prototype baseline: `templates/design/master-ui-templates/[template-name]/prototype/index.html`
 - General mixed design references: `templates/design/master-ui-templates/`
 - API specs:
@@ -145,7 +147,7 @@ Use this scaffold when:
 
 ## Git Hygiene
 - `.gitignore` keeps secrets, local dependencies, build output, raw Playwright artifacts, caches, logs, and editor files out of the scaffold repository.
-- The scaffold repository ignores all target project files under `development/[project-folder]/`, including `artifacts/shared/`. The target project's own Git repository tracks its source and shared continuity together.
+- The Master Scaffold ignores all Target Project files under `development/[project-folder]/`. The Target Project Git repository tracks source and client-safe shared facts; Project Scaffold internal ODN/lifecycle continuity remains local and uncommitted.
 - `development/_project-template/artifacts/shared/` provides the default shared-context structure for each new or attached target project.
 - After cloning the scaffold, run `powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\enable-scaffold-git-protection.ps1` once. Root scaffold commit and push are blocked unless a maintainer uses the explicit `ALLOW_SCAFFOLD_COMMIT=1` or `ALLOW_SCAFFOLD_PUSH=1` override.
 - Apply the GitHub `main` Ruleset in `docs/REPOSITORY_GOVERNANCE.md`: only `@odonplay` may update `main`; all other contributors use pull requests.
@@ -172,4 +174,3 @@ Recommended default:
 For a read-only status check:
 
 `Review the current scaffold state. Read artifacts/operations/WORKFLOW_STATE.md, artifacts/operations/CURRENT_PHASE.md, artifacts/operations/CURRENT_TASK.md, guardrails/development/PRE_CODING_POLICY.md, and artifacts/operations/PRE_CODING_GATE.md. Tell me the safest next action. Do not edit files.`
-

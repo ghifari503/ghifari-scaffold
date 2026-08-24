@@ -27,13 +27,13 @@ Do not create these removed legacy roots:
 - `artifacts/prd/`
 - `artifacts/design/`
 
-Active feature BRD, PRD, and design belong under:
+For an active target project, feature BRD, PRD, and design belong under:
 
 ```text
-dev-doc/[feature-name]/
+development/[project-folder]/docs/[feature-name]/
 ```
 
-Do not create a `dev-doc/` folder inside `development/[project-folder]/`; `development/` is reserved for target source and Git-carried `artifacts/shared/` continuity.
+The root `dev-doc/` folder is reserved for master-scaffold documentation and reusable examples. Do not put project-specific product documentation there.
 
 ## File Naming
 - **Strict Character Set:** Use only ASCII characters: lowercase letters (`a-z`), numbers (`0-9`), underscores (`_`), and hyphens (`-`).

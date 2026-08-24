@@ -9,11 +9,12 @@ Tujuan utama scaffold:
 - memastikan pekerjaan dimulai dari konteks dan requirement yang benar
 - mencegah coding sebelum scope, readiness, dan approval tersedia
 - menjaga satu fitur dan satu task slice per sesi
-- mengurangi pembacaan repository berulang dengan memory dan shared context
+- mengurangi pembacaan repository berulang dengan memory, fakta client-safe, dan ODN traceability internal
 - membuat QA, log, handoff, dan keputusan mudah diteruskan ke developer berikutnya
 
 ## Aturan Dasar
 
+0. Sebelum setiap command atau task dijalankan, jalankan `scripts/check-scaffold-freshness.ps1` atau `scripts/check-scaffold-freshness.sh`. Pemeriksaan ini lokal tanpa network, melaporkan `HEAD` dan fingerprint sumber, serta tidak pernah melakukan fetch atau pull. Baca ulang aturan terkait hanya jika fingerprint berubah.
 1. Baca `AGENTS.md` sebelum melakukan pekerjaan.
 2. Founder adalah pengambil keputusan akhir untuk produk, arsitektur, risiko, dan release.
 3. Request `medium` atau `major` wajib memiliki plan dan approval sebelum eksekusi.
@@ -21,7 +22,11 @@ Tujuan utama scaffold:
 5. Jika skill tidak tersedia, jalankan alur `skill-creator` terlebih dahulu.
 6. Kerjakan satu fitur dan satu task slice per sesi secara default.
 7. Gunakan context, memory, dan targeted scan; jangan membaca seluruh repository berulang kali.
-8. Setelah pekerjaan bermakna, lakukan documentation sync dan update shared context.
+8. Setelah pekerjaan bermakna, lakukan documentation sync, update fakta client-safe bila berubah, dan sinkronkan ODN/internal state.
+9. Gunakan **Master Scaffold** untuk repository Git generik, **Project Scaffold** untuk workspace konteks lokal non-Git, dan **Target Project** untuk repository Git proyek di `development/[project-folder]/`.
+10. Konteks yang berubah di Project Scaffold tidak boleh di-commit ke mana pun. Perubahan proyek hanya memakai **Commit Target Project**; perubahan generik hanya memakai **Commit Master Scaffold**.
+
+Saat intake mendeteksi Target Project atau founder meminta proyek baru, konversikan workspace non-canonical menjadi Project Scaffold dengan `scripts/initialize-project-scaffold.ps1`. Jangan pernah menonaktifkan `.git` pada Master Scaffold resmi.
 
 ## 1. Startup Dan Pemilihan Mode
 
@@ -53,7 +58,7 @@ Membangun fondasi project berdasarkan keputusan founder, bukan asumsi agent.
 3. `G2`: buat project charter, requirement minimum, acceptance criteria, dan task breakdown untuk fitur pertama.
 4. `G3`: ajukan stack, arsitektur, struktur repository, QA approach, dan bootstrap plan.
 5. Tunggu approval founder.
-6. `G4`: buat shared context awal dan buka pre-coding gate dengan allowed write paths.
+6. `G4`: buat baseline fakta client-safe dan traceability internal, lalu buka pre-coding gate dengan allowed write paths.
 7. `G5`: lakukan skill lookup, bootstrap hanya teknologi yang disetujui, lalu implementasi satu slice.
 8. Lanjutkan ke QA, documentation sync, memory, dan handoff.
 
@@ -72,10 +77,10 @@ Memahami system yang sudah ada sebelum melakukan perubahan dan menyimpan baselin
 5. Cari dokumentasi project dan sumber referensi yang tersedia.
 6. Jika dokumentasi tidak ditemukan, tanyakan kepada founder apakah ada dokumen, link, diagram, akses repository lain, atau referensi tambahan.
 7. Jika tetap tidak ada, buat code-derived baseline berbasis evidence dari source code.
-8. Simpan hasilnya pada shared context target project dan sinkronkan fakta stabil ke memory serta feature registry.
+8. Simpan hanya fakta client-safe pada target, state proses internal pada ODN authority, lalu sinkronkan fakta stabil ke memory serta feature registry.
 9. Buat readiness baseline sebelum implementation planning.
 
-Pembelajaran tidak berarti selalu membaca seluruh repository. Agent membaca operational context, shared context, memory, feature registry, dev-doc, dan session log terlebih dahulu, lalu melakukan targeted scan. Full scan hanya digunakan saat intake pertama, baseline stale/contradicted, risiko tinggi, atau alasan terdokumentasi.
+Pembelajaran tidak berarti selalu membaca seluruh repository. Agent membaca operational context, fakta client-safe, ODN traceability, memory, feature registry, dev-doc, dan session log terlebih dahulu, lalu melakukan targeted scan. Full scan hanya digunakan saat intake pertama, baseline stale/contradicted, risiko tinggi, atau alasan terdokumentasi.
 
 ## 4. Shared Context Dan Memory
 
@@ -85,19 +90,19 @@ Memungkinkan developer B melanjutkan pekerjaan developer A tanpa mengulang pemah
 
 Sebelum melanjutkan pekerjaan pada project aktif, baca:
 
-- `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`
-- `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-- entry terbaru `CONTRIBUTOR_LOG.md`
-- handoff yang relevan
+- `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` untuk fakta client-safe
+- `artifacts/traceability-local/[project]/BATCH_STATE.json` dan maksimal tiga batch ODN relevan
+- maksimal tiga batch ODN relevan
+- handoff internal yang relevan di `artifacts/traceability-local/[project]/handoffs/`
 - `artifacts/memory/MEMORY_INDEX.md` dan memory yang relevan
 - feature registry dan session log terkait
 
 Setelah meaningful work:
 
 - update `PROJECT_STATE.md` jika fakta project berubah
-- update `ACTIVE_CONTEXT.md`
-- append `CONTRIBUTOR_LOG.md`
-- buat atau update handoff jika sesi berhenti, berpindah agent, atau memiliki blocker
+- update batch/lifecycle internal di Master Scaffold
+- update handoff internal bila diperlukan
+- buat atau update handoff internal di Master Scaffold jika sesi berhenti, berpindah runtime, atau memiliki blocker
 - simpan memory hanya dari evidence, keputusan, baseline, QA, atau instruksi founder
 
 Shared context harus Git-safe. Jangan menyimpan secret, password, token, raw chat, atau data pribadi.
@@ -168,7 +173,7 @@ Sebelum coding, refactor, test creation, dependency work, migration, generation,
 5. validasi sumber, penggunaan, lisensi, dan isi kandidat; hanya publisher allowlist yang boleh diunduh otomatis
 6. tempatkan skill yang disetujui pada kedua folder runtime, lalu jalankan `cek skill`
 7. gunakan `skill-creator` jika tidak ada skill eksternal yang sesuai
-8. pastikan intake, requirement, impact scan, readiness, plan, task slice, shared context, dan allowed write paths lengkap
+8. pastikan intake, requirement, impact scan, readiness, plan, task slice, fakta client-safe, ODN traceability, dan allowed write paths lengkap
 9. pastikan `artifacts/operations/PRE_CODING_GATE.md` berstatus terbuka
 
 Tidak ada product code yang boleh ditulis sebelum pre-coding gate terpenuhi.
@@ -199,7 +204,7 @@ Mulai dari check terkecil yang relevan. Full suite atau browser suite luas hanya
 
 Menjaga pekerjaan tetap dapat dilanjutkan, diaudit, dan dipahami agent atau developer berikutnya.
 
-Setelah setiap official step atau meaningful work, update `WORKFLOW_STATE.md`, `CURRENT_TASK.md`, `SESSION_LOG.md`, artifact source-of-truth yang terdampak, shared context target project, serta memory dan learnings bila relevan.
+Setelah setiap official step atau meaningful work, update `WORKFLOW_STATE.md`, `CURRENT_TASK.md`, `SESSION_LOG.md`, artifact source-of-truth yang terdampak, fakta target client-safe dan traceability internal yang relevan, serta memory dan learnings bila diperlukan.
 
 Untuk aktivitas agent lintas project, append event bermakna ke `artifacts/operations/AGENT_ACTIVITY_LOG.md`. Baca hanya snapshot dan entry relevan terakhir, bukan seluruh riwayat atau setiap tool call.
 
@@ -245,7 +250,7 @@ Tim dapat menambah project-specific docs, skill, agent, template, dan automation
 User Request
  -> Read AGENTS.md dan operational state
  -> Classify task dan pilih project mode
- -> Read shared context, memory, dan dev-doc
+ -> Read client-safe facts, ODN traceability, memory, dan dev-doc
  -> Interview bila diperlukan
  -> Impact scan dan readiness baseline
  -> Slice satu task
@@ -258,7 +263,7 @@ User Request
  -> Manual visual QA bila diperlukan
  -> Final impact check
  -> Documentation sync
- -> Update shared context dan memory
+ -> Update client-safe facts, ODN traceability, dan memory
  -> Handoff atau ready to pr
 ```
 
@@ -270,12 +275,19 @@ User Request
 - `guardrails/`: policy strict dan protocol
 - `templates/`: format artifact dan evidence
 - `artifacts/operations/`: state, task, gate, dan session log
-- `development/[project-folder]/artifacts/shared/`: continuity yang dibawa Git bersama project
+- `development/[project-folder]/artifacts/shared/`: fakta kontrak project yang client-safe
+- `artifacts/traceability-local/[project]/`: authority internal ODN, lifecycle, handoff, and identity-free process state; routing decisions are ephemeral
 
-Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit dan push source project serta shared context dilakukan dari folder project; repo scaffold mengabaikan seluruh folder target dan memblokir commit/push root secara default.
+Target Project pada `development/[project-folder]/` wajib menjadi repository Git terpisah. Commit source dan fakta client-safe dilakukan dari Target Project; traceability internal tetap lokal di Project Scaffold dan tidak dikomit ke mana pun. Master Scaffold tetap mengabaikan seluruh folder Target Project dan hanya menerima perubahan generic yang secara eksplisit dipromosikan.
 
 Update `main` pada repository scaffold hanya dilakukan oleh `@odonplay`. Contributor lain membuat branch dan Pull Request; aktifkan GitHub Ruleset pada `docs/REPOSITORY_GOVERNANCE.md` agar aturan ini enforced di server.
 
 ## 16. Routing Model Codex
 
-Sebelum coding, Terra sebagai supervisor otomatis menjalankan router tanpa meminta user memilih model. Ia menangani route `standard` sendiri, lalu membuat satu worker sementara untuk Luna/`fast`, Sol/`deep`, atau Sol/`critical` bila diperlukan. GPT-5.5 hanya untuk reproduksi legacy atau benchmark yang diminta secara eksplisit, bukan fallback. Router tidak mengubah model chat yang sedang aktif dan tidak membuka gate coding. Keputusan ringkas tersimpan pada `artifacts/shared/AI_ROUTING_LOG.md` milik project bila tersedia.
+Sebelum coding, Terra sebagai supervisor otomatis menjalankan router tanpa meminta user memilih model. Ia menangani route `standard` sendiri, lalu membuat satu worker sementara untuk Luna/`fast`, Sol/`deep`, atau Sol/`critical` bila diperlukan. GPT-5.5 hanya untuk reproduksi legacy atau benchmark yang diminta secara eksplisit, bukan fallback. Router tidak mengubah model chat yang sedang aktif dan tidak membuka gate coding. Bukti routing internal tidak boleh ditulis ke target `artifacts/shared/`.
+
+## ODN Traceability Strict
+
+Setelah task type normal ditentukan, semua runtime mengklasifikasikan task sebagai `read_only`, `minor_change`, atau `logical_change`. Logical change membuat atau melanjutkan satu batch `odn-xxxx` berdasarkan `component:scope`; lookup awal dibatasi tiga batch. ODN tidak mengganti gate yang ada dan tidak menduplikasi Graphify.
+
+Saat target pertama kali mengadopsi update Master Scaffold, jalankan klasifikasi seluruh `artifacts/shared/` secara dry-run. Pertahankan `client_safe`; salin dan verifikasi `internal_process_state` ke `artifacts/traceability-local/[project]/`; hapus dari target hanya setelah delapan check `PASS` dan apply disetujui. Tambahkan prevention rule, pastikan idempotent, dan laporkan `HISTORY_PURGE_REQUIRED` tanpa rewrite history otomatis.

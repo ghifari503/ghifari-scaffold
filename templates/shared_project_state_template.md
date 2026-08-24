@@ -1,47 +1,35 @@
-# Project State Baseline
+# Client-Safe Project State Baseline
 
-## Metadata
-- target_project: `[project-folder]`
-- baseline_mode: `[documented|code_derived|mixed|greenfield_planned]`
-- status: `[draft|in_progress|blocked|verified_with_unknowns|done]`
-- created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- created_by: `[developer/runtime]`
-- source_commit: `[commit-or-unknown]`
-- confidence: `[high|medium|low]`
+This file is part of the target project contract. Include verified, non-sensitive project facts only. Do not include active work, lifecycle, handoff, routing, contributor/process, development-state, runtime/model, or internal traceability metadata.
 
-## Documentation Discovery
-- locations_checked:
-  - `[path or source]`
-- relevant_documentation_found: `[yes|no|partial]`
-- documentation_used:
-  - `[path or link]`
-- missing_or_stale_documentation:
-- founder_question_asked: `[yes|no|not_required]`
-- founder_response:
+- traceability_class: `client_safe`
 
 ## Project Purpose And Boundary
+
+- target_project: `[project-folder]`
 - purpose: `[verified summary or unknown]`
 - supported_by:
-  - `[source path]`
+  - `[client-safe source path]`
 - in_scope_systems:
   - `[system]`
-- unknowns_or_assumptions:
-  - `[item]`
+- verified_unknowns:
+  - `[unknown without internal work-state detail]`
 
 ## Stack And Local Commands
-| Area | Finding | Confidence | Evidence |
-|---|---|---|---|
-| Package manager |  | `[high|medium|low]` |  |
-| Runtime / version |  | `[high|medium|low]` |  |
-| Frontend |  | `[high|medium|low]` |  |
-| Backend / worker |  | `[high|medium|low]` |  |
-| Database / storage |  | `[high|medium|low]` |  |
-| Test stack |  | `[high|medium|low]` |  |
-| Build command |  | `[high|medium|low]` |  |
-| Run command |  | `[high|medium|low]` |  |
 
-## System Map
+| Area | Verified Finding | Evidence |
+|---|---|---|
+| Package manager |  |  |
+| Execution environment / version |  |  |
+| Frontend |  |  |
+| Backend / worker |  |  |
+| Database / storage |  |  |
+| Test stack |  |  |
+| Build command |  |  |
+| Run command |  |  |
+
+## Public System Map
+
 - entrypoints:
   - `[path and role]`
 - module_roots:
@@ -51,45 +39,15 @@
 - data_and_integration_boundaries:
   - `[boundary and source path]`
 - auth_or_security_boundaries:
-  - `[boundary and source path]`
+  - `[non-sensitive boundary and source path]`
 - configuration_and_environment_requirements:
   - `[non-secret requirement and source path]`
 
-## Constraints And Known State
-- known_failures_or_baseline_issues:
-  - `[item and evidence]`
-- inherited_constraints_or_technical_debt:
-  - `[item and evidence]`
-- unknown_critical_areas:
-  - `[area, paths checked, next discovery action]`
+## Client-Safe Constraints
 
-## Optional Knowledge Graph
-- graphify_status: `[not_checked|missing|stale|current|present_unverified]`
-- graphify_cli_version: `[version|not_installed|unknown]`
-- graphify_cli_scope: `developer_user_level_uv_tool`
-- graphify_output: `graphify-out/ (local and ignored by target Git)`
-- graphify_runtime_sidecars: `not_permitted; master scaffold owns agent guidance`
-- graphify_checked_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- graphify_refresh_policy: `[mandatory_event_driven|not_installed]`
-- graphify_last_refresh_trigger: `[activation|source_change|config_change|documentation_change|dependency_change|shared_context_change|not_applicable]`
-- graphify_next_action: `[none|request_install|build|refresh|record_blocker]`
+- known_project_constraints:
+  - `[verified contract or technical constraint]`
+- known_public_compatibility_requirements:
+  - `[requirement and evidence]`
 
-## Targeted Discovery Index
-| Future Task Area | Start With | Adjacent Evidence | Notes |
-|---|---|---|---|
-| `[feature/module]` | `[path]` | `[path]` |  |
-
-## Memory And Shared Context Sync
-- shared_active_context_updated: `[yes|no]`
-- contributor_log_entry: `[path or reference]`
-- activity_log_entry: `[artifacts/operations/AGENT_ACTIVITY_LOG.md entry id or none]`
-- memory_ledger_entries:
-  - `[id]`
-- feature_registry_entries:
-  - `[id or none]`
-- memory_changelog_entry:
-
-## Refresh History
-| Date | Change Trigger | Updated Areas | Evidence |
-|---|---|---|---|
-| `YYYY-MM-DD` |  |  |  |
+Internal continuation belongs only in Master Scaffold `artifacts/traceability-local/[project]/`.

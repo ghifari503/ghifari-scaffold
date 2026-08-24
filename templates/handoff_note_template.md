@@ -1,12 +1,12 @@
 # Handoff Note Template
 
-Use this template when a task is handed to another runtime, another session, or another model.
+Use this template when a task is handed to another session or work unit.
 
 ## Metadata
 - task_id: `[task-id]`
 - handoff_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- handoff_from: `[codex|claude|gemini|manual]`
-- handoff_to: `[codex|claude|gemini|manual|unassigned]`
+- contributor_role: `[implementation|review|qa|planning|manual|other]`
+- continuation_state: `[same_work_context|unassigned]`
 - resume_safe: `[yes|no]`
 
 ## 1. Objective
@@ -25,4 +25,3 @@ Use this template when a task is handed to another runtime, another session, or 
 - `[failed approach or forbidden retry]`
 
 ## 7. Exact Next Step
-

@@ -24,7 +24,7 @@ The following paths define protected scaffold behavior:
 
 ## Allowed Team Extensions
 
-Teams may add project-specific source, tests, automation, and Git-carried continuity under a target repository at `development/[project-folder]/artifacts/shared/`. Active project documentation belongs in root `dev-doc/`, not inside `development/[project-folder]/`.
+Teams may add project-specific source, tests, automation, client-safe continuity, and project documentation in the target repository at `development/[project-folder]/`. Store active project requirements, design references, and feature documentation in `development/[project-folder]/docs/`; store client-safe continuity in `development/[project-folder]/artifacts/shared/`. Internal lifecycle, handoff, traceability, contributor/process, and development-state material remains local-only under `artifacts/traceability-local/[project]/`.
 
 Teams may add scaffold skills, agents, templates, and documentation when the change does not bypass required gates or contradict protected policies.
 

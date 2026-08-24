@@ -1,0 +1,34 @@
+#!/bin/sh
+# Opt-in target pre-commit gate: blocks a commit that introduces an explicit AI/runtime/process
+# trace or a reserved internal path/filename into this repository's Git history.
+#
+# Adoption (manual, founder-approved; never installed automatically by the Master Scaffold):
+#   1. Copy this file to .git/hooks/pre-commit (or .githooks/pre-commit with
+#      `git config core.hooksPath .githooks`) inside the target repository.
+#   2. Copy odn-leakage-scan.mjs to the target repository, e.g. scripts/odn-leakage-scan.mjs.
+#   3. chmod +x the installed hook file.
+#
+# This hook only scans files staged for the current commit and requires Node.js.
+
+set -eu
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+SCANNER="$REPO_ROOT/scripts/odn-leakage-scan.mjs"
+
+if [ ! -f "$SCANNER" ]; then
+  echo "odn-leakage-gate: scanner not found at $SCANNER; skipping (install scripts/odn-leakage-scan.mjs to enable this gate)" >&2
+  exit 0
+fi
+
+if ! command -v node >/dev/null 2>&1; then
+  echo "odn-leakage-gate: node is required but was not found on PATH; commit blocked" >&2
+  exit 1
+fi
+
+cd "$REPO_ROOT"
+if ! node "$SCANNER" --staged; then
+  echo "" >&2
+  echo "odn-leakage-gate: commit blocked. A staged file contains a reserved internal path/filename or an explicit AI/runtime/process trace term." >&2
+  echo "Review the findings above, remove the trace, and re-commit." >&2
+  exit 1
+fi

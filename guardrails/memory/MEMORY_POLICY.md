@@ -27,7 +27,7 @@ The agent may update memory files, but it may not write product code or open wor
 When memory conflicts with other files, use this priority order:
 
 1. Current repository files and current scan evidence.
-2. Target repo shared context under `development/[project-folder]/artifacts/shared/` when a target repo is attached.
+2. Target client-safe facts plus Master Scaffold `artifacts/traceability-local/[project]/` state when a target repo is attached.
 3. `artifacts/operations/CURRENT_TASK.md`
 4. `artifacts/operations/WORKFLOW_STATE.md`
 5. `artifacts/operations/CURRENT_PHASE.md`
@@ -87,12 +87,15 @@ Allowed `confidence` values:
 - Do not store raw chat transcripts as memory.
 - Prefer short, durable statements over long narrative summaries.
 - Link each memory to a source path.
+- Use `odn://[project]/odn-xxxx` as a memory source only when it resolves through the Master Scaffold batch index; an unresolved ODN is not evidence.
+- Do not copy complete ODN history, internal handoff narrative, or Graphify structural output into memory. Capture a durable summary and link the authority instead.
 
 ## Recall Rules
 - Read memory after reading active operational state.
 - Use memory only when it is relevant to the current task.
 - Before feature or module source scanning, read relevant memory and feature registry entries to narrow the scan target.
-- For target repo work, read `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`, `ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md`, and relevant `handoffs/` before scaffold-local memory.
+- For target repo work, read client-safe `PROJECT_STATE.md`, Master Scaffold batch state, at most three relevant ODN records, and the relevant internal handoff before scaffold-local memory.
+- Resolve those batches by exact `component:scope`; do not load the whole project batch index into context.
 - Use `artifacts/memory/FEATURE_REGISTRY.toml` and `artifacts/memory/FEATURE_REGISTRY.md` to identify known modules, dependencies, impacted systems, evidence, and risks before reading source files.
 - Do not repeat full repository understanding work when current operational state, memory, feature registry, dev-doc, intake, or impact evidence already identifies the relevant paths.
 - If a full repo scan is still needed, record the reason in the active plan, current task, impact scan, or session log.

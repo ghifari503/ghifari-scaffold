@@ -1,132 +1,108 @@
 # SHARED_CONTEXT_POLICY
 
 ## Purpose
-Make multi-developer continuation deterministic when several developers use the same scaffold against the same target repository.
 
-Shared context is Git-safe project continuity evidence stored inside the target repository under:
+Keep target repositories safely client-shareable while preserving deterministic internal continuation in the Master Scaffold.
+
+## Authority Boundary
+
+Target shared context is limited to verified, client-safe project facts under:
 
 ```text
 development/[project-folder]/artifacts/shared/
 ```
 
-This is different from scaffold-local operational state in `artifacts/operations/` and scaffold-local memory in `artifacts/memory/`.
+Complete internal lifecycle, handoff, traceability, contributor/process, and development-state metadata resolves from:
 
-## Required Target Repository Files
+```text
+artifacts/traceability-local/[project]/
+```
 
-Every target repository managed through `development/[project-folder]` must maintain:
+The Master Scaffold authority is internal and must never be copied into the target repository. It is identity-free under `INTERNAL_CONTINUITY_IDENTITY_POLICY.md`; routing decisions are ephemeral and never become continuity metadata. The target may expose only opaque `@batch odn-xxxx` source markers and `Batch: odn-xxxx` Git trailers as allowed by `ODN_TRACEABILITY_POLICY.md`.
 
-- `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`
-- `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-- `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
-- `development/[project-folder]/artifacts/shared/AI_ROUTING_LOG.md` when Codex model routing is used
-- `development/[project-folder]/artifacts/shared/handoffs/[feature]-[slice]-handoff.md` for feature or slice handoffs
+## Client-Safe Target Context
 
-Recommended when useful:
+Target `artifacts/shared/` may contain only concise, verified facts that legitimately form part of the target project contract, for example:
 
-- `development/[project-folder]/artifacts/shared/DECISION_SNAPSHOT.md`
+- `PROJECT_STATE.md` containing stable stack, architecture, public module, environment-requirement, and verified behavior facts
+- client-approved decision snapshots or public integration facts
+- documentation that is safe and useful when the target repository is delivered to a client
 
-Use templates:
+It must not contain:
 
-- `templates/shared_active_context_template.md`
-- `templates/shared_contributor_log_template.md`
-- `templates/shared_handoff_template.md`
-- `templates/shared_project_state_template.md`
+- `ACTIVE_CONTEXT.md`, `CONTRIBUTOR_LOG.md`, or `AI_ROUTING_LOG.md`
+- internal handoff files or a `handoffs/` directory
+- lifecycle, routing, task, contributor, process, development-state, or internal traceability metadata
+- runtime, model, provider, agent, prompt, token, or cost provenance
+- secrets, `.env` values, private personal data, credentials, raw chats, or large raw logs
 
-The committed default baseline is available at:
+Ordinary business-domain uses of words such as `model`, `provider`, or `agent` are not automatically internal metadata. Classification is evidence-based and file-specific.
 
-- `development/_project-template/artifacts/shared/`
+## Mandatory Read Order
 
-During first intake or greenfield setup, copy this baseline into `development/[project-folder]/artifacts/shared/` before continuing work. The target project must be a separate Git repository that tracks this path. The scaffold root `.gitignore` must ignore the entire target project folder, including shared context.
+Before continuing target work, every runtime must read:
 
-## Mandatory Read Before Continuing Target Repo Work
+1. current scaffold freshness status and `AGENTS.md`
+2. root operational state and current task
+3. this policy and `ODN_TRACEABILITY_POLICY.md`
+4. target `artifacts/shared/PROJECT_STATE.md` and other relevant client-safe facts
+5. Master Scaffold `artifacts/traceability-local/[project]/BATCH_STATE.json`
+6. at most three relevant ODN batches resolved progressively by component and scope
+7. relevant internal handoff from `artifacts/traceability-local/[project]/handoffs/`
+8. related target `docs/[feature-name]/`
+9. scaffold memory only after current operational, target-fact, and traceability state
 
-Before continuing work in a target repository, every agent/runtime must read:
+Do not load all batch history. Graphify remains the optional authority for structural graph context and is never duplicated into traceability.
 
-1. `AGENTS.md`
-2. `artifacts/operations/WORKFLOW_STATE.md`
-3. `artifacts/operations/CURRENT_TASK.md`
-4. `guardrails/development/SHARED_CONTEXT_POLICY.md`
-5. `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`
-6. `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-7. latest relevant entries in `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
-8. relevant files under `development/[project-folder]/artifacts/shared/handoffs/`
-9. related root `dev-doc/[feature-name]/`
-10. scaffold `artifacts/memory/` only after active operational and shared target context are read
+## Mandatory Writes After Meaningful Work
 
-If shared context files are missing during first target repo intake, create the baseline before handoff or implementation. Do not silently continue with only chat history.
+After a meaningful implementation slice, pause, blocker, QA closure, handoff, or session close:
 
-## Mandatory Write After Meaningful Work
+- update target `PROJECT_STATE.md` only when client-safe verified project facts changed
+- update the active ODN record, batch state, maps, and internal handoff under `artifacts/traceability-local/[project]/`
+- update root operational artifacts and activity log under their existing policies
+- refresh an installed Graphify graph once for each meaningful target delta and record the status or blocker in internal Master Scaffold state
 
-After any meaningful work, pause, handoff, QA closure, blocker discovery, implementation slice, or session close, the agent must update the target repository shared context:
+Do not create internal continuity files in the target merely because an older scaffold version required them.
 
-- update `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-- append to `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` only for contributor-session detail or handoff that needs information beyond the activity entry
-- create or update the relevant handoff file under `development/[project-folder]/artifacts/shared/handoffs/`
-- update `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` when verified project facts, architecture, stack, routes/APIs, module boundaries, integrations, or environment requirements change
-- when Graphify is installed, refresh the active target's graph after each meaningful source, configuration, documentation, dependency, or shared-context delta; record the refresh status or explicit blocker in `PROJECT_STATE.md` and `ACTIVE_CONTEXT.md`
+## First-Adoption Safe Migration
 
-This write is mandatory for every developer because the next developer's agent may only receive the Git repository plus scaffold rules.
+When an existing target adopts a missing or newer Master Scaffold schema boundary, run the schema-versioned migration in `ODN_TRACEABILITY_POLICY.md` and `scripts/odn-traceability.ps1` or `.sh`.
 
-## Git-Safe Content Rules
-
-Shared context must be safe to commit to the target repository.
-
-Do not store:
-
-- secrets, tokens, API keys, private keys, passwords, or production credentials
-- `.env` values or private environment dumps
-- personal credentials or private personal data
-- raw chat transcripts
-- large raw logs, traces, screenshots, videos, or generated reports
-- absolute local machine paths unless necessary and explicitly marked as local-only
-- model guesses that are not supported by repo evidence, artifacts, or founder instruction
-
-Store concise verified summaries with source links instead.
-
-`AI_ROUTING_LOG.md` may record only a task hash, routing class, model/profile, reasoning effort, relative token/cost band, status, and concise non-sensitive reasons. It must not store raw task text, prompts, secrets, escalation-evidence contents, or unverified actual token/cost data. A `legacy` profile entry means an explicit GPT-5.5 reproduction or benchmark request, never automatic fallback.
+1. Dry-run scans every target `artifacts/shared/` file and classifies it as exactly `client_safe` or `internal_process_state`.
+2. `client_safe` files remain untouched.
+3. On explicitly approved apply, internal files are copied to Master Scaffold authority and hash-verified before any source removal.
+4. Removal is allowed only after every required lifecycle, lookup, Graphify-boundary, reference, and leakage check passes.
+5. Prevention rules are added to the target; reruns use completed schema adoption state and create no duplicate state. In-progress or failed state resumes/recover instead of starting an unrelated migration.
+6. Git history is reported. It is never rewritten without separate explicit approval.
+7. Optionally, after migration completes, the target may adopt `templates/target-leakage-gate/` so its own pre-commit hook and CI block a new explicit AI/runtime/process trace from entering. This is opt-in and founder-approved per target; the Master Scaffold never installs it automatically.
 
 ## Authority Order
 
-When files conflict, use this order:
+When evidence conflicts:
 
-1. current target repository source and current evidence
-2. target repo shared context under `development/[project-folder]/artifacts/shared/`
-3. scaffold operational state under `artifacts/operations/`
-4. root scaffold `dev-doc/`
-5. scaffold memory under `artifacts/memory/`
-6. older session logs or candidate memory
+1. current target source and current verified evidence
+2. founder-locked decisions and approved requirements
+3. client-safe target shared facts
+4. current Master Scaffold operational and ODN traceability state
+5. target project `docs/`
+6. verified scaffold memory
+7. older logs or candidate memory
 
-Shared context is stronger than chat history but cannot override current repo evidence or founder-locked decisions.
-
-## Required Handoff Contents
-
-Every shared handoff must include:
-
-- feature and selected slice
-- current status
-- files changed
-- decisions locked
-- tests or QA performed
-- tests or QA still pending
-- blockers and risks
-- allowed write paths for the next slice
-- out-of-scope paths
-- next exact step
-- `Do Not Repeat` notes when relevant
+Internal state never overrides current repository evidence or founder decisions.
 
 ## Stop Conditions
 
-Stop before implementation or handoff if:
+Stop before implementation, closure, or handoff when:
 
-- target repo path is known but shared context files are missing and no baseline was created
-- first intake lacks usable documentation and `PROJECT_STATE.md` does not record the required code-derived baseline or documented unknowns
-- a meaningful session is closing without updating shared context
-- an installed Graphify graph is stale after meaningful target-project work and no refresh or explicit blocker is recorded
-- required contributor-session or handoff detail was not appended to `CONTRIBUTOR_LOG.md`
-- handoff file is missing for incomplete feature/slice work
-- shared context contains secrets or raw transcripts
-- shared context conflicts with current repo evidence and the conflict is not recorded
+- first-adoption classification or required migration verification is incomplete
+- internal process state remains in target `artifacts/shared/`
+- a required active ODN batch cannot be resolved for a logical change
+- the internal handoff or lifecycle state required to resume is missing
+- an installed Graphify graph is stale and no internal blocker is recorded
+- client-safe context contains secrets or internal metadata
+- current evidence conflicts with context and the conflict is not recorded
 
 ## Completion Rule
 
-A target repo feature, QA, release, handoff, or meaningful implementation session is not `resume_safe`, `SUCCESS`, `ready to pr`, or complete until shared context is read before work and updated after work. The separate scaffold activity-log requirement is governed by `AGENT_ACTIVITY_LOG_POLICY.md`. During first intake, this includes `PROJECT_STATE.md` and the code-derived-baseline requirements when documentation is absent.
+Target work is not `resume_safe`, `SUCCESS`, `ready to pr`, or complete until client-safe target facts and Master Scaffold internal traceability are read and synchronized as applicable. The leakage gate must pass. Actual target migration may only be reported `PASS` after running against that target; when no real target exists use `not_run_no_target`.

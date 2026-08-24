@@ -1,19 +1,17 @@
 ﻿# HANDOFF_PROTOCOL
 
-Use this protocol whenever work is handed from one model/runtime/session to another.
+Use this protocol whenever work is handed between sessions or work units.
 
 This repository assumes exactly one active task at a time.
 
 ## Objective
-- Make task continuation deterministic across Claude, Codex, and Gemini CLI.
-- Ensure the next runtime can continue without re-discovering the task state.
+- Make task continuation deterministic without recording contributor identity.
+- Ensure the next work unit can continue without re-discovering the task state.
 - Prevent hidden context from living only in chat history.
 
 ## When Handoff Is Mandatory
 - End of session while task is still incomplete
-- Switching from Claude to Codex
-- Switching from Codex to Claude
-- Switching to or from Gemini CLI for independent review, impact checking, or PR readiness
+- Switching session or changing work responsibility
 - Pausing a task because of blockers
 - Asking another model to continue implementation or QA
 
@@ -26,10 +24,10 @@ This repository assumes exactly one active task at a time.
 6. `guardrails/development/PRE_CODING_POLICY.md`
 7. `artifacts/operations/PRE_CODING_GATE.md`
 8. `guardrails/development/SHARED_CONTEXT_POLICY.md`
-9. Target repo `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md` when a target repo is attached
+9. Target repo `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` and relevant client-safe facts when a target repo is attached
 10. `artifacts/operations/AGENT_ACTIVITY_LOG.md` snapshot and relevant recent entries
-11. Latest relevant target repo `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md` entries when a target repo is attached
-12. Relevant target repo `development/[project-folder]/artifacts/shared/handoffs/` files when a target repo is attached
+11. Master Scaffold `artifacts/traceability-local/[project]/BATCH_STATE.json` when a target repo is attached
+12. At most three relevant batches and the relevant internal handoff under `artifacts/traceability-local/[project]/`
 13. `guardrails/memory/MEMORY_POLICY.md`
 14. `artifacts/memory/MEMORY_INDEX.md`
 15. `artifacts/memory/MEMORY_LEDGER.toml`
@@ -38,7 +36,7 @@ This repository assumes exactly one active task at a time.
 No implementation should start until this read order is completed.
 No implementation should start unless `guardrails/development/PRE_CODING_POLICY.md` allows the workflow shape and `artifacts/operations/PRE_CODING_GATE.md` allows the current mode and allowed write paths are documented.
 Memory must be treated as advisory context and cannot override current operational artifacts or repository evidence.
-Target repo shared context is the Git-carried developer-to-developer continuity layer and must be read before relying on scaffold-local memory for target repo work.
+Target repo shared context contains client-safe facts only. Internal developer continuation resolves from Master Scaffold ODN traceability and must be read before relying on scaffold memory.
 Use the `memory-curator` agent for memory recall or synchronization when memory affects the handoff.
 
 ## Resume-Safe Rule
@@ -54,7 +52,7 @@ The active task is `resume_safe = yes` only if all of the following are present 
 
 If any of these are missing, set `resume_safe = no`.
 
-If `resume_safe = no`, the next model/runtime must first repair the task context before continuing implementation.
+If `resume_safe = no`, the next work unit must first repair the task context before continuing implementation.
 
 If the latest official step does not have a matching `SESSION_LOG.md` step entry, set `resume_safe = no` and repair the log before any handoff or implementation continues.
 
@@ -64,7 +62,7 @@ If the handoff asks the next runtime to implement, build, scaffold, install depe
 - `guardrails/development/PRE_CODING_POLICY.md` acknowledgement
 - `artifacts/operations/PRE_CODING_GATE.md` status
 - relevant memory entries from `artifacts/memory/`, if any
-- target repo shared context status and relevant handoff path under `development/[project-folder]/artifacts/shared/`
+- target client-safe fact status, active ODN batch, and internal handoff path under `artifacts/traceability-local/[project]/`
 - approved build mode
 - allowed write paths
 - out-of-scope paths when applicable
@@ -81,7 +79,7 @@ Required before handoff or session close:
 - `artifacts/operations/WORKFLOW_STATE.md` reflects the latest real state
 - `artifacts/operations/CURRENT_TASK.md` reflects current status, touched artifacts, and exact next action
 - `artifacts/operations/SESSION_LOG.md` contains the latest activity summary
-- target repo shared context under `development/[project-folder]/artifacts/shared/` is updated when a target repo was involved
+- target client-safe facts and Master Scaffold `artifacts/traceability-local/[project]/` state are synchronized as applicable
 - `artifacts/operations/AGENT_ACTIVITY_LOG.md` contains the required meaningful-work event
 - every relevant scope artifact changed by the work is updated or explicitly recorded as having no additional documentation delta
 
@@ -110,13 +108,13 @@ This structure must stay consistent with `artifacts/operations/CURRENT_TASK.md` 
 Whenever a handoff happens, record:
 - `task_id`
 - `handoff_at`
-- `handoff_from`
-- `handoff_to`
+- `contributor_role`
+- `continuation_state`
 - `resume_safe`
 
 Recommended values:
-- `handoff_from`: `claude|codex|gemini|manual`
-- `handoff_to`: `claude|codex|gemini|manual|unassigned`
+- `contributor_role`: `implementation|review|qa|planning|manual|other`
+- `continuation_state`: `same_work_context|unassigned`
 - `resume_safe`: `yes|no`
 
 ## Session Log Requirement
@@ -130,7 +128,7 @@ Each session entry in `artifacts/operations/SESSION_LOG.md` must include:
 Each official step completion must have a matching step entry in `artifacts/operations/SESSION_LOG.md` before the next official step begins.
 
 If a session ends with incomplete work, the handoff note must be written before closing the session.
-If a target repo is involved, the shared handoff note must also be written under `development/[project-folder]/artifacts/shared/handoffs/` before closing the session.
+If a target repo is involved, the internal handoff note must also be written under `artifacts/traceability-local/[project]/handoffs/` before closing the session.
 
 ## Consistency Rules
 

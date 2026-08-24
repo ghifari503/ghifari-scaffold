@@ -122,7 +122,7 @@ Approved. Lanjutkan ke G4/G5 dengan stack dan scope di atas.
 
 ### Step 6 — Shared Context & Pre-Coding Gate (G4)
 
-AI membuat shared context awal di dalam folder target project (`development/[project-folder]/artifacts/shared/`) dan membuka pre-coding gate dengan allowed write paths yang jelas.
+AI membuat fakta awal yang client-safe di target, traceability internal di Master Scaffold, dan membuka pre-coding gate dengan allowed write paths yang jelas.
 
 ### Step 7 — Bootstrap & Implementasi Slice Pertama (G5)
 
@@ -218,9 +218,9 @@ Sebelum melanjutkan pekerjaan siapa pun sebelumnya:
 
 ```text
 Read shared target repository context before continuing:
-development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md
-development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md
-development/[project-folder]/artifacts/shared/handoffs/
+development/[project-folder]/artifacts/shared/PROJECT_STATE.md
+artifacts/traceability-local/[project]/BATCH_STATE.json
+artifacts/traceability-local/[project]/handoffs/
 Then continue with targeted scans only.
 ```
 
@@ -319,9 +319,9 @@ final impact check
 
 ```text
 Update shared target repository context for this work session:
-development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md
-development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md
-development/[project-folder]/artifacts/shared/handoffs/[feature]-[slice]-handoff.md
+development/[project-folder]/artifacts/shared/PROJECT_STATE.md (client-safe only)
+artifacts/traceability-local/[project]/BATCH_STATE.json
+artifacts/traceability-local/[project]/handoffs/[feature]-[slice]-handoff.md
 Keep it Git-safe and do not store secrets, raw chat, or large logs.
 ```
 
@@ -345,13 +345,13 @@ handoff
 
 ```text
 clone/copy ke development/[project-folder] → start → I1 intake
-  → baca shared context (ACTIVE_CONTEXT, CONTRIBUTOR_LOG, handoffs)
+  → baca fakta client-safe, batch ODN, dan handoff internal
   → readiness baseline → start dev (opsional, cek lokal)
   → scope 1 perubahan → I2 impact scan → dev-doc discovery
   → plan (medium/major) → APPROVAL → pre-coding gate check
   → build (frontend-first bila ada UI) → during dev qa
   → self review → final qa evidence → final impact check
-  → update shared context → ready to pr / handoff
+  → update fakta client-safe dan ODN state → ready to pr / handoff
 ```
 
 ---

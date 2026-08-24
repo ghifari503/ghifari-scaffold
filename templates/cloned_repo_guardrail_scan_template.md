@@ -5,7 +5,7 @@
 - repo_path_or_url:
 - branch:
 - commit:
-- runtime: `[codex|claude|gemini|manual]`
+- contributor_role: `historical_record`
 - created_at:
 - updated_at:
 - status: `[draft|in_progress|blocked|done]`

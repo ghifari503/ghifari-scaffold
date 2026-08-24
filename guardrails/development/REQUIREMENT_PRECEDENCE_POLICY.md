@@ -33,7 +33,7 @@ Before planning or coding a feature, bugfix, API, database, UI, integration, ref
 
 ## Requirement Conflict Decision
 
-Create `dev-doc/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
+Create `development/[project-folder]/docs/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
 
 Every conflict decision must record:
 
@@ -69,4 +69,3 @@ After a conflict is resolved:
 ## Stop Conditions
 
 Stop and keep the task in planning-only mode if the controlling source, acceptance criteria, conflict decision, or founder approval is missing.
-

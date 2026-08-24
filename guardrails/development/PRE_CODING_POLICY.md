@@ -21,6 +21,9 @@ All items must be true before any runtime may run `B1 Backend Build`, `B2 Fronte
 - For target repo work under `development/[project-folder]`, `guardrails/development/SHARED_CONTEXT_POLICY.md` has been enforced.
 - Target repo shared context under `development/[project-folder]/artifacts/shared/` has been read before continuing work.
 - If target repo shared context was missing during first intake or greenfield setup, a baseline was created before implementation.
+- `guardrails/development/ODN_TRACEABILITY_POLICY.md` has classified the task as `read_only`, `minor_change`, or `logical_change`.
+- For a logical source change, one active ODN batch has been atomically allocated or resumed by stable `component:scope`; read-only and unrelated minor changes do not create a batch.
+- First-adoption shared-artifact migration is complete or explicitly not applicable; no internal process state remains in target `artifacts/shared/`.
 - Context-first recall has completed before repository source scanning.
 - Targeted scan paths are documented before repository source scanning.
 - Full repo scan is not used unless an allowed reason is documented or the founder explicitly approved it.
@@ -40,6 +43,8 @@ All items must be true before any runtime may run `B1 Backend Build`, `B2 Fronte
 - Existing-project route: framework, database, package manager, and test stack are audited or explicitly marked unchanged from the target repository. Greenfield route: those choices are explicitly approved in the architecture decision and bootstrap plan.
 - Founder approval exists for the scoped build step.
 - The founder approval reference recorded in the checklist artifact matches the scoped plan being executed.
+- Playwright and the required browser binaries are installed and usable in the target repository before the task begins, regardless of whether the task is browser-facing.
+- Gemini CLI and Gemini/Antigravity Playwright configuration and commands enforce `headless: true`; no `--headed` override is allowed.
 
 ## Local Development Readiness Exception
 
@@ -63,7 +68,7 @@ Allowed before `I2`:
 
 Requires explicit founder approval and open gate before execution:
 - dependency install
-- Playwright dependency or browser installation for a browser-capable target
+- Playwright dependency or browser installation for any target task when the mandatory startup prerequisite is missing
 - local env file creation
 - migration or seed execution
 - dev server or emulator boot command
@@ -76,9 +81,9 @@ Blocked before `I2`:
 - tests or fixtures tied to a feature change
 - refactors or behavior changes
 
-### Browser QA Readiness
+### Mandatory Playwright Task-Start Readiness
 
-When a project starts and its audited target includes browser-visible UI, local readiness must inspect Playwright configuration and report whether its package and required browsers are ready. It may identify the exact install command, but may install neither until the founder explicitly approves the target-specific install scope. Browser-inapplicable targets must record that classification rather than receiving a needless Playwright dependency.
+Before any target-repository task starts, local readiness must verify Playwright configuration, package availability, and required browser binaries. A missing package or browser blocks the task and must produce the exact target-specific install command for founder approval. This applies even when the current scope is backend-only, native Flutter, firmware, or otherwise browser-inapplicable; only the later browser-QA result may be marked inapplicable. Gemini CLI and Gemini/Antigravity must use Playwright headlessly (`headless: true`) and may not pass `--headed`.
 
 ## Allowed Modes
 
@@ -162,11 +167,12 @@ Stop and ask the founder for direction if any of these are true:
 - More than one feature is active in the same session without explicit founder approval.
 - A `medium` or `major` request has not received compact-plan approval yet.
 - Feature/module work has no task breakdown or selected current-session slice.
-- Target repo work is continuing without reading `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`, latest relevant `CONTRIBUTOR_LOG.md`, and relevant `handoffs/`.
+- Target repo work is continuing without reading client-safe target facts, Master Scaffold batch state, at most three relevant ODN records, and relevant internal handoff.
 - Existing-project readiness baseline is missing, incomplete, stale for the current project state, or does not classify known pre-existing failures.
 - Existing-project readiness baseline does not declare scoped development ready and no founder-accepted exception is recorded.
 - Target repo shared context is missing after intake and no baseline was created.
 - A meaningful target repo session is closing without updating shared context.
+- A logical change lacks a resolvable ODN batch, or required schema-adoption migration/leakage verification is incomplete.
 - Context-first recall was skipped before repository source scanning.
 - Targeted scan paths are missing.
 - A full repo scan is proposed without an allowed reason.

@@ -1,0 +1,5 @@
+{
+  "schema_version": 4,
+  "authority": "master-scaffold-odn",
+  "migration_contract": "one-time-per-project-per-schema-version"
+}

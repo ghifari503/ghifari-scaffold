@@ -38,5 +38,5 @@ $after = (graphify --version | Select-Object -First 1).Trim()
     installation_scope = 'developer_user_level_uv_tool'
     target_runtime_files_created = $false
     graph_rebuild_required = $true
-    shared_context_action = 'Record the new Graphify version, rebuild status, and next action in artifacts/shared/PROJECT_STATE.md and ACTIVE_CONTEXT.md.'
+    shared_context_action = 'Record the new Graphify version, rebuild status, and next action in Master Scaffold artifacts/traceability-local/[project]/ internal state.'
 } | ConvertTo-Json -Compress

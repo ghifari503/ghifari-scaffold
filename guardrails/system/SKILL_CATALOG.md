@@ -9,29 +9,31 @@ Comprehensive index of all available skills, organized by workflow phase.
 > Compatibility note: this catalog is regenerated from the runtime skill folders and records availability across .codex and .claude.
 
 ### Planning Phase
-- [requirement-synthesizer](#planning-requirement-synthesizer)
 - [flow-designer](#planning-flow-designer)
 - [improve-codebase-architecture](#planning-improve-codebase-architecture)
-- [sprint-orchestrator](#planning-sprint-orchestrator)
 - [founder-interviewer](#planning-founder-interviewer)
+- [requirement-synthesizer](#planning-requirement-synthesizer)
 - [solution-architect](#planning-solution-architect)
 - [framework-selector](#planning-framework-selector)
+- [sprint-orchestrator](#planning-sprint-orchestrator)
 
 ### Design Phase
-- [design-mapper](#design-design-mapper)
 - [design-completer](#design-design-completer)
 - [web-design-guidelines](#design-web-design-guidelines)
+- [design-mapper](#design-design-mapper)
 
 ### Backend Phase
 - [backend-builder](#backend-backend-builder)
 - [laravel-specialist](#backend-laravel-specialist)
-- [database-optimizer](#backend-database-optimizer)
 - [database-schema-design](#backend-database-schema-design)
+- [database-optimizer](#backend-database-optimizer)
+- [nestjs-best-practices](#backend-nestjs-best-practices)
 
 ### Frontend Phase
+- [nextjs-app-router-patterns](#frontend-nextjs-app-router-patterns)
+- [vue](#frontend-vue)
 - [flutter-builder](#frontend-flutter-builder)
 - [frontend-builder](#frontend-frontend-builder)
-- [vue](#frontend-vue)
 - [flutter-qa](#frontend-flutter-qa)
 - [vue-best-practices](#frontend-vue-best-practices)
 
@@ -55,11 +57,11 @@ Comprehensive index of all available skills, organized by workflow phase.
 - [release-checker](#release-release-checker)
 
 ### System & Meta
+- [improve-skill](#system-improve-skill)
 - [agent-development](#system-agent-development)
-- [process-controller](#system-process-controller)
 - [work-commander](#system-work-commander)
 - [find-skills](#system-find-skills)
-- [improve-skill](#system-improve-skill)
+- [process-controller](#system-process-controller)
 - [skill-creator](#system-skill-creator)
 - [graphify-refresh](#system-graphify-refresh)
 - [improve-commander](#system-improve-commander)
@@ -68,12 +70,6 @@ Comprehensive index of all available skills, organized by workflow phase.
 ---
 
 ## Planning Phase
-
-### planning_requirement-synthesizer
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/planning__requirement-synthesizer/`
-**Claude Path:** `.claude/skills/planning__requirement-synthesizer/`
-**Description:** Convert founder interview notes into BRD, PRD, feature list, user stories, acceptance criteria, and requirement breakdown.
 
 ### planning_flow-designer
 **Availability:** codex, claude
@@ -87,17 +83,17 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Claude Path:** `.claude/skills/planning__improve-codebase-architecture/`
 **Description:** Scan a codebase for deepening opportunities, present them as a visual HTML report, then grill through whichever one you pick.
 
-### planning_sprint-orchestrator
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/planning__sprint-orchestrator/`
-**Claude Path:** `.claude/skills/planning__sprint-orchestrator/`
-**Description:** Break a validated feature or module into implementable work packages, dependencies, and execution order for builder agents.
-
 ### planning_founder-interviewer
 **Availability:** codex, claude
 **Codex Path:** `.codex/skills/planning__founder-interviewer/`
 **Claude Path:** `.claude/skills/planning__founder-interviewer/`
 **Description:** Interview the founder to clarify business goals, product scope, users, constraints, and decisions before writing requirements or code.
+
+### planning_requirement-synthesizer
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/planning__requirement-synthesizer/`
+**Claude Path:** `.claude/skills/planning__requirement-synthesizer/`
+**Description:** Convert founder interview notes into BRD, PRD, feature list, user stories, acceptance criteria, and requirement breakdown.
 
 ### planning_solution-architect
 **Availability:** codex, claude
@@ -111,13 +107,13 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Claude Path:** `.claude/skills/planning__framework-selector/`
 **Description:** Framework Selector
 
-## Design Phase
-
-### design_design-mapper
+### planning_sprint-orchestrator
 **Availability:** codex, claude
-**Codex Path:** `.codex/skills/design__design-mapper/`
-**Claude Path:** `.claude/skills/design__design-mapper/`
-**Description:** Design Mapper Workflow
+**Codex Path:** `.codex/skills/planning__sprint-orchestrator/`
+**Claude Path:** `.claude/skills/planning__sprint-orchestrator/`
+**Description:** Break a validated feature or module into implementable work packages, dependencies, and execution order for builder agents.
+
+## Design Phase
 
 ### design_design-completer
 **Availability:** codex, claude
@@ -130,6 +126,12 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Codex Path:** `.codex/skills/design__web-design-guidelines/`
 **Claude Path:** `.claude/skills/design__web-design-guidelines/`
 **Description:** Review UI code for Web Interface Guidelines compliance. Use when asked to "review my UI", "check accessibility", "audit design", "review UX", or "check my site against best practices".
+
+### design_design-mapper
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/design__design-mapper/`
+**Claude Path:** `.claude/skills/design__design-mapper/`
+**Description:** Design Mapper Workflow
 
 ## Backend Phase
 
@@ -145,19 +147,37 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Claude Path:** `.claude/skills/backend__laravel-specialist/`
 **Description:** Build and configure Laravel 10+ applications, including creating Eloquent models and relationships, implementing Sanctum authentication, configuring Horizon queues, designing RESTful APIs with API resources, and building reactive interfaces with Livewire. Use when creating Laravel models, setting up queue workers, implementing Sanctum auth flows, building Livewire components, optimising Eloquent queries, or writing Pest/PHPUnit tests for Laravel features.
 
-### backend_database-optimizer
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/backend__database-optimizer/`
-**Claude Path:** `.claude/skills/backend__database-optimizer/`
-**Description:** Diagnose and resolve database performance issues across PostgreSQL and MySQL with query analysis and optimization strategies. Use this skill when analyzing slow queries, designing index strategies, tuning database configuration, optimizing schemas, or improving performance metrics.
-
 ### backend_database-schema-design
 **Availability:** codex, claude
 **Codex Path:** `.codex/skills/backend__database-schema-design/`
 **Claude Path:** `.claude/skills/backend__database-schema-design/`
 **Description:** Design and optimize SQL and NoSQL database schemas with normalization, indexing, and migration strategies. Use this skill when designing new databases, refactoring schemas, implementing relationships, applying safe migrations, or optimizing query performance through indexing.
 
+### backend_database-optimizer
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/backend__database-optimizer/`
+**Claude Path:** `.claude/skills/backend__database-optimizer/`
+**Description:** Diagnose and resolve database performance issues across PostgreSQL and MySQL with query analysis and optimization strategies. Use this skill when analyzing slow queries, designing index strategies, tuning database configuration, optimizing schemas, or improving performance metrics.
+
+### backend_nestjs-best-practices
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/backend__nestjs-best-practices/`
+**Claude Path:** `.claude/skills/backend__nestjs-best-practices/`
+**Description:** NestJS best practices and architecture patterns for building production-ready applications. This skill should be used when writing, reviewing, or refactoring NestJS code to ensure proper patterns for modules, dependency injection, security, and performance.
+
 ## Frontend Phase
+
+### frontend_nextjs-app-router-patterns
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/frontend__nextjs-app-router-patterns/`
+**Claude Path:** `.claude/skills/frontend__nextjs-app-router-patterns/`
+**Description:** Master Next.js 14+ App Router with Server Components, streaming, parallel routes, and advanced data fetching. Use when building Next.js applications, implementing SSR/SSG, or optimizing React Server Components.
+
+### frontend_vue
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/frontend__vue/`
+**Claude Path:** `.claude/skills/frontend__vue/`
+**Description:** Vue 3 Composition API, script setup macros, reactivity system, and built-in components. Use when writing Vue SFCs, defineProps/defineEmits/defineModel, watchers, or using Transition/Teleport/Suspense/KeepAlive.
 
 ### frontend_flutter-builder
 **Availability:** codex, claude
@@ -170,12 +190,6 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Codex Path:** `.codex/skills/frontend__frontend-builder/`
 **Claude Path:** `.claude/skills/frontend__frontend-builder/`
 **Description:** >
-
-### frontend_vue
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/frontend__vue/`
-**Claude Path:** `.claude/skills/frontend__vue/`
-**Description:** Vue 3 Composition API, script setup macros, reactivity system, and built-in components. Use when writing Vue SFCs, defineProps/defineEmits/defineModel, watchers, or using Transition/Teleport/Suspense/KeepAlive.
 
 ### frontend_flutter-qa
 **Availability:** codex, claude
@@ -275,17 +289,17 @@ Comprehensive index of all available skills, organized by workflow phase.
 
 ## System & Meta
 
+### system_improve-skill
+**Availability:** codex, claude
+**Codex Path:** `.codex/skills/system__improve-skill/`
+**Claude Path:** `.claude/skills/system__improve-skill/`
+**Description:** >
+
 ### system_agent-development
 **Availability:** codex, claude
 **Codex Path:** `.codex/skills/system__agent-development/`
 **Claude Path:** `.claude/skills/system__agent-development/`
 **Description:** This skill should be used when the user asks to "create an agent", "add an agent", "write a subagent", "agent frontmatter", "when to use description", "agent examples", "agent tools", "agent colors", "autonomous agent", or needs guidance on agent structure, system prompts, triggering conditions, or agent development best practices for Codex or plugin-style agent workflows.
-
-### system_process-controller
-**Availability:** codex, claude
-**Codex Path:** `.codex/skills/system__process-controller/`
-**Claude Path:** `.claude/skills/system__process-controller/`
-**Description:** Process Controller Skill
 
 ### system_work-commander
 **Availability:** codex, claude
@@ -299,11 +313,11 @@ Comprehensive index of all available skills, organized by workflow phase.
 **Claude Path:** `.claude/skills/system__find-skills/`
 **Description:** Helps users discover and install agent skills when they ask questions like "how do I do X", "find a skill for X", "is there a skill that can...", or express interest in extending capabilities. This skill should be used when the user is looking for functionality that might exist as an installable skill.
 
-### system_improve-skill
+### system_process-controller
 **Availability:** codex, claude
-**Codex Path:** `.codex/skills/system__improve-skill/`
-**Claude Path:** `.claude/skills/system__improve-skill/`
-**Description:** >
+**Codex Path:** `.codex/skills/system__process-controller/`
+**Claude Path:** `.claude/skills/system__process-controller/`
+**Description:** Process Controller Skill
 
 ### system_skill-creator
 **Availability:** codex, claude

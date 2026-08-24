@@ -2,7 +2,7 @@
 
 ## Metadata
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[codex|claude|gemini|manual]`
+- contributor_role: `historical_record`
 - task_id: `TASK-YYYYMMDD-001`
 - classifier: `guardrails/system/TASK_TYPE_CLASSIFICATION.md`
 - registry: `guardrails/system/TASK_TYPE_REGISTRY.md`

@@ -32,7 +32,7 @@ The machine-readable baseline is `.claude/model-routing.json`.
 2. For L0, it may delegate one isolated subtask to `.claude/agents/claude-fast-worker.md`.
 3. For L1-L2, Sonnet is the default supervisor and continues in the active session.
 4. For L3, it may delegate bounded analysis or independent review to `.claude/agents/claude-deep-reviewer.md`.
-5. For L4, verify availability of the configured Fable model. If unavailable, write `model_switch_unavailable` to target `artifacts/shared/AI_ROUTING_LOG.md` when available. Continue only when the active model objectively meets the documented risk floor; otherwise stop for the required founder decision or safe decomposition.
+5. For L4, verify availability of the configured Fable model. If unavailable, continue only when the active model objectively meets the documented risk floor; otherwise stop for the required founder decision or safe decomposition. Do not write routing identity evidence.
 
 The founder is never asked to choose a model. Routing must not create a second unbounded worker, alter the active VS Code session model, or substitute a generic fallback after a failure.
 
@@ -44,14 +44,11 @@ The founder is never asked to choose a model. Routing must not create a second u
 - Do not downgrade a model in the middle of implementation without a clear handoff.
 - Do not retry a failed task automatically with another model. Capture the failure and preserve normal founder, plan, and QA gates.
 
-## Token And Cost Evidence
+## Ephemeral Routing Boundary
 
-- Record a concise, Git-safe decision in `development/[project-folder]/artifacts/shared/AI_ROUTING_LOG.md` when target shared context exists.
-- Include task hash, level, selected model or `model_switch_unavailable`, relative token/cost bands, reason, and evidence path.
+- Routing decisions are local and ephemeral. Do not create Master Scaffold or target records containing task hash, selected model, profile, provider, runtime, token/cost band, routing source, or unavailability identity.
 - Never record raw prompts, secrets, credentials, private provider details, or invented actual usage/cost values.
-- Treat estimates as relative guidance unless the runtime supplies authoritative usage data.
-- Add an `AGENT_ACTIVITY_LOG.md` event only for task start, material delegation/escalation, blocker, or meaningful completion. Link `AI_ROUTING_LOG.md` rather than copying routing data.
-- For a model-aware Claude subagent, record its explicit model and `model_source: agent_frontmatter`. For a main session, record a model only when runtime status or managed configuration proves it; otherwise use `active_model_unavailable` with its reason.
+- Add an identity-free activity event only for task start, blocker, or meaningful completion.
 
 ## Gate Preservation
 

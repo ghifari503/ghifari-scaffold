@@ -7,7 +7,7 @@ Use this template for final QA evidence before final impact check and PR readine
 - artifact_type: `test`
 - created_at: `YYYY-MM-DDTHH:mm:ss+07:00`
 - updated_at: `YYYY-MM-DDTHH:mm:ss+07:00`
-- runtime: `[codex|claude|gemini|manual]`
+- contributor_role: `historical_record`
 - owner: `founder`
 - status: `[draft|in_progress|blocked|done]`
 - task_id: `[task-id]`

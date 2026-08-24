@@ -1,6 +1,3 @@
-# AI Routing Log
+# Deprecated Routing Log Template
 
-> Git-safe router evidence only. Do not record raw prompts, secrets, credentials, raw token logs, or unverified actual cost. `legacy` denotes an explicit GPT-5.5 reproducibility/benchmark route only.
-
-| Time | Task ID | Level | Profile | Agent | Model | Effort | Token/Cost | Status | Reasons |
-|---|---|---|---|---|---|---|---|---|---|
+Do not create routing logs. Routing is an ephemeral local execution decision and must not be persisted in Master Scaffold or target continuity artifacts. See `guardrails/development/INTERNAL_CONTINUITY_IDENTITY_POLICY.md`.

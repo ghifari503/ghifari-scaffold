@@ -1,11 +1,17 @@
 #!/usr/bin/env sh
+set -eu
 
-if [ "${ALLOW_SCAFFOLD_COMMIT:-}" = "1" ]; then
-  "$(dirname "$0")/../scripts/validate-documentation-sync.sh"
-  exit 0
+"$(dirname "$0")/../scripts/assert-scaffold-repository.sh"
+
+target_paths="$(git diff --cached --name-only --diff-filter=ACMRD | awk '
+  /^development\// && !/^development\/_project-template\// { print }
+')"
+
+if [ -n "$target_paths" ]; then
+  echo "Blocked: target-project files must not be committed by the scaffold-root repository." >&2
+  echo "$target_paths" >&2
+  echo "Open development/[project-folder] as its own workspace and commit from that repository." >&2
+  exit 1
 fi
 
-echo "Blocked: do not commit from the scaffold root during project work." >&2
-echo "Commit from development/[project-folder], which must be its own Git repository." >&2
-echo "For an intentional scaffold maintenance commit, set ALLOW_SCAFFOLD_COMMIT=1." >&2
-exit 1
+"$(dirname "$0")/../scripts/validate-documentation-sync.sh"

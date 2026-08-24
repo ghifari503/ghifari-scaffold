@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Create a durable, Git-carried project baseline when an attached target repository and the root scaffold `dev-doc/` have no usable BRD, PRD, README, architecture note, API specification, or other relevant documentation.
+Create a durable, Git-carried project baseline when an attached target repository and its `docs/` have no usable BRD, PRD, README, architecture note, API specification, or other relevant documentation.
 
 The baseline lets future agents and developers continue from verified project context without rediscovering the entire codebase. It is evidence-backed context, not a replacement for current source code.
 
@@ -14,7 +14,7 @@ It also applies when the available documents are materially stale, contradictory
 
 ## Mandatory Documentation Question
 
-Before deriving a baseline from code, search targeted likely documentation locations, including root scaffold `dev-doc/`, target repository root documentation, target `docs/`, architecture/API/design notes, setup guides, and documentation named by the founder or existing project configuration. Do not search or create `development/[project-folder]/dev-doc/`.
+Before deriving a baseline from code, search targeted likely documentation locations, including the target repository root documentation, target `docs/`, architecture/API/design notes, setup guides, and documentation named by the founder or existing project configuration. Do not search or create `development/[project-folder]/dev-doc/`.
 
 If no relevant documentation is found, ask the founder exactly this question before source-derived baseline work:
 
@@ -31,8 +31,8 @@ Record the founder response in `PROJECT_STATE.md`.
 During first intake, create and maintain these Git-safe target-repository files:
 
 - `development/[project-folder]/artifacts/shared/PROJECT_STATE.md` from `templates/shared_project_state_template.md`
-- `development/[project-folder]/artifacts/shared/ACTIVE_CONTEXT.md`
-- `development/[project-folder]/artifacts/shared/CONTRIBUTOR_LOG.md`
+- `artifacts/traceability-local/[project]/BATCH_STATE.json`
+- the relevant internal handoff under `artifacts/traceability-local/[project]/handoffs/`
 
 Then use `memory-curator` to capture stable, verified facts from the completed intake baseline in scaffold memory:
 
@@ -85,7 +85,7 @@ First intake is not complete or `resume_safe` when documentation is absent until
 
 - the mandatory documentation question and response are recorded;
 - `PROJECT_STATE.md` contains the required evidence-backed baseline or documented unknowns;
-- `ACTIVE_CONTEXT.md` and `CONTRIBUTOR_LOG.md` identify the baseline and next step; and
+- the relevant ODN batch and internal handoff identify the baseline and next step; and
 - relevant verified facts are synchronized into scaffold memory.
 
 Stop and record a blocker instead of claiming baseline completion if the target repository cannot be read, documentation question is still awaiting a founder response, or critical project state remains unknown after the allowed targeted discovery.
