@@ -5,10 +5,11 @@ This repository is an AI operating scaffold for new, existing, and inherited sof
 The founder is the only human decision maker.
 
 ## Repository Terminology And Git Boundary
-- **Master Scaffold** is the canonical reusable Git repository that owns generic rules, tools, templates, and workflow guidance.
-- **Project Scaffold** is a local, non-Git workspace for one project's context; its root changes are never committed or pushed anywhere.
-- **Target Project** is an independent Git repository under `development/[project-folder]/`; project-specific commits and pushes happen only there.
-- During intake or new-project creation, convert a non-canonical workspace that contains or will contain a Target Project into a Project Scaffold with `scripts/initialize-project-scaffold.ps1`. Never convert or remove `.git` from the canonical Master Scaffold.
+- **Master Scaffold** is the canonical reusable source repository, before it is used to govern a project workspace. Its origin is `https://github.com/odonplay/odonplay-agent-scaffold`; it owns generic rules, tools, templates, and workflow guidance.
+- **Master Framework** is a Master Scaffold that is already being used to govern one or more projects through its `development/` folder. It is an operating role, not a separate Git repository or commit target.
+- **Working Project** is the Target Project currently selected for work at `development/[working-project-name]/`. It is an independent Git repository; project-specific commits and pushes happen only there.
+- **Project Scaffold** is the technical local, non-Git workspace context of a Master Framework. Its root changes are never committed or pushed anywhere.
+- During intake or new-project creation, convert a non-canonical workspace that contains or will contain a Working Project into a Project Scaffold with `scripts/initialize-project-scaffold.ps1`. Never convert or remove `.git` from the canonical Master Scaffold.
 - Before every Git action, state either **Commit Master Scaffold** or **Commit Target Project**. Follow `guardrails/system/REPOSITORY_TERMINOLOGY_POLICY.md`.
 
 This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and Google Antigravity runtime instructions.
