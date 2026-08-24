@@ -69,6 +69,7 @@ try {
   await write(path.join(target, 'artifacts', 'shared', 'handoffs', 'auth-login.md'), [
     '# Internal Handoff',
     '- traceability_class: `internal_process_state`',
+    '- runtime: `legacy-tool`',
     '- shared_context_reference: `artifacts/shared/PROJECT_STATE.md`',
     '',
   ].join('\n'));
@@ -190,6 +191,10 @@ try {
   const migratedCopyHash = createHash('sha256').update(await fs.readFile(migratedCopyPath)).digest('hex');
   const expectedHash = dryRun.classification.artifacts.find((item) => item.path.endsWith('ACTIVE_CONTEXT.md')).sha256;
   assert(migratedCopyHash === expectedHash, 'the migrated local-only copy must hash-match the exact artifact recorded in the dry-run classification');
+  const migratedHandoff = await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'migration', 'migrated-shared', 'handoffs', 'auth-login.md'), 'utf8');
+  assert(!/^- runtime:/im.test(migratedHandoff), 'legacy identity metadata must be redacted only after the source hash is recorded');
+  const sourceHashReceipt = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'migration-evidence', 'SOURCE_HASH_VERIFICATION.json'), 'utf8'));
+  assert(sourceHashReceipt.artifacts.some((item) => item.shared_relative_path === 'handoffs/auth-login.md'), 'source hash verification must preserve evidence for a redacted archive');
   const adoption = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'PROJECT_ADOPTION.json'), 'utf8'));
   const migrationState = JSON.parse(await fs.readFile(path.join(master, 'artifacts', 'traceability-local', 'fixture-project', 'MIGRATION_STATE.json'), 'utf8'));
   assert(adoption.schema_version === 4 && adoption.migration_status === 'completed' && migrationState.status === 'completed', 'completion must record current schema adoption and migration state');

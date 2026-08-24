@@ -32,6 +32,7 @@ const PREVENTION_RULES = [
   'artifacts/shared/*-process-state*',
 ];
 const IDENTITY_FIELD_PATTERN = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|model|model_or_profile|model_source|model_availability_reason|provider|vendor|routing_profile|routing_log_reference|token_band|cost_band)(?:["']?)\s*[:=]/im;
+const IDENTITY_METADATA_LINE_PATTERN = /^(?:\s*[-*]\s*)?(?:["']?)(?:runtime|started_by_runtime|last_updated_by_runtime|handoff_from|handoff_to|agent_role|owner_runtime|model|model_or_profile|model_source|model_availability_reason|provider|vendor|routing_profile|routing_log_reference|token_band|cost_band)(?:["']?)\s*[:=].*(?:\r?\n|$)/gim;
 const TARGET_AI_TRACE = /\b(?:codex|claude|gemini|openai|anthropic|ai[_ -]?(?:agent|assistant|routing|model|provider|prompt|token|cost)|llm)\b/i;
 const TARGET_SCAN_EXCLUDES = new Set(['.git', 'node_modules', 'dist', 'build', 'coverage', '.next', 'graphify-out']);
 // The explicit AI/runtime/process trace scan covers the whole target tree, including source
@@ -648,8 +649,10 @@ async function createMigrationPlan(master, project, target, options = {}) {
 async function copyVerified(source, destination, expectedHash) {
   await fs.mkdir(path.dirname(destination), { recursive: true });
   if (await exists(destination)) {
-    if (await sha256(destination) !== expectedHash) throw new Error(`MASTER_DESTINATION_COLLISION: ${destination}`);
-    return;
+    if (await sha256(destination) === expectedHash) return;
+    // A failed migration may have already redacted a verified local archive. Rebuild the
+    // exact source copy under the migration lock, then redact it again with a new receipt.
+    await fs.rm(destination);
   }
   const temp = `${destination}.${process.pid}.${Date.now()}.tmp`;
   await fs.copyFile(source, temp, constants.COPYFILE_EXCL);
@@ -659,6 +662,25 @@ async function copyVerified(source, destination, expectedHash) {
   }
   try { await fs.rename(temp, destination); }
   finally { await fs.rm(temp, { force: true }); }
+}
+
+async function redactLegacyIdentityMetadata(archiveRoot) {
+  const receipt = [];
+  for (const file of await listFiles(archiveRoot)) {
+    if (!TEXT_EXTENSIONS.has(path.extname(file).toLowerCase())) continue;
+    const content = await fs.readFile(file, 'utf8');
+    const redacted = content.replace(IDENTITY_METADATA_LINE_PATTERN, '');
+    const beforeHash = sha256Text(content);
+    const afterHash = sha256Text(redacted);
+    if (content !== redacted) await writeFileAtomic(file, redacted);
+    receipt.push({
+      archive_path: normalizeRelative(path.relative(archiveRoot, file)),
+      source_sha256: beforeHash,
+      archived_sha256: afterHash,
+      identity_metadata_redacted: content !== redacted,
+    });
+  }
+  return receipt;
 }
 
 function extractMetadataReferences(content, fields) {
@@ -677,13 +699,19 @@ async function verifyMigration(master, project, target, scan, batchId) {
   const locations = authorityPaths(master, project);
   const archiveRoot = path.join(locations.migration, 'migrated-shared');
   const internal = scan.artifacts.filter((item) => item.classification === 'internal_process_state');
+  const sourceHashReceipt = await readJson(path.join(locations.migrationEvidence, 'SOURCE_HASH_VERIFICATION.json'), { artifacts: [] });
+  const redactionReceipt = await readJson(path.join(locations.migrationEvidence, 'ARCHIVE_REDACTION_RECEIPT.json'), { artifacts: [] });
+  const sourceHashes = new Map((sourceHashReceipt.artifacts || []).map((item) => [item.shared_relative_path, item]));
+  const archivedHashes = new Map((redactionReceipt.artifacts || []).map((item) => [item.archive_path, item]));
   const bySharedRelative = new Map(scan.artifacts.map((item) => [item.shared_relative_path.toLowerCase(), item]));
   const referenceFindings = [];
   let copyPass = true;
   let graphifyPass = true;
   for (const artifact of internal) {
     const destination = path.join(archiveRoot, ...artifact.shared_relative_path.split('/'));
-    if (!(await exists(destination)) || await sha256(destination) !== artifact.sha256) copyPass = false;
+    const sourceHash = sourceHashes.get(artifact.shared_relative_path);
+    const archivedHash = archivedHashes.get(artifact.shared_relative_path);
+    if (!(await exists(destination)) || sourceHash?.sha256 !== artifact.sha256 || archivedHash?.source_sha256 !== artifact.sha256 || await sha256(destination) !== archivedHash.archived_sha256) copyPass = false;
     if (/(?:^|\/)(?:graphify-out|\.graphify)(?:\/|$)/i.test(artifact.shared_relative_path)) graphifyPass = false;
     if (!TEXT_EXTENSIONS.has(path.extname(destination).toLowerCase()) || !(await exists(destination))) continue;
     const content = await fs.readFile(destination, 'utf8');
@@ -797,6 +825,21 @@ async function migrateShared(master, project, target, options) {
         const destination = path.join(archiveRoot, ...artifact.shared_relative_path.split('/'));
         await copyVerified(source, destination, artifact.sha256);
       }
+      await writeJsonAtomic(path.join(locations.migrationEvidence, 'SOURCE_HASH_VERIFICATION.json'), {
+        schema_version: masterSchema.schema_version,
+        project,
+        report_id: rechecked.report_id,
+        verified_at: new Date().toISOString(),
+        artifacts: internal.map((item) => ({ shared_relative_path: item.shared_relative_path, sha256: item.sha256 })),
+      });
+      const redactionReceipt = await redactLegacyIdentityMetadata(archiveRoot);
+      await writeJsonAtomic(path.join(locations.migrationEvidence, 'ARCHIVE_REDACTION_RECEIPT.json'), {
+        schema_version: masterSchema.schema_version,
+        project,
+        report_id: rechecked.report_id,
+        redacted_at: new Date().toISOString(),
+        artifacts: redactionReceipt,
+      });
       await writeJsonAtomic(path.join(locations.migrationEvidence, 'CLASSIFICATION_MANIFEST.json'), {
         schema_version: masterSchema.schema_version,
         project,
