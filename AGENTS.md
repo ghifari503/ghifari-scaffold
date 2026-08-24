@@ -104,17 +104,17 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - Skill lookup or skill creation never opens the coding gate by itself; `I1`, `I2`, compact-plan approval for medium/major work, allowed write paths, and `PRE_CODING_GATE.md` must still allow the work.
    - For intake, audit, repo review, document edits, file reads, and lightweight clarifications outside official workflow steps, skill lookup is optional and only needed when clearly relevant.
 10. Dev-Doc Discovery Gate:
-   - Before feature development, bugfix work tied to a feature/module, backend/API change, frontend/UI change, system behavior change, integration, refactor, database change tied to a feature/module, or any related build/coding step, search `dev-doc/` for related documentation first.
+   - Before feature development, bugfix work tied to a feature/module, backend/API change, frontend/UI change, system behavior change, integration, refactor, database change tied to a feature/module, or any related build/coding step, search the active target's `docs/` for related documentation first.
    - Search exact feature slugs, related module/domain names, reasonable synonyms from the request, and entries from `plan/feature-listing.md` when present.
-   - If related `dev-doc/` material exists, read the relevant BRD, PRD, design, prototype, or notes before planning or building.
-   - If related `dev-doc/` material is missing, record `dev-doc missing`; for new feature work, do not code until founder interview, requirement synthesis, or planning docs create the needed baseline.
+   - If related target `docs/` material exists, read the relevant BRD, PRD, design, prototype, or notes before planning or building.
+   - If related target `docs/` material is missing, record `project docs missing`; for new feature work, do not code until founder interview, requirement synthesis, or planning docs create the needed baseline.
    - Dev-doc discovery never opens the coding gate by itself; `I1`, `I2`, compact-plan approval for medium/major work, skill lookup, allowed write paths, and `PRE_CODING_GATE.md` must still allow the work.
 11. Feature Task Slicing and Context-First Gate:
    - Before feature planning, implementation planning, coding, refactor, QA closure, release prep, or handoff for a feature/module change, enforce `guardrails/development/FEATURE_TASK_SLICING_POLICY.md`.
    - Work on exactly one feature per session unless the founder explicitly approves a wider session.
    - Break every feature request into small task slices and select only one slice for the current session.
    - Use `templates/feature_task_breakdown_template.md` for medium/major feature breakdowns.
-   - Read active operational context, project context, memory index/ledger, feature registry, related `dev-doc/`, and the latest relevant session log before repository source scanning.
+   - Read active operational context, project context, memory index/ledger, feature registry, related target `docs/`, and the latest relevant session log before repository source scanning.
    - Do not scan or read the whole repository on every task. Use targeted scans based on context, memory, dev-doc, impact scan, route names, symbols, modules, and allowed write paths.
    - Full repo scans are allowed only for first `I1`, unknown route/stack, stale or contradicted baseline, high-risk/cross-module/security/migration/release work, documented targeted-scan failure, or explicit founder approval.
 12. Shared Target Repository Context Gate:
@@ -122,7 +122,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
    - The target project must be a separate Git repository; do not commit or push target files from the scaffold root repository.
    - Before target project setup or work, verify the target repository is initialized or cloned and verify scaffold-root Git protection is active through `scripts/enable-scaffold-git-protection.ps1` when the runtime can run it.
    - Target `development/[project-folder]/artifacts/shared/` contains client-safe project facts only. Identity-free internal lifecycle, handoff, traceability, contributor/process, and development-state metadata belongs in Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral.
-   - Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
+   - Project requirements, product/design references, and feature documentation belong in the target repository at `development/[project-folder]/docs/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
    - Before continuing target repo work, read client-safe `PROJECT_STATE.md`, Master Scaffold `BATCH_STATE.json`, at most three relevant ODN batches, and the relevant internal handoff.
    - If target client-safe facts or Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
    - After meaningful work, update target `PROJECT_STATE.md` only when client-safe project facts changed and synchronize internal batch/lifecycle/handoff state under Master Scaffold authority.
@@ -146,7 +146,7 @@ This file is the single source of truth for Codex/GPT, Claude, Gemini CLI, and G
 17. Requirement Precedence And Conflict Gate:
    - Before planning or coding feature/module behavior, enforce `guardrails/development/REQUIREMENT_PRECEDENCE_POLICY.md`.
    - Read relevant requirement sources in precedence order and record the controlling source in the implementation plan.
-   - Create `dev-doc/[feature-name]/requirement-conflicts/[conflict-id].md` when relevant sources conflict, important ambiguity exists, or current behavior conflicts with approved change.
+   - Create `development/[project-folder]/docs/[feature-name]/requirement-conflicts/[conflict-id].md` when relevant sources conflict, important ambiguity exists, or current behavior conflicts with approved change.
    - Keep coding blocked while an active conflict affects scope, acceptance criteria, API/data behavior, security, user flow, or allowed write paths without a valid resolution.
 18. Scaffold Core Governance Gate:
    - Before changing protected scaffold paths, enforce `guardrails/system/SCAFFOLD_CORE_CHANGE_POLICY.md`, including `.githooks/`.
@@ -450,4 +450,3 @@ See `artifacts/context/STARTUP_MODE.md` for the current selection and `guardrail
 - Produce review-ready delta docs
 - Maintain continuity across sessions
 - Keep a strong chain from intake -> requirements -> architecture -> build -> QA -> release
-

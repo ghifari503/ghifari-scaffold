@@ -21,7 +21,8 @@ This policy applies before creating or updating any scaffold artifact, evidence 
 - Release prep, rollback notes, smoke checklist, and release readiness: `artifacts/release/`
 - Internal per-project ODN registry, batch state, lifecycle handoff, process state, and verified migration evidence (Git-ignored, local-only): `artifacts/traceability-local/[project]/`
 - Shared ODN schema authority only, nothing per-project (Git-carried): `artifacts/traceability/MASTER_SCAFFOLD_SCHEMA.json`
-- Active feature BRD, PRD, design, assets, Figma links, and HTML prototypes: `dev-doc/[feature-name]/`
+- Master-scaffold documentation and reusable examples: `dev-doc/`
+- Target project BRD, PRD, design, assets, Figma links, and HTML prototypes: `development/[project-folder]/docs/[feature-name]/`
 - Reusable design or scaffold templates: `templates/`
 - Client-safe, Git-carried project facts for a target repo: `development/[project-folder]/artifacts/shared/`
 
@@ -35,16 +36,16 @@ These roots must not be recreated:
 
 Use these replacements:
 
-- BRD: `dev-doc/[feature-name]/brd.md`
-- PRD: `dev-doc/[feature-name]/prd.md`
-- Feature design: `dev-doc/[feature-name]/design/`
+- BRD: `development/[project-folder]/docs/[feature-name]/brd.md`
+- PRD: `development/[project-folder]/docs/[feature-name]/prd.md`
+- Feature design: `development/[project-folder]/docs/[feature-name]/design/`
 - Shared design templates: `templates/design/master-ui-templates/`
 
 ## Strict Rules
 
 - Do not create new root folders under `artifacts/` without updating this policy and `artifacts/README.md`.
 - Do not store active feature requirements or design in `artifacts/`.
-- Do not create `development/[project-folder]/dev-doc/`; active project requirements, design, assets, prototypes, and related feature documentation belong only in root `dev-doc/[feature-name]/`.
+- Do not create `development/[project-folder]/dev-doc/`; active project requirements, design, assets, prototypes, and related feature documentation belong in `development/[project-folder]/docs/`.
 - Do not store raw automation output in `artifacts/test/`; use `artifacts/qa/`.
 - Do not store human-authored QA summaries in `artifacts/qa/`; use `artifacts/test/`.
 - Do not store strict policies or guardrails in `artifacts/`; use `guardrails/`.

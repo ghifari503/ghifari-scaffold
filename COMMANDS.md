@@ -71,10 +71,10 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 ## Dev-Doc Discovery Gate
 
-- Before feature development, bugfix work tied to a feature/module, backend/API change, frontend/UI change, system behavior change, integration, refactor, database change tied to a feature/module, or any related build/coding step, search `dev-doc/` for related documentation first.
+- Before feature development, bugfix work tied to a feature/module, backend/API change, frontend/UI change, system behavior change, integration, refactor, database change tied to a feature/module, or any related build/coding step, search the active target's `docs/` for related documentation first.
 - Search exact feature slugs, related module/domain names, reasonable synonyms from the request, and entries from `plan/feature-listing.md` when present.
-- If related `dev-doc/` material exists, read relevant BRD, PRD, design, prototype, or notes before planning or building.
-- If related `dev-doc/` material is missing, record `dev-doc missing`; for new feature work, do not code until founder interview, requirement synthesis, or planning docs create the needed baseline.
+- If related target `docs/` material exists, read relevant BRD, PRD, design, prototype, or notes before planning or building.
+- If related target `docs/` material is missing, record `project docs missing`; for new feature work, do not code until founder interview, requirement synthesis, or planning docs create the needed baseline.
 - Dev-doc discovery does not open implementation permission. The pre-coding gate, allowed write paths, impact scan, skill lookup, plan approval, and founder approval still control execution.
 
 ## Feature Task Slicing And Context-First Gate
@@ -83,15 +83,15 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - Work on exactly one feature per session unless the founder explicitly approves a wider session.
 - Break every feature request into small task slices and select only one slice for the current session.
 - For medium/major feature work, use `templates/feature_task_breakdown_template.md`.
-- Read active operational state, project context, memory index/ledger, feature registry, related `dev-doc/`, and the latest relevant session log before repository source scanning.
-- Do not scan or read the whole repository on every task. Use targeted scans from context, memory, dev-doc, impact scan, route names, symbols, modules, and allowed write paths.
+- Read active operational state, project context, memory index/ledger, feature registry, related target `docs/`, and the latest relevant session log before repository source scanning.
+- Do not scan or read the whole repository on every task. Use targeted scans from context, memory, target docs, impact scan, route names, symbols, modules, and allowed write paths.
 - Full repo scans are allowed only for first `I1`, unknown route/stack, stale or contradicted baseline, high-risk/cross-module/security/migration/release work, documented targeted-scan failure, or explicit founder approval.
 
 ## Shared Target Repository Context Gate
 
 - For target repo work under `development/[project-folder]`, enforce `guardrails/development/SHARED_CONTEXT_POLICY.md`.
 - Target `artifacts/shared/` contains client-safe project facts only. Identity-free lifecycle, handoff, traceability, contributor/process, and development-state metadata resolves from Master Scaffold `artifacts/traceability-local/[project]/`; routing is ephemeral.
-- Project requirements, product/design references, and feature documentation belong only in root `dev-doc/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
+- Project requirements, product/design references, and feature documentation belong in `development/[project-folder]/docs/[feature-name]/`; do not create `dev-doc/` inside `development/[project-folder]/`.
 - Before continuing target work, read client-safe `PROJECT_STATE.md`, Master Scaffold batch state, at most three relevant ODN batches, the relevant internal handoff, and the root activity-log snapshot.
 - If client-safe facts or the Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
 - After meaningful work, update target facts only when client-safe facts changed, synchronize internal state under Master Scaffold authority, and append the root activity event.
@@ -156,7 +156,7 @@ Validate target sharing or a source marker/Git trailer fixture:
 
 - Before planning or coding behavior changes, enforce `guardrails/development/REQUIREMENT_PRECEDENCE_POLICY.md`.
 - Record the controlling requirement source in the implementation plan after reading relevant founder decisions, PRD, BRD, flows, API/schema constraints, design, security, QA, and current behavior in precedence order.
-- When relevant requirement sources conflict or important ambiguity remains, create `dev-doc/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
+- When relevant requirement sources conflict or important ambiguity remains, create `development/[project-folder]/docs/[feature-name]/requirement-conflicts/[conflict-id].md` from `templates/requirement_conflict_decision_template.md`.
 - Do not code while an unresolved conflict affects scope, acceptance criteria, API/data behavior, security, user flow, or allowed write paths.
 
 ## Session Commands
@@ -436,9 +436,9 @@ Expected behavior:
 - Ignore blank lines and lines beginning with `#`.
 - Accept only `new feature/[feature-name]` and `add feature/[feature-name]`.
 - Process one feature at a time; do not activate multiple feature entries in the same session unless the founder explicitly approves it.
-- For each accepted feature, check required docs in `dev-doc/[feature-name]/`.
-- For each accepted feature, check design references in `dev-doc/[feature-name]/design/`.
-- Do not look for active feature BRD or PRD in removed legacy roots; use `dev-doc/[feature-name]/brd.md` and `dev-doc/[feature-name]/prd.md`.
+- For each accepted feature, check required docs in `development/[project-folder]/docs/[feature-name]/`.
+- For each accepted feature, check design references in `development/[project-folder]/docs/[feature-name]/design/`.
+- Do not look for active feature BRD or PRD in removed legacy roots; use `development/[project-folder]/docs/[feature-name]/brd.md` and `development/[project-folder]/docs/[feature-name]/prd.md`.
 - Mark missing docs or design as `missing`; do not invent content.
 - Break the selected feature into task slices and choose one slice for the current session.
 - For `add feature/[feature-name]`, require impact scan before coding.
@@ -904,10 +904,10 @@ Keep the scope to the impacted screens and states only.
 ### P5 Design Completion
 ```text
 Run step P5: Design Complete.
-Use the design inputs in:
-dev-doc/[feature-name]/design/[page]/[section]/assets/
+Use the design inputs in the active target:
+docs/[feature-name]/design/[page]/[section]/assets/
 Use HTML UI prototypes, when present, from:
-dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html
+docs/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html
 Complete only the affected area.
 ```
 
@@ -1066,29 +1066,29 @@ Then map the relevant patterns into the impacted feature design folder.
 
 ### Use Figma Reference
 ```text
-Use the Figma reference from:
-dev-doc/[feature-name]/design/[page]/[section]/figma-link.txt
+Use the Figma reference from the active target:
+docs/[feature-name]/design/[page]/[section]/figma-link.txt
 Then update only the affected design specs.
 ```
 
 ### Use Stitch Reference
 ```text
-Use the approved Stitch mockup or exported reference in:
-dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/assets/
+Use the approved Stitch mockup or exported reference in the active target:
+docs/[feature-name]/design/[page]/[section]/[sub-section]/assets/
 Record its exact file or URL in the affected design spec, then update only that area.
 ```
 
 ### Use Uploaded Design Images
 ```text
-Use the uploaded design images from:
-dev-doc/[feature-name]/design/[page]/[section]/assets/
+Use the uploaded design images from the active target:
+docs/[feature-name]/design/[page]/[section]/assets/
 Then complete the design specs for that area only.
 ```
 
 ### Use HTML UI Prototype
 ```text
-Use the HTML UI prototype reference from:
-dev-doc/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html
+Use the HTML UI prototype reference from the active target:
+docs/[feature-name]/design/[page]/[section]/[sub-section]/prototype/index.html
 Treat it as a UI/UX guide only. Do not copy it into production source code unless the approved development scope explicitly says to implement it.
 ```
 
@@ -1171,7 +1171,7 @@ Keep all internal process metadata out of the target repository.
 ```text
 Analyze this feature into small task slices first.
 Select only one slice for this session.
-Use context, memory, feature registry, and dev-doc before scanning source code.
+Use context, memory, feature registry, and target docs before scanning source code.
 Do not scan the whole repository unless an allowed reason is documented.
 ```
 
@@ -1247,4 +1247,3 @@ Run impact scan for this change:
 List impacted pages, endpoints, modules, docs, tests, allowed write paths, blocked paths, and risks.
 Do not edit product code yet.
 ```
-

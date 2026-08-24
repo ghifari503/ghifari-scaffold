@@ -20,7 +20,7 @@ Git repository, initialize or clone it before continuing.
 
 The scaffold repository ignores every target project folder, including its `artifacts/shared/`. Commit target source and client-safe shared facts from the target repository; commit internal ODN/lifecycle state from the Master Scaffold repository.
 
-Keep project requirements, design references, and feature documentation in root `dev-doc/[feature-name]/`. Do not create `dev-doc/` inside a target project folder under `development/`.
+Keep project requirements, design references, and feature documentation in the target repository at `docs/[feature-name]/`. Do not create `dev-doc/` inside a target project folder under `development/`; the root `dev-doc/` is reserved for master-scaffold documentation and reusable examples.
 
 ## Startup Detection
 

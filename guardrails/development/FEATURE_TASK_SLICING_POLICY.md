@@ -27,7 +27,7 @@ The breakdown must identify:
 - selected slice for this session
 - deferred slices
 - dependencies and blockers
-- required `dev-doc/` files
+- required target `docs/` files
 - relevant memory/context entries
 - target client-safe facts and Master Scaffold ODN traceability entries
 - targeted repo scan paths
@@ -37,7 +37,7 @@ The breakdown must identify:
 The breakdown may live in:
 
 - `plan/[feature-name]-task-breakdown.md` for approved planning work
-- `dev-doc/[feature-name]/implementation-plan.md` when it becomes part of feature source documentation
+- `development/[project-folder]/docs/[feature-name]/implementation-plan.md` when it becomes part of feature source documentation
 - `artifacts/operations/CURRENT_TASK.md` as a compact active-slice summary
 
 ## Context-First Rule
@@ -53,7 +53,7 @@ Before scanning repository source for a feature task, read active context in thi
 7. `artifacts/memory/MEMORY_INDEX.md`
 8. `artifacts/memory/MEMORY_LEDGER.toml`
 9. `artifacts/memory/FEATURE_REGISTRY.toml`
-10. related `dev-doc/[feature-name]/`
+10. related target `docs/[feature-name]/`
 11. latest relevant `artifacts/operations/SESSION_LOG.md` entry
 12. when a target repo is attached, client-safe `development/[project-folder]/artifacts/shared/PROJECT_STATE.md`
 13. when a target repo is attached, Master Scaffold batch state, at most three relevant ODN records, and relevant internal handoff
@@ -64,7 +64,7 @@ Use memory and context to narrow the scan. Memory is advisory and must not overr
 
 After context-first recall, scan only paths likely to be relevant to the selected slice:
 
-- feature or module folders named in `dev-doc/`, memory, feature registry, impact scan, or current task
+- feature or module folders named in target `docs/`, memory, feature registry, impact scan, or current task
 - routes, controllers, components, services, tests, schemas, configs, or API specs named in evidence
 - exact symbols, filenames, route names, endpoint names, table names, or UI labels from the request
 - adjacent files needed to understand a local pattern
