@@ -10,7 +10,13 @@ $ErrorActionPreference = 'Stop'
 if ([string]::IsNullOrWhiteSpace($RepositoryRoot)) { $RepositoryRoot = Split-Path -Parent $PSScriptRoot }
 function Stop-Update([string]$Message) { throw ('SCAFFOLD_ADOPTION_BLOCKED: {0}' -f $Message) }
 function Get-GitText([string]$Path, [string[]]$Arguments) {
-    $result = & git -C $Path @Arguments 2>$null
+    $previousErrorActionPreference = $ErrorActionPreference
+    try {
+        $ErrorActionPreference = 'Continue'
+        $result = & git -C $Path @Arguments 2>$null
+    } finally {
+        $ErrorActionPreference = $previousErrorActionPreference
+    }
     if ($LASTEXITCODE -ne 0) { return $null }
     return ($result -join [Environment]::NewLine).Trim()
 }

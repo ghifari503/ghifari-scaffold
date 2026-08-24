@@ -104,8 +104,9 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 - If client-safe facts or the Master Scaffold traceability baseline is missing during first intake, create the applicable baseline before handoff or implementation.
 - After meaningful work, update target facts only when client-safe facts changed, synchronize internal state under Master Scaffold authority, and append the root activity event.
 - Target shared facts must not contain secrets, internal process metadata, runtime/model routing data, `.env` values, raw chats, credentials, private data, or large raw logs.
-- Pulling the master never writes into a target. For an approved, per-target adoption report use `update scaffold [project-folder]`, which runs `scripts/update-scaffold-project.ps1` in read-only mode first. Apply requires the exact dry-run report id and creates its receipt only under Master Scaffold `artifacts/traceability-local/[project]/`; it never overwrites target work or existing documents.
-- Strict startup adoption: after a master pull or changed local scaffold fingerprint/version, every selected or resumed target automatically receives this same read-only adoption report before target work continues. A non-ready report blocks implementation, QA closure, handoff, and `resume_safe`; `-Apply` still requires separate founder approval.
+- Pulling the Master Scaffold never writes into a Target Project. When a Project Scaffold and target are active, run `reconcile scaffold [project-folder]` before every user task; it safely updates unchanged generic Project Scaffold-root files and then performs the read-only target adoption report. It excludes target files and all Project Scaffold local context.
+- `update scaffold [project-folder]` runs only `scripts/update-scaffold-project.ps1` in read-only mode. Apply requires the exact dry-run report id and creates its receipt only under Project Scaffold local `artifacts/traceability-local/[project]/`; it never overwrites target work or existing documents.
+- Strict startup adoption: reconciliation is automatic after a Master Scaffold pull and on every selected/resumed Project Scaffold task. A non-ready report blocks implementation, QA closure, handoff, and `resume_safe`; `-Apply` still requires separate founder approval.
 
 ## Strict ODN Traceability Gate
 
