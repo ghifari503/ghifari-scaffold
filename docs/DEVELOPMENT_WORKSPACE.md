@@ -8,11 +8,11 @@
 
 - **Master Scaffold** is the canonical reusable source repository before it is used as a project framework.
 - **Master Framework** is that scaffold once it governs project work through `development/`.
-- **Project Scaffold** is the local non-Git technical workspace context inside a Master Framework.
+- **Master Framework root** is the local non-Git technical workspace context inside a Master Framework.
 - **Working Project** is the Target Project currently selected at `development/[working-project-name]/`.
 - **Target Project** is any nested Git repository at `development/[project-folder]/`.
 
-When intake finds a Target Project or the founder requests a new one, treat the workspace as a Master Framework and convert its local technical context to a Project Scaffold with `scripts/initialize-project-scaffold.ps1`. The script archives only the workspace-root `.git` and refuses the canonical Master Scaffold. Project Scaffold root changes are intentionally not commit candidates.
+When intake finds a Target Project or the founder requests a new one, treat the workspace as a Master Framework and convert its local technical context to a Master Framework root with `scripts/initialize-project-scaffold.ps1`. The script archives only the workspace-root `.git` and refuses the canonical Master Scaffold. Master Framework root changes are intentionally not commit candidates and may never update the Master Scaffold origin.
 
 ## Layout
 

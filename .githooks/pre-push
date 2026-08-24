@@ -12,9 +12,9 @@ normalized_remote="${normalized_remote%.git}"
 case "$normalized_remote" in
   "$official_remote"|"git@github.com:odonplay/odonplay-agent-scaffold"|"ssh://git@github.com/odonplay/odonplay-agent-scaffold") exit 0 ;;
   *)
-    echo "Blocked: the scaffold-root repository may push only to the official master scaffold remote." >&2
+    echo "Blocked: the canonical Master Scaffold repository may push only to the official Master Scaffold remote." >&2
     echo "Remote ${remote_name}: ${remote_url:-<unset>}" >&2
-    echo "Push project work from development/[project-folder], using that project's own Git repository." >&2
+    echo "Push Working Project work from development/[project-folder], using that project's own Git repository." >&2
     exit 1
     ;;
 esac

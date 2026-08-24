@@ -1,6 +1,6 @@
 # Safe Master Scaffold Updates
 
-After `git pull` in the Master Scaffold, active projects keep their own Git history and working files. Before an agent handles any task in an active Project Scaffold, it automatically runs `reconcile-project-scaffold.ps1`. The helper copies only unchanged generic Master Scaffold files into the local Project Scaffold root, then runs a read-only Target Project adoption check. It never copies into, modifies, or commits a Target Project.
+After `git pull` in the Master Scaffold, active projects keep their own Git history and working files. Before an agent handles any task in an active Master Framework, it automatically runs `reconcile-project-scaffold.ps1`. The helper copies only unchanged generic Master Scaffold files into the local Master Framework root, then runs a read-only Target Project adoption check. It never copies into, modifies, or commits a Target Project.
 
 Manual equivalent:
 

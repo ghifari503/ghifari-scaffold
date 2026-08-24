@@ -8,9 +8,9 @@ target_paths="$(git diff --cached --name-only --diff-filter=ACMRD | awk '
 ')"
 
 if [ -n "$target_paths" ]; then
-  echo "Blocked: target-project files must not be committed by the scaffold-root repository." >&2
+  echo "Blocked: Target Project files must not be committed by the canonical Master Scaffold repository." >&2
   echo "$target_paths" >&2
-  echo "Open development/[project-folder] as its own workspace and commit from that repository." >&2
+  echo "Open the Working Project at development/[project-folder] as its own workspace and commit from that repository." >&2
   exit 1
 fi
 
