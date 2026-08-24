@@ -19,6 +19,7 @@ When intake finds a Target Project or the founder requests a new one, treat the 
 ```text
 development/
   _project-template/
+  _framework-updater/  # optional pull-only infrastructure repository
   [project-folder]/
 ```
 
@@ -34,12 +35,14 @@ Keep project requirements, design references, and feature documentation in the M
 
 ## Startup Detection
 
-`start` inspects `development/` and excludes only `_project-template/`.
+`start` inspects `development/` and excludes `_project-template/` and `_framework-updater/`.
 
 - No target-project folders: use the greenfield route.
 - One or more target-project folders: select an existing/inherited target project and begin intake.
 
 Do not place a scaffold `README.md` or other generic marker file directly under `development/`.
+
+`_framework-updater/` is the only infrastructure exception. It is an isolated clone of the official Master Scaffold used to obtain update code without pulling in the Master Framework root. It may pull only; it is never selected for product work, ODN, Graphify, QA, handoff, commit, or push.
 
 ## Root Protection
 

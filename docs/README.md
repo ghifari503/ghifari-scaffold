@@ -5,6 +5,8 @@ This folder provides navigation and operational explanations for the scaffold. P
 ## Start Here
 
 - `DEVELOPMENT_WORKSPACE.md`: target-project attachment layout and Git isolation.
+- `HOW_TO_UPDATE_MASTER_FRAMEWORK.md`: first legacy bootstrap, routine isolated pull, dry-run, apply, conflict handling, and rollback.
+- `SCAFFOLD_UPDATES.md`: boundary between updating a Master Framework and reconciling a selected Working Project.
 - `GRAPHIFY_INTEGRATION.md`: optional, explicit-consent Graphify workflow.
 - `ARCHITECTURE.md`, `PROJECT_STATE.md`, `DECISIONS.md`, `NEXT_STEPS.md`: scaffold orientation and navigation.
 - `REPOSITORY_GOVERNANCE.md`: contribution, branch, and review expectations.

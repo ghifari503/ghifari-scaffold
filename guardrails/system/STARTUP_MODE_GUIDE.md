@@ -7,7 +7,7 @@ The current selected mode must be recorded separately in `artifacts/context/STAR
 
 ## greenfield_project
 Use when:
-- `development/` has zero target-project folders when the founder sends `start`, excluding only scaffold-owned `_project-template/`
+- `development/` has zero target-project folders when the founder sends `start`, excluding scaffold-owned `_project-template/` and infrastructure-only `_framework-updater/`
 - a new project must be defined and bootstrapped from zero
 
 Focus:

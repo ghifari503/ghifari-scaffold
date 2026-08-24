@@ -24,7 +24,7 @@ Use this file as the single source of truth for user-facing prompt commands, wor
 
 - **Master Scaffold** is the canonical generic Git repository. Use **Commit Master Scaffold** only for generic changes and its official remote.
 - **Project Scaffold** is a local, non-Git workspace for project context. Its root changes are never committed or pushed anywhere.
-- **Target Project** is an independent Git repository under `development/[project-folder]/`. Use **Commit Target Project** only from the selected target folder and its own remote.
+- **Target Project** is an independent Git repository under `development/[project-folder]/`. Use **Commit Target Project** only from the selected target folder and its own remote. `development/_framework-updater/` is pull-only infrastructure, never a Target Project or commit source.
 - This restriction covers the entire Master Framework root, not selected local-context folders. If `.project-scaffold.json` and an active root Git index coexist, every staged root path must be automatically unstaged and the commit blocked. Nested Working Project indexes remain independent.
 - When intake detects a Target Project or the founder requests a new one, run `scripts/initialize-project-scaffold.ps1 -ProjectScaffoldPath [workspace-path]` from the canonical Master Scaffold. The helper refuses to convert the canonical Master Scaffold itself.
 - Initialization fully unstages the future Master Framework root before archiving its Git metadata; working files are preserved.
@@ -182,13 +182,28 @@ Expected behavior:
 - Read `SCAFFOLD_VERSION.md` and display the current scaffold version, release date, status, and versioning-policy summary.
 - Do not start a workflow step, modify files, install dependencies, or inspect target projects.
 
+### Update Framework
+
+```text
+update framework
+```
+
+Expected behavior:
+
+- Read `docs/HOW_TO_UPDATE_MASTER_FRAMEWORK.md` and enforce `guardrails/system/MASTER_SCAFFOLD_UPDATER_CONTRACT.md`.
+- Require the isolated repository at `development/_framework-updater/`; never fetch, pull, commit, or push from the Master Framework root.
+- Run `development/_framework-updater/scripts/update-master-framework.ps1 -FrameworkRoot .` first without `-Apply` and show the complete dry-run report.
+- Apply only after founder confirmation, using the exact current `-ReportId`. A prior general approval does not authorize resolving a newly reported conflict.
+- Preserve `artifacts/`, `plan/`, `dev-doc/`, all of `development/`, runtime-local configuration, and every nested Git index.
+- On success, leave root Git inactive. On failure, restore the snapshot and report the blocker.
+
 ### Start (Automatic Project Route)
 ```text
 start
 ```
 
 Expected behavior:
-- Inspect `development/` with hidden entries included, excluding only scaffold-owned `_project-template/`, before asking for a project target.
+- Inspect `development/` with hidden entries included, excluding scaffold-owned `_project-template/` and infrastructure-only `_framework-updater/`, before asking for a project target.
 - If it has zero target-project folders, select `greenfield_project`, report that a new-project discovery is required, and ask for project name, intended outcome, first feature candidate, constraints, and available references. Do not create a framework, install dependencies, or write product code.
 - If it has one or more target-project folders, treat the request as existing/inherited-project work, list detected project folders, and continue through the project picker and `I1 Existing Project Intake` route.
 - Whenever one target project becomes active--after selection through `start`/`start dev`, attach, or a resumed session--inspect its local Graphify status. When the CLI or graph is missing, explain its benefit and request setup/build approval; if `uv` is missing, ask separately before installing it. For an installed graph, automatically refresh the active target once per meaningful source, configuration, documentation, dependency, or shared-context delta using update mode.

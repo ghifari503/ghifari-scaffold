@@ -35,3 +35,27 @@ This repository records only generic Master Scaffold maintenance sessions. Proje
 - verification: `Master Framework guard tests, reconciliation regression tests, shell syntax checks, PowerShell parser checks, version-reference scan, and git diff --check passed.`
 - documentation_sync_status: `AGENTS.md, commands, workflow, repository policy, workspace guide, hook guide, release version, and operational state synchronized.`
 - next_action: `Commit Master Scaffold after founder review.`
+
+### Entry: `SCAFFOLD-20260824-MASTER-FRAMEWORK-UPDATER`
+
+- created_at: `2026-08-24T22:20:00+07:00`
+- updated_at: `2026-08-24T23:09:00+07:00`
+- task_id: `SCAFFOLD-20260824-MASTER-FRAMEWORK-UPDATER`
+- module: `framework-update-distribution`
+- status: `SUCCESS`
+- primary_task_type: `legacy-artifact-migration`
+- secondary_task_types: `documentation-sync, test-automation`
+- size: `major`
+- risk: `critical`
+- confidence: `high`
+- classification: `logical_change`
+- stable_scope: `scaffold:framework-update-distribution`
+- odn_batch: `not_allocated_no_target_project_generic_scaffold_release`
+- approval: `Founder approved the compact plan with Y in this session.`
+- capability: `process-controller`
+- allowed_write_paths: `Generic Master Scaffold rules, scripts, tests, documentation, version, and operational status only.`
+- blocked_write_paths: `All Working Projects and project-specific artifacts.`
+- summary: `Added a two-stage isolated Master Framework update path with legacy-unversioned detection, baseline-aware conflict blocking, snapshot and rollback, root Git deactivation after validation, startup pending-update detection, and a user how-to guide.`
+- verification: `Updater simulation, Master Framework Git guard regression, reconciliation regression, ODN regression, PowerShell parsing, freshness checks, documentation sync, and git diff checks passed. Independent critical review ended with zero critical and zero high findings. POSIX shell execution was unavailable in this Windows environment; the shell file was parity-reviewed but not executed here.`
+- documentation_sync_status: `Rules, commands, update policies, workspace/startup guidance, user how-to, script index, release version, and operational records synchronized.`
+- next_action: `Commit Master Scaffold after founder instruction.`

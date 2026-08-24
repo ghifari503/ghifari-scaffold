@@ -2,17 +2,21 @@
 
 ## Rule
 
-Pulling the Master Scaffold updates generic governance only. It must never copy, merge, rebase, overwrite, stage, commit, or push files in a Target Project under `development/[project-folder]`.
+An active Master Framework must obtain updates only through the pull-only repository at `development/_framework-updater/`, then adopt them through `scripts/update-master-framework.ps1` under `guardrails/system/MASTER_SCAFFOLD_UPDATER_CONTRACT.md`. Never pull in the Master Framework root.
+
+Updating generic governance must never copy, merge, rebase, overwrite, stage, commit, or push files in a Target Project under `development/[project-folder]`. `_framework-updater` is infrastructure and must be excluded from every Target Project route.
 
 ## Mandatory Pre-Response Reconciliation
 
-When a Project Scaffold is active and a Target Project has been selected, every runtime must run this command before continuing with any user task:
+After the Master Framework update is complete and a Target Project has been selected, every runtime must run this command before continuing with any user task:
 
 ```powershell
 ./scripts/reconcile-project-scaffold.ps1 -TargetPath development/[project-folder]
 ```
 
-The reconciliation verifies the official Master Scaffold origin and a clean canonical source. It automatically synchronizes only changed generic Master Scaffold files into the Project Scaffold root when those local files are unchanged since the archived baseline. It excludes all Target Projects, Project Scaffold local context (`artifacts/`, `plan/`, `dev-doc/`), Git metadata, and the local workspace marker.
+Reconciliation verifies the official Master Scaffold origin and clean update source. In an updater-contract Master Framework it is not a second update engine: when updater HEAD is newer than installed `STATE.json`, reconciliation blocks and directs the founder to the exact-report updater flow; when both heads match, it performs target adoption checks without copying generic framework files. Automatic generic synchronization exists only for explicit legacy markers that do not yet declare an updater contract. Legacy synchronization excludes all Target Projects, Master Framework local context (`artifacts/`, `plan/`, `dev-doc/`), Git metadata, and the local workspace marker.
+
+When an explicit framework rollback records `update_status: rolled_back`, reconciliation must fail closed and must not copy generic files. The hold ends only after the founder reviews a new updater dry-run and authorizes its exact report for apply.
 
 It always runs the Target Project adoption check in dry-run mode. It never changes Target Project source, documentation, dependencies, environment, database, Graphify output, Git metadata, branch, index, commits, or remote. A local root-file conflict, invalid baseline, dirty canonical Master Scaffold, or unsafe target adoption result is a blocker: report it and do not continue the requested task until resolved.
 

@@ -78,6 +78,7 @@ function safeProject(value) {
   if (!value || !/^[a-z0-9][a-z0-9._-]{0,63}$/i.test(value)) {
     throw new Error('--project must contain 1-64 letters, numbers, dot, underscore, or hyphen');
   }
+  if (value.toLowerCase() === '_framework-updater') throw new Error('_framework-updater is infrastructure and cannot have ODN project state');
   return value.toLowerCase();
 }
 
@@ -571,6 +572,11 @@ async function validateTarget(master, target, evidence) {
   const development = path.join(resolvedMaster, 'development');
   ensureInside(development, resolvedTarget, 'TARGET_PATH');
   if (resolvedTarget === resolvedMaster) throw new Error('the Master Scaffold is never an adoption target');
+  const updaterRoot = path.join(development, '_framework-updater');
+  const updaterRelative = path.relative(updaterRoot, resolvedTarget);
+  if (!updaterRelative || updaterRelative === '.' || (!updaterRelative.startsWith('..') && !path.isAbsolute(updaterRelative))) {
+    throw new Error('the framework updater and all of its descendants are infrastructure and never an adoption target');
+  }
   const gitRoot = git(resolvedTarget, ['rev-parse', '--show-toplevel'], evidence);
   if (!gitRoot) throw new Error('target is not a Git repository');
   if (path.resolve(gitRoot) !== resolvedTarget) throw new Error('target path must be its own Git repository root');

@@ -10,6 +10,11 @@ $scaffoldRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 if ($resolvedProject.TrimEnd('\') -eq $scaffoldRoot.TrimEnd('\')) {
     throw 'Refusing to update Graphify for the master scaffold root. Select a target project instead.'
 }
+$updaterRoot = (Join-Path $scaffoldRoot 'development/_framework-updater').TrimEnd('\', '/')
+$updaterPrefix = $updaterRoot + [IO.Path]::DirectorySeparatorChar
+if ($resolvedProject.TrimEnd('\', '/').Equals($updaterRoot, [StringComparison]::OrdinalIgnoreCase) -or $resolvedProject.StartsWith($updaterPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'The framework updater and all of its descendants are infrastructure and must never be a Graphify target.'
+}
 
 if (-not (Test-Path -LiteralPath (Join-Path $resolvedProject '.git'))) {
     throw 'The selected path must be a Git repository.'

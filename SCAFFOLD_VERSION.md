@@ -2,7 +2,7 @@
 
 ## Current Release
 
-- version: `4.0.0`
+- version: `5.0.0`
 - released_at: `2026-08-24`
 - status: `active`
 - compatibility: `master scaffold`
@@ -16,6 +16,10 @@ This scaffold uses semantic versioning:
 - `PATCH`: a backwards-compatible correction, clarification, documentation update, or internal consistency fix.
 
 Update this file as part of every approved scaffold release. A version change must record the corresponding release note or session-log evidence.
+
+## 5.0.0
+
+Breaking update-distribution release. Active Master Frameworks now obtain releases through the pull-only `development/_framework-updater/` clone and adopt them through an exact-report, dry-run-first transaction. Missing versions classify as `legacy_unversioned`; locally changed generic files fail closed; operational/project artifacts, `plan/`, `dev-doc/`, `development/`, runtime-local configuration, and nested Git indexes are preserved. Only ignored updater transaction state under `artifacts/framework-update/` is writable. Successful first adoption records local hashes and snapshots, fully unstages and archives legacy root Git, and keeps only the updater and Working Projects as independent repositories. Startup offers `update framework` only after a newer updater has already been obtained. The ODN schema remains version `4`.
 
 ## 4.0.0
 

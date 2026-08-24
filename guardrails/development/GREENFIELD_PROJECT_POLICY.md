@@ -4,11 +4,11 @@
 
 Provide a strict, token-efficient path for creating a new project from zero without pretending that an existing-project intake or impact scan exists.
 
-This policy applies when `start` finds zero target-project folders under `development/`, excluding only scaffold-owned `_project-template/`. It is separate from the inherited-project route, which begins with `I1 Existing Project Intake`.
+This policy applies when `start` finds zero target-project folders under `development/`, excluding scaffold-owned `_project-template/` and infrastructure-only `_framework-updater/`. It is separate from the inherited-project route, which begins with `I1 Existing Project Intake`.
 
 ## Automatic Start Routing
 
-When the founder sends `start` or `start work`, inspect `development/` with hidden entries included, excluding only scaffold-owned `_project-template/`.
+When the founder sends `start` or `start work`, inspect `development/` with hidden entries included, excluding scaffold-owned `_project-template/` and infrastructure-only `_framework-updater/`.
 
 - Zero target-project folders: select `greenfield_project` mode and begin Greenfield Discovery.
 - One or more target-project folders: select the existing/inherited-project route, list the detected project folders, and require project selection before continuing.

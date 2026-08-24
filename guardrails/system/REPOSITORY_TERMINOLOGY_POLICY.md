@@ -7,7 +7,7 @@
 | **Master Scaffold** | The canonical reusable source repository before it is used as a project framework. Its local maintenance root is `E:\www\project-scaffold` and its official origin is `https://github.com/odonplay/odonplay-agent-scaffold`; it owns generic rules, tools, templates, and workflow guidance. | Only generic scaffold changes from `E:\www\project-scaffold`, only to its official remote. |
 | **Master Framework** | A Master Scaffold already used to govern one or more project workspaces through `development/`. Its local root is the **Master Framework root**. This describes the framework's operating role, not a distinct repository, branch, or commit destination. | No direct commit authority. It must never commit or push to the Master Scaffold origin. |
 | **Project Scaffold** | Deprecated compatibility term for Master Framework root, retained only in legacy marker and migration names such as `.project-scaffold.json`. | No direct commit or push authority. |
-| **Target Project** | One real project in an independent Git repository under `development/[project-folder]/`. | Only that project's source, project documentation, and client-safe facts, only to its own remote. |
+| **Target Project** | One real project in an independent Git repository under `development/[project-folder]/`; `_framework-updater` is excluded infrastructure. | Only that project's source, project documentation, and client-safe facts, only to its own remote. |
 | **Working Project** | The Target Project currently selected for work, written as `development/[working-project-name]/`. A Working Project is always a Target Project, but another Target Project may be inactive. | Use **Commit Target Project** only from that project's repository. |
 
 `main` is a branch name and is never a synonym for Master Scaffold.
@@ -33,6 +33,8 @@ The conversion must fail closed when the path is the canonical Master Scaffold. 
 ## Canonical Local-Path Enforcement
 
 Generic scaffold maintenance must run from the canonical Master Scaffold local path, identified by its own active Git repository and official origin. A Master Framework root is local context and is never a substitute commit root. When the legacy `.project-scaffold.json` marker coexists with an active root Git index, the pre-commit guard must unstage every root-index path and fail closed. It must preserve working files and must not alter the independent Git index of any Target Project under `development/`.
+
+`development/_framework-updater/` is a pull-only clone of the official Master Scaffold used solely to obtain update code. It has no commit or push authority, is not a Target Project, and must never make the Master Framework root a Git commit source.
 
 ## Required Language
 

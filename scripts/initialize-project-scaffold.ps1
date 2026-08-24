@@ -17,7 +17,7 @@ $targetDetected = $false
 if (Test-Path -LiteralPath $developmentPath) {
     $targetDetected = @(
         Get-ChildItem -LiteralPath $developmentPath -Directory -Force | Where-Object {
-            $_.Name -ne '_project-template' -and (Test-Path -LiteralPath (Join-Path $_.FullName '.git'))
+            $_.Name -notin @('_project-template', '_framework-updater') -and (Test-Path -LiteralPath (Join-Path $_.FullName '.git'))
         }
     ).Count -gt 0
 }
@@ -27,6 +27,9 @@ if (-not $targetDetected -and -not $CreateTarget) {
 
 $activeGit = Join-Path $projectScaffold '.git'
 $marker = Join-Path $projectScaffold '.project-scaffold.json'
+if (Test-Path -LiteralPath $activeGit -PathType Leaf) {
+    throw 'A linked-worktree .git file is unsupported for Master Framework conversion; use a normal standalone clone.'
+}
 if (-not (Test-Path -LiteralPath $activeGit)) {
     if (-not (Test-Path -LiteralPath $marker)) {
         throw 'No active Project Scaffold .git directory and no local workspace marker were found.'

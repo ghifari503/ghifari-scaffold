@@ -72,3 +72,6 @@ Desktop.ini
 # Per-project internal continuity is local-only. It must never enter the master
 # scaffold repository or any target repository.
 /artifacts/traceability-local/
+
+# Local Master Framework update state and snapshots are never scaffold commits.
+/artifacts/framework-update/

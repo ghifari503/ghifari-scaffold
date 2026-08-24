@@ -16,6 +16,7 @@ Use this scaffold when:
 - `AGENTS.md`: single source of truth for Codex/GPT, Claude, and Gemini runtime instructions
 - `SCAFFOLD_WORKFLOW.md`: concise end-to-end workflow guide for developers and AI contributors
 - `docs/DEVELOPMENT_WORKSPACE.md`: safe layout and startup behavior for the local `development/` workspace
+- `docs/HOW_TO_UPDATE_MASTER_FRAMEWORK.md`: isolated, recoverable Master Framework update instructions
 - `CLAUDE.md`: Claude compatibility pointer to `AGENTS.md`
 - `GEMINI.md`: Gemini compatibility pointer to `AGENTS.md`
 - `COMMANDS.md`: canonical command list and prompt menu

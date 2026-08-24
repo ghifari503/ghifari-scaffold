@@ -9,6 +9,11 @@ $scaffoldRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
 if ($resolvedProject.TrimEnd('\') -eq $scaffoldRoot.TrimEnd('\')) {
     throw 'Graphify must run in a selected target project, not in the master scaffold root.'
 }
+$updaterRoot = (Join-Path $scaffoldRoot 'development/_framework-updater').TrimEnd('\', '/')
+$updaterPrefix = $updaterRoot + [IO.Path]::DirectorySeparatorChar
+if ($resolvedProject.TrimEnd('\', '/').Equals($updaterRoot, [StringComparison]::OrdinalIgnoreCase) -or $resolvedProject.StartsWith($updaterPrefix, [StringComparison]::OrdinalIgnoreCase)) {
+    throw 'The framework updater and all of its descendants are infrastructure and must never be a Graphify target.'
+}
 
 $outputPath = Join-Path $resolvedProject 'graphify-out'
 $graphPath = Join-Path $outputPath 'graph.json'

@@ -25,8 +25,11 @@ $master = (Resolve-Path -LiteralPath $RepositoryRoot).Path.TrimEnd('\', '/')
 $target = (Resolve-Path -LiteralPath $TargetPath).Path.TrimEnd('\', '/')
 $developmentRoot = Join-Path $master 'development'
 $developmentPrefix = $developmentRoot.TrimEnd('\', '/') + [IO.Path]::DirectorySeparatorChar
+$updaterRoot = (Join-Path $developmentRoot '_framework-updater').TrimEnd('\', '/')
+$updaterPrefix = $updaterRoot + [IO.Path]::DirectorySeparatorChar
 if ($target -eq $master) { Stop-Update 'The master scaffold itself is never an adoption target.' }
 if (-not $target.StartsWith($developmentPrefix, [StringComparison]::OrdinalIgnoreCase)) { Stop-Update 'Target must be under development/.' }
+if ($target.Equals($updaterRoot, [StringComparison]::OrdinalIgnoreCase) -or $target.StartsWith($updaterPrefix, [StringComparison]::OrdinalIgnoreCase)) { Stop-Update 'The framework updater and all of its descendants are infrastructure, not a Target Project.' }
 $gitRoot = Get-GitText $target @('rev-parse', '--show-toplevel')
 if ([string]::IsNullOrWhiteSpace($gitRoot)) { Stop-Update 'Target is not a Git repository.' }
 if ((Resolve-Path -LiteralPath $gitRoot).Path.TrimEnd('\', '/') -ne $target) { Stop-Update 'Target path must be its own Git repository root.' }
