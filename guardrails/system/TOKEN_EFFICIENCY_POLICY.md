@@ -33,3 +33,7 @@ During normal implementation, refactoring, bug-fixing, or QA loops within the sa
 - Do not dump or inspect all skill folders simultaneously.
 - Look up only the specific skill relevant to the active gate or task type (e.g., `frontend-builder` for B2, `qa-runner` for R2).
 - Read only `SKILL.md` when invoking a skill; auxiliary directories (`examples/`, `references/`) should only be read when explicitly required for execution.
+
+### 6. Engineering & Communication Efficiency
+- For prompt-level communication principles, coding/refactoring standards, 3-line debugging structure, and architectural analysis formats, enforce [`guardrails/system/TOKEN_OPTIMIZATION_ENGINEERING_EFFICIENCY.md`](file:///e:/www/project-scaffold/guardrails/system/TOKEN_OPTIMIZATION_ENGINEERING_EFFICIENCY.md).
+

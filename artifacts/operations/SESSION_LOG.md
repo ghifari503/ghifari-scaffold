@@ -2,7 +2,24 @@
 
 This repository records only generic Master Scaffold maintenance sessions. Project-specific session records belong in the relevant Master Framework root.
 
+### Entry: `SCAFFOLD-20260826-TOKEN-EFFICIENCY-POLICY`
+
+- created_at: `2026-08-26T12:36:30+07:00`
+- updated_at: `2026-08-26T12:36:30+07:00`
+- task_id: `SCAFFOLD-20260826-TOKEN-EFFICIENCY-POLICY`
+- module: `guardrails/system`
+- status: `SUCCESS`
+- task_type: `scaffold_maintenance`
+- size: `medium`
+- classification: `minor_change`
+- approval: `Founder approved compact plan in this session.`
+- capability: `no_relevant_local_skill`
+- summary: `Adopted Token Optimization & Engineering Efficiency Policy (zero fluff, targeted diffs, 3-line debugging, structured table/matrix analysis) across all AI runtimes.`
+- verification: `Verified presence of TOKEN_OPTIMIZATION_ENGINEERING_EFFICIENCY.md, reference links in AGENTS.md and TOKEN_EFFICIENCY_POLICY.md, and ran check-scaffold-freshness.ps1.`
+- next_action: `Commit Master Scaffold after founder review.`
+
 ### Entry: `SCAFFOLD-20260824-DEV-DOC-LOCATION`
+
 
 - created_at: `2026-08-24T17:48:09+07:00`
 - updated_at: `2026-08-24T17:48:09+07:00`
