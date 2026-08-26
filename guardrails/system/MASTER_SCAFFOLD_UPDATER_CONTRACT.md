@@ -7,9 +7,11 @@ Update an active Master Framework without pulling into its root, changing a Work
 ## Two-Stage Model
 
 1. **Obtain:** clone once or pull the official Master Scaffold in the isolated, Git-ignored repository `development/_framework-updater/`.
-2. **Adopt:** run `development/_framework-updater/scripts/update-master-framework.ps1 -FrameworkRoot .` from the Master Framework root. Dry-run is mandatory; apply requires the exact current report id.
+2. **Adopt:** run `development/_framework-updater/scripts/update-master-framework.ps1 -FrameworkRoot .` from the Master Framework root. Dry-run is mandatory before apply; apply requires the exact current report id and founder approval.
 
-Receiving updater commits never applies them to the Master Framework. The first freshness check after a newer updater is present reports `update_available` and the runtime must offer `update framework`. It must not fetch, pull, or apply automatically.
+Receiving updater commits never applies them to the Master Framework. The first freshness check after a newer updater is present reports `update_available` and the runtime must offer `update framework`. It must not fetch, pull, calculate heavy manifests, or run dry-run/apply automatically.
+
+An update transaction is executed **exactly once** per new release. Re-running dry-run or hash calculations repeatedly during subsequent turns without a new updater commit is prohibited under `guardrails/system/TOKEN_EFFICIENCY_POLICY.md`.
 
 ## Repository Authority
 

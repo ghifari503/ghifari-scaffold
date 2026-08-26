@@ -33,6 +33,12 @@ The helper fingerprints:
 - `artifacts/operations/SESSION_LOG.md`
 - the metadata and current snapshot of `artifacts/operations/AGENT_ACTIVITY_LOG.md`
 
+## Update Handling And Token Efficiency
+
+- When the freshness check reports `update_available`, the agent must present a concise status summary to the founder and offer the `update framework` option.
+- The agent must **NOT** automatically trigger `update-master-framework.ps1`, run a dry-run, or perform generic-file hashing unless explicitly approved by the founder.
+- All context loading and caching must follow `guardrails/system/TOKEN_EFFICIENCY_POLICY.md`.
+
 ## Stop Condition
 
 Do not execute the requested action when the helper cannot read a required source or a changed required source has not been reloaded. Report the exact missing source or read failure.
